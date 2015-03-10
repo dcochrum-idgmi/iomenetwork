@@ -45,7 +45,7 @@ class UserController extends Controller
 		$orgs = [ '-1' => 'Test' ];
 		$roles = User::listRoles();
 
-		return view( 'users.create_edit', compact( 'org_id', 'orgs', 'roles' ) )->with( ['session' => Session::all()]);
+		return view( 'users.create_edit', compact( 'org_id', 'orgs', 'roles' ) );
 	}
 
 	/**

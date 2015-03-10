@@ -112,6 +112,21 @@ class NebulaAPI
 	}
 
 	/**
+	 * Attempt to create a new organization
+	 *
+	 * @param array $parameters
+	 *
+	 * @return array
+	 */
+	public function organizationCreate( array $parameters )
+	{
+		$this->merge_parameters( array_merge( [ 'module' => 'offices', 'action' => 'create' ],
+			$parameters ) );
+
+		return $this->post();
+	}
+
+	/**
 	 * @param array $parameters
 	 */
 	protected function merge_parameters( array $parameters )
@@ -160,7 +175,7 @@ class NebulaAPI
 	{
 		try {
 			if( strtolower( $method ) == 'get' )
-				$response = $this->client->get( '', [ 'query' => $this->build_request( true ) ] )->json();
+				$response = $this->client->get( '', [ 'query' => $this->build_request() ] )->json();
 			else
 				$response = $this->client->{$method}( '', [ 'body' => $this->build_request() ] )->json();
 
@@ -169,7 +184,7 @@ class NebulaAPI
 			return $response;
 		} catch( RequestException $e ) {
 			if( $e->hasResponse() )
-				abort( $response->getStatusCode() );
+				abort( '500', var_export( [ $this->build_request(), 'sessionId' => session( 'nebulaSessionId' ) ], true ) );
 			else
 				abort( 503 );
 		} catch( Exception $e ) {

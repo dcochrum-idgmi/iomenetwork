@@ -2,7 +2,6 @@
 @section( 'title' ) {{{ $title }}} :: @parent @stop {{-- Content --}}
 @section( 'content' )
 @include( 'layouts.page_header', [ 'page_header' => $title ] )
-<pre>{!! csrf_token() !!}</pre>
 <div class="row">
 	<div class="col-lg-3 col-md-6">
 		<div class="panel panel-info">

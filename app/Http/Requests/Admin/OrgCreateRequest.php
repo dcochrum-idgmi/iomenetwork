@@ -24,8 +24,9 @@ class OrgCreateRequest extends Request
 	public function rules()
 	{
 		return [
-			'name' => 'required|min:3',
-			'slug' => 'required|alpha_num|unique:organizations|min:3|not_in:admin',
+			'officeName' => 'required|min:3',
+//			'slug' => 'required|alpha_num|unique:organizations|min:3|not_in:admin',
+			'slug' => 'required|alpha_num|min:3',
 		];
 	}
 

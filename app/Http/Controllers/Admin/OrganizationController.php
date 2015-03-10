@@ -9,6 +9,7 @@ use Iome\Organization;
 use Auth;
 use Datatables;
 use DB;
+use Nebula;
 use Request;
 
 class OrganizationController extends Controller
@@ -48,6 +49,12 @@ class OrganizationController extends Controller
 	 */
 	public function store( OrgCreateRequest $request, Organization $org )
 	{
+		$response = Nebula::organizationCreate( $request->all() );
+		if( $response[ 'success' ] )
+			return response( $response, 200 );
+
+		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
+
 		$org->fill( $request->all() );
 		if( $org->save() ) {
 			$this->flash_created();

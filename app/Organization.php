@@ -18,7 +18,7 @@ class Organization extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'id', 'name', 'slug', 'numAdmins', 'numUsers', 'numSips' ];
+	protected $fillable = [ 'id', 'officeName', 'slug', 'numAdmins', 'numUsers', 'numSips' ];
 
 //	public static function vendor()
 //	{
