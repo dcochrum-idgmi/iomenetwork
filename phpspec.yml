@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Iome
+        psr4_prefix: Iome
+        src_path: app

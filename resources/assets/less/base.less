@@ -1,0 +1,41 @@
+@import 'bootstrap-custom/bootstrap-custom.less';
+
+html {
+	min-height: 100%;
+	position: relative;
+}
+
+body {
+	margin-bottom: 150px;
+	padding-top: 70px;
+
+	&.iframe {
+		margin-bottom: 30px;
+		padding-top: 30px;
+	}
+}
+
+input[type=checkbox][disabled] + * {
+	color: @gray-light;
+}
+
+.huge {
+	font-size: 40px;
+}
+
+table.dataTable thead {
+	text-transform: capitalize;
+
+	.no-sort {
+		cursor: default;
+	}
+}
+
+footer {
+	background: #313133;
+	bottom: 0;
+	color: @gray-light;
+	height: 150px;
+	position: absolute;
+	width: 100%;
+}
