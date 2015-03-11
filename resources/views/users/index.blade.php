@@ -22,8 +22,8 @@
 		<tr>
 			<th>{{ trans( 'users.first_name' ) }}</th>
 			<th>{{ trans( 'users.last_name' ) }}</th>
-            @if( $currentOrg->isVendor() )
-			<th>{{ trans( 'orgs.organization' ) }}</th>
+            @if( $currentOffice->isVendor() )
+			<th>{{ trans( 'offices.office' ) }}</th>
             @endif
 			<th>{{ trans( 'users.email' ) }}</th>
 			<th>{{ trans( 'users.active' ) }}</th>

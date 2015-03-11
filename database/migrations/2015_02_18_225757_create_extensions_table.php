@@ -16,15 +16,15 @@ class CreateExtensionsTable extends Migration
 		Schema::create( 'extensions', function ( Blueprint $table ) {
 			$table->engine = 'InnoDB';
 			$table->string( 'id', 4 )->index();
-			$table->unsignedInteger( 'organization_id' );
-			$table->foreign( 'organization_id' )->references( 'id' )->on( 'organizations' )->onDelete( 'cascade' );
+			$table->unsignedInteger( 'officeId' );
+			$table->foreign( 'officeId' )->references( 'officeId' )->on( 'offices' )->onDelete( 'cascade' );
 			$table->string( 'mac', 17 );
 			$table->string( 'name', 100 )->nullable();
 			$table->string( 'email' )->nullable()->unique();
 			$table->string( 'password', 60 );
 			$table->string( 'remember_token' )->nullable();
 			$table->timestamps();
-			$table->unique( [ 'id', 'organization_id' ] );
+			$table->unique( [ 'id', 'officeId' ] );
 		} );
 	}
 

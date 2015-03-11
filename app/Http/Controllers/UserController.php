@@ -2,7 +2,7 @@
 
 use Iome\Http\Requests;
 use Iome\Http\Controllers\Controller;
-use Iome\Organization;
+use Iome\Office;
 use Iome\User;
 use Iome\Http\Requests\Admin\UserCreateRequest;
 use Iome\Http\Requests\Admin\UserEditRequest;
@@ -40,12 +40,12 @@ class UserController extends Controller
 	 */
 	public function create()
 	{
-		$org_id = null;
-//		$orgs = Organization::orderBy( 'name' )->lists( 'name', 'id' );
-		$orgs = [ '-1' => 'Test' ];
+		$office_id = null;
+//		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
+		$offices = [ '-1' => 'Test' ];
 		$roles = User::listRoles();
 
-		return view( 'users.create_edit', compact( 'org_id', 'orgs', 'roles' ) );
+		return view( 'users.create_edit', compact( 'office_id', 'offices', 'roles' ) );
 	}
 
 	/**
@@ -81,16 +81,17 @@ class UserController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param User $user
+	 * @param Office $office
+	 * @param User   $user
 	 *
 	 * @return Response
 	 */
-	public function show( User $user )
+	public function show( Office $office, User $user )
 	{
 		Request::is( 'profile' ) && $user = Auth::user();
 
 		if( ! $user->exists )
-			redirect( '/' );
+			abort( 404 );
 
 		return view( 'users.show' )->with( 'user', $user );
 	}
@@ -98,19 +99,24 @@ class UserController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param $user
+	 * @param Office $office
+	 * @param User   $user
 	 *
 	 * @return Response
 	 */
-	public function edit( User $user )
+	public function edit( Office $office, User $user )
 	{
-		$user = $user->id ? $user : Auth::user();
-		$org_id = $user->organizationId;
-//		$orgs = Organization::orderBy( 'name' )->lists( 'name', 'id' );
-		$orgs = [ '-1' => 'Test' ];
+		Request::is( 'profile' ) && $user = Auth::user();
+
+		if( ! $user->exists )
+			abort( 404 );
+
+		$office_id = $user->officeId;
+//		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
+		$offices = [ '-1' => 'Test' ];
 		$roles = User::listRoles();
 
-		return view( 'users.create_edit', compact( 'user', 'org_id', 'orgs', 'roles' ) )->with( ['session' => Session::all()]);
+		return view( 'users.create_edit', compact( 'user', 'office_id', 'offices', 'roles' ) );
 	}
 
 	/**
@@ -180,14 +186,14 @@ class UserController extends Controller
 	 */
 	public function data()
 	{
-		global $currentOrg;
+		global $currentOffice;
 
-		$cols = [ 'users.id', 'users.first_name', 'users.last_name', 'organizations.name as organizations.name', 'users.email', 'users.confirmed', 'users.admin', 'users.created_at' ];
-		if( ! $currentOrg->isVendor() ) {
-			$cols = array_values( array_diff( $cols, [ 'organizations.name as organizations.name' ] ) );
-			$users = User::where( 'organization_id', '=', $currentOrg->id );
+		$cols = [ 'users.id', 'users.first_name', 'users.last_name', 'offices.name as offices.name', 'users.email', 'users.confirmed', 'users.admin', 'users.created_at' ];
+		if( ! $currentOffice->isVendor() ) {
+			$cols = array_values( array_diff( $cols, [ 'offices.name as offices.name' ] ) );
+			$users = User::where( 'officeId', '=', $currentOffice->id );
 		} else
-			$users = User::join( 'organizations', 'users.organization_id', '=', 'organizations.id' );
+			$users = User::join( 'offices', 'users.officeId', '=', 'offices.id' );
 
 		$users->select( $cols );
 

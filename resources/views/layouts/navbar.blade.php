@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            {!! HTML::link(url(), 'Iome', ['class' => 'navbar-brand']) !!}
+            {!! HTML::link( url(), 'Iome', [ 'class' => 'navbar-brand' ] ) !!}
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
                 <span class="sr-only">Toggle navigation</span> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span
@@ -21,7 +21,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @if (Auth::user()->isVendorAdmin())
                                     <li>{!! HTML::link(route('dashboard'), trans('admin.dashboard')) !!}</li>
-                                    <li>{!! HTML::link(route('orgs.index'), trans('orgs.organizations')) !!}</li>
+                                    <li>{!! HTML::link(route('offices.index'), trans('offices.offices')) !!}</li>
                                 @else
                                     <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                                     <li>{!! HTML::link(sub_route('exts.index'), trans('exts.extensions')) !!}</li>
@@ -30,12 +30,12 @@
                                 <li>{!! HTML::link(sub_route('exts.index'), trans('ext.extensions')) !!}</li>
                             </ul>
                         </li>
-                        @if (isset($currentOrg) && Auth::user()->isVendorAdmin())
+                        @if (isset($currentOffice) && Auth::user()->isVendorAdmin())
                             <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                         @endif
                     @endif
-                    <li>{!! HTML::link((Auth::user()->isVendorAdmin() ? sub_route('users.show', Auth::user()->id ) :
-                        sub_route('profile.edit')), trans('site.login_as') . ' ' . Auth::user()->firstName ) !!}
+                    <li>{!! HTML::link((Auth::user()->isVendorAdmin() ? sub_route('users.edit', Auth::user()->getRouteKey() ) :
+                        sub_route('profile.edit')), trans('site.login_as') . ' ' . Auth::user()->fname ) !!}
                     </li>
                     <li><a href="{{{ route('logout') }}}">{{{ trans('site.logout') }}}</a></li>
                 @else

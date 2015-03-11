@@ -195,7 +195,6 @@ return [
 		'Log'          => 'Illuminate\Support\Facades\Log',
 		'Mail'         => 'Illuminate\Support\Facades\Mail',
 		'Nebula'       => 'Iome\Macate\Nebula\Nebula',
-		'Organization' => 'Iome\Facades\Organization',
 		'Password'     => 'Illuminate\Support\Facades\Password',
 		'Queue'        => 'Illuminate\Support\Facades\Queue',
 		'Redirect'     => 'Illuminate\Support\Facades\Redirect',

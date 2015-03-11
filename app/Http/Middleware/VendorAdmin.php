@@ -52,7 +52,7 @@ class VendorAdmin implements Middleware
 			if( $this->auth->user()->isVendorAdmin() )
 				return $next( $request );
 
-			return redirect( sub_url( '/', [ 'org_slug' => $this->auth->user()->organizationSlug ] ) );
+//			return redirect( sub_url( '/', [ 'office_slug' => $this->auth->user()->officeSlug ] ) );
 		}
 
 	}

@@ -18,8 +18,8 @@ class UserCreateRequest extends FormRequest
 			'email'          => 'required|email|unique:users',
 			'password'       => 'required|confirmed|min:5',
 			'authority'      => 'required',
-//			'organizationId' => 'required|integer|min:1',
-			'organizationId' => 'required|integer',
+//			'officeId' => 'required|integer|min:1',
+			'officeId' => 'required|integer',
 		];
 	}
 
@@ -41,7 +41,7 @@ class UserCreateRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'organization_id.required' => 'You must select an organization.',
+			'officeId.required' => 'You must select an office.',
 		];
 	}
 

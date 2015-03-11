@@ -44,6 +44,8 @@ class Authenticate
 				return redirect()->guest( 'login' );
 		}
 
+//		dd( $this->auth->user());
+
 		return $next( $request );
 	}
 

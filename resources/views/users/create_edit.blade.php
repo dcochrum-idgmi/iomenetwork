@@ -3,12 +3,12 @@
 @include( 'layouts.page_header', [ 'page_header' => trans( 'users.' . ( isset( $user ) ? 'edit' : 'create' ) ) . ' ' . trans( 'users.user' ) ] )
 @if( isset( $user ) )
 	@if( Request::is( 'profile' ) )
-{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'profile.update', $currentOrg->slug ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'profile.update', $currentOffice->slug ], 'class' => 'form-horizontal' ] ) !!}
 	@else
-{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'users.update', $user ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'users.update', $currentOffice->slug, $user ], 'class' => 'form-horizontal' ] ) !!}
 	@endif
 @else
-{!! Form::open( [ 'route' => [ 'users.store', $currentOrg->slug ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::open( [ 'route' => [ 'users.store', $currentOffice->slug ], 'class' => 'form-horizontal' ] ) !!}
 @endif
 	<div class="form-group{!! $errors->has( 'fname' ) ? ' has-error' : '' !!}">
 		{!! Form::label( 'fname', trans( 'users.first_name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
@@ -47,22 +47,22 @@
 			{!! $errors->first( 'password_confirmation', Form::label( 'password_confirmation', ':message' ) ) !!}
 		</div>
 	</div>
-	@if( $currentOrg->isVendor() )
-	<div class="form-group{!! $errors->has( 'organizationId' ) ? ' has-error' : '' !!}">
-		{!! Form::label( 'organizationId', trans( 'orgs.organization' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+	@if( $currentOffice->isVendor() )
+	<div class="form-group{!! $errors->has( 'officeId' ) ? ' has-error' : '' !!}">
+		{!! Form::label( 'officeId', trans( 'offices.office' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
-			<select name="organizationId" id="organizationId" class="form-control" data-placeholder="{{ trans( 'orgs.select' ) }}">
+			<select name="officeId" id="officeId" class="form-control" data-placeholder="{{ trans( 'offices.select' ) }}">
 				<option></option>
-				@foreach( $orgs as $val => $text )
-				<option value="{{ $val }}"{!! Input::old( 'organizationId', ( isset( $user ) ? $user->organizationId : null ) ) == $val ? ' selected' : '' !!}>{{ $text }}</option>
+				@foreach( $offices as $val => $text )
+				<option value="{{ $val }}"{!! Input::old( 'officeId', ( isset( $user ) ? $user->officeId : null ) ) == $val ? ' selected' : '' !!}>{{ $text }}</option>
 				@endforeach
 			</select>
-{{--			{!! Form::select( 'organizationId', array_merge( [ '' => '' ], $orgs ), $org_id, [ 'class' => 'form-control', 'data-placeholder' => trans( 'orgs.select' ) ] ) !!} --}}
-			{!! $errors->first( 'organizationId', Form::label( 'organizationId', ':message' ) ) !!}
+{{--			{!! Form::select( 'officeId', array_merge( [ '' => '' ], $offices ), $office_id, [ 'class' => 'form-control', 'data-placeholder' => trans( 'offices.select' ) ] ) !!} --}}
+			{!! $errors->first( 'officeId', Form::label( 'officeId', ':message' ) ) !!}
 		</div>
 	</div>
     @else
-    {!! Form::hidden( 'organizationId', $currentOrg->id ) !!}
+    {!! Form::hidden( 'officeId', $currentOffice->id ) !!}
 	@endif
 {{--	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">

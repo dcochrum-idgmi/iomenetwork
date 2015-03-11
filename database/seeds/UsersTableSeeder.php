@@ -1,33 +1,30 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Iome\Organization;
+use Illuminate\Support\Facades\Hash;
+use Iome\Office;
 use Iome\User;
 
-class UsersTableSeeder extends Seeder
-{
+class UsersTableSeeder extends Seeder {
 
-	public function run()
-	{
+	public function run() {
 		DB::table( 'users' )->delete();
 
 		$usernames = [ 'admin', 'user' ];
 		for( $i = 1; $i < 20; $i++ )
 			$usernames[ ] = 'user' . $i;
 
-		foreach( Organization::all() as $org ) {
+		foreach( Office::all() as $office ) {
 			foreach( $usernames as $username ) {
-				$username = $org->isVendor() ? $username : $username . '-' . $org->id;
+				$username = $office->isVendor() ? $username : $username . '-' . $office->officeId;
 
 				User::create( [
-					'organization_id'   => $org->id,
-					'first_name'        => ucfirst( $username ),
-					'last_name'         => 'Last',
+					'officeId'          => $office->officeId,
+					'fname'             => ucfirst( $username ),
+					'lname'             => 'Last',
 					'email'             => "{$username}@example.com",
-					'password'          => $username,
-					'confirmation_code' => md5( microtime() . Config::get( 'app.key' ) ),
-					'confirmed'         => true,
-					'role_level'        => starts_with( $username, 'admin' ) ? ( $org->isVendor() ? 3 : 2 ) : 1
+					'password'          => Hash::make( $username ),
+					'authority'         => 'ROLE_' . ( starts_with( $username, 'admin' ) ? ( $office->isVendor() ? 'MASTER' : 'ADMIN' ) : 'USER' )
 				] );
 			}
 		}

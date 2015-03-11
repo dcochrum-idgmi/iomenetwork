@@ -2,10 +2,10 @@
 
 use Illuminate\Validation\Factory as ValidatorFactory;
 use Iome\Http\Requests\Request;
-use Iome\Organization;
+use Iome\Office;
 use Auth;
 
-class OrgDeleteRequest extends Request
+class OfficeDeleteRequest extends Request
 {
 
 	/**
@@ -13,7 +13,7 @@ class OrgDeleteRequest extends Request
 	 *
 	 * @return bool
 	 */
-	public function authorize( Organization $org )
+	public function authorize( Office $office )
 	{
 
 		return Auth::user()->isAdmin();
@@ -33,8 +33,8 @@ class OrgDeleteRequest extends Request
 
 	public function validator( ValidatorFactory $factory )
 	{
-		$org = $this->route( 'orgs' ) ?: $this->route( 'org_slug' );
-		$this->merge( [ 'id' => $org->id ] );
+		$office = $this->route( 'offices' ) ?: $this->route( 'office_slug' );
+		$this->merge( [ 'id' => $office->id ] );
 
 		return $factory->make( $this->input(), $this->rules(), $this->messages() );
 	}

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Iome\Organization;
+use Iome\Office;
 
 class Extension extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -32,7 +32,7 @@ class Extension extends Model implements AuthenticatableContract, CanResetPasswo
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'id', 'organization_id', 'mac', 'name', 'email', 'password' ];
+	protected $fillable = [ 'id', 'officeId', 'mac', 'name', 'email', 'password' ];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -53,12 +53,12 @@ class Extension extends Model implements AuthenticatableContract, CanResetPasswo
 	];
 
 	/**
-	 * [organization description]
+	 * [office description]
 	 * @return [type] [description]
 	 */
-	public function organization()
+	public function office()
 	{
-		return $this->belongsTo( 'Organization' );
+		return $this->belongsTo( 'Office' );
 	}
 
 	/**
@@ -74,13 +74,13 @@ class Extension extends Model implements AuthenticatableContract, CanResetPasswo
 	/**
 	 * [isMemberOf description]
 	 *
-	 * @param  [type]  $org [description]
+	 * @param  [type]  $office [description]
 	 *
 	 * @return boolean      [description]
 	 */
-	public function isMemberOf( $org )
+	public function isMemberOf( $office )
 	{
-		return $this->organization->id === $org->id;
+		return $this->office->id === $office->id;
 	}
 
 	/**

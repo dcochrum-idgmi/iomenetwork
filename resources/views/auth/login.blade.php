@@ -41,7 +41,7 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				{!! Form::submit(trans('user.login'), ['class' => 'btn btn-primary']) !!}
-				{!! HTML::linkRoute('resetpw', 'Forgot your password?', [], ['class' => 'btn btn-link']) !!}
+				{!! HTML::linkRoute('resetpw', 'Fofficeot your password?', [], ['class' => 'btn btn-link']) !!}
 			</div>
 		</div>
 	</fieldset>

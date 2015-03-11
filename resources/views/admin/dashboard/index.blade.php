@@ -11,12 +11,12 @@
 						<i class="fa fa-sitemap fa-5x"></i>
 					</div>
 					<div class="col-xs-9 text-right">
-						<div class="huge">{{ $orgs }}</div>
-						<div>{{ trans( 'orgs.organizations' ) }}!</div>
+						<div class="huge">{{ $offices }}</div>
+						<div>{{ trans( 'offices.offices' ) }}!</div>
 					</div>
 				</div>
 			</div>
-			<a href="{{ route( 'orgs.index' )}}">
+			<a href="{{ route( 'offices.index' )}}">
 				<div class="panel-footer">
 					<span class="pull-left">{{ trans( 'admin.view_detail' ) }}</span>
 					<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

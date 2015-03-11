@@ -37,11 +37,11 @@
 		</div>
 	</div>
 	@if (Auth::user()->isAdmin())
-	<div class="form-group{!! $errors->has('organization_id') ? ' has-error' : '' !!}">
-		{!! Form::label('organization_id', trans('orgs.organization'), ['class' =>'col-md-2 control-label']) !!}
+	<div class="form-group{!! $errors->has('office_id') ? ' has-error' : '' !!}">
+		{!! Form::label('office_id', trans('offices.office'), ['class' =>'col-md-2 control-label']) !!}
 		<div class="col-md-10">
-			{!! Form::select('organization_id', array_merge(['' => ''], $orgs), $org_id, ['class' =>'form-control', 'data-placeholder' => trans('orgs.select')]) !!}
-			{!! $errors->first('organization_id', Form::label('organization_id', ':message')) !!}
+			{!! Form::select('office_id', array_merge(['' => ''], $offices), $office_id, ['class' =>'form-control', 'data-placeholder' => trans('offices.select')]) !!}
+			{!! $errors->first('office_id', Form::label('office_id', ':message')) !!}
 		</div>
 	</div>
 	@endif

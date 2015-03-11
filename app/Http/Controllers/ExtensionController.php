@@ -3,7 +3,7 @@
 use Iome\Extension;
 use Iome\Http\Requests;
 use Iome\Http\Controllers\Controller;
-use Iome\Organization;
+use Iome\Office;
 use Request;
 use yajra\Datatables\Datatables;
 
@@ -52,11 +52,11 @@ class ExtensionController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function show( Organization $org, Extension $ext )
+	public function show( Office $office, Extension $ext )
 	{
 		$title = 'Extensions';
 		dd( $ext );
-		$extensions = $org->extensions->toArray();
+		$extensions = $office->extensions->toArray();
 
 		return view( 'extensions.index', compact( $title ) )->with( 'ext', $ext );
 	}
@@ -104,14 +104,14 @@ class ExtensionController extends Controller
 	 */
 	public function data()
 	{
-		global $currentOrg;
+		global $currentOffice;
 
-		$cols = [ 'extensions.id', 'organizations.name as organizations.name', 'extensions.mac', 'extensions.created_at' ];
-		if( ! $currentOrg->isVendor() ) {
-			$cols = array_values( array_diff( $cols, [ 'organizations.name as organizations.name' ] ) );
-			$exts = Extension::where( 'organization_id', '=', $currentOrg->id );
+		$cols = [ 'extensions.id', 'offices.name as offices.name', 'extensions.mac', 'extensions.created_at' ];
+		if( ! $currentOffice->isVendor() ) {
+			$cols = array_values( array_diff( $cols, [ 'offices.name as offices.name' ] ) );
+			$exts = Extension::where( 'officeId', '=', $currentOffice->id );
 		} else
-			$exts = Extension::join( 'organizations', 'users.organization_id', '=', 'organizations.id' );
+			$exts = Extension::join( 'offices', 'users.officeId', '=', 'offices.id' );
 
 		$exts->select( $cols );
 

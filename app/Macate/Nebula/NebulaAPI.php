@@ -2,9 +2,9 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Iome\User;
 
-class NebulaAPI
-{
+class NebulaAPI {
 
 	/**
 	 * @var Client
@@ -25,11 +25,11 @@ class NebulaAPI
 	 * @param array $parameters
 	 * @param array $options
 	 */
-	public function __construct( array $parameters = [ ], array $options = [ ] )
-	{
-		$this->parameters = array_merge( [ 'requestId' => get_current_org_slug(), 'sessionId' => session( 'nebulaSessionId', null ) ],
+	public function __construct( array $parameters = [ ], array $options = [ ] ) {
+		$this->parameters = array_merge( [ 'requestId' => get_current_office_slug(), 'sessionId' => session( 'nebulaSessionId', null ) ],
 			$parameters );
-		$options = array_merge( [ /*'debug' => true,*/ 'timeout' => 10 ],
+		$options = array_merge( [ /*'debug' => true,*/
+			'timeout' => 10 ],
 			$options );
 		$this->client = new Client( [
 			'base_url' => env( 'NEBULA_ENDPOINT', 'http://52.0.124.75:8080/NebulaWS/webservices/request.jsp' ),
@@ -44,8 +44,7 @@ class NebulaAPI
 	 *
 	 * @return array
 	 */
-	public function login( array $parameters )
-	{
+	public function login( array $parameters ) {
 		$parameters[ 'username' ] = $parameters[ 'email' ];
 		unset( $parameters[ 'email' ] );
 
@@ -56,6 +55,8 @@ class NebulaAPI
 
 		$result[ 'success' ] && session( [ 'nebulaSessionId' => $result[ 'sessionId' ] ] );
 
+		dd( $result );
+
 		return $result;
 	}
 
@@ -64,8 +65,7 @@ class NebulaAPI
 	 *
 	 * @return array
 	 */
-	public function checkSession()
-	{
+	public function checkSession() {
 		if( $this->parameters[ 'sessionId' ] == null )
 			return false;
 
@@ -81,8 +81,7 @@ class NebulaAPI
 	 *
 	 * @return array
 	 */
-	public function logout()
-	{
+	public function logout() {
 		if( $this->parameters[ 'sessionId' ] == null )
 			return true;
 
@@ -100,10 +99,9 @@ class NebulaAPI
 	 *
 	 * @return array
 	 */
-	public function userCreate( array $parameters )
-	{
-		$parameters[ 'officeId' ] = $parameters[ 'organizationId' ];
-		unset( $parameters[ 'organizationId' ] );
+	public function userCreate( array $parameters ) {
+		$parameters[ 'officeId' ] = $parameters[ 'officeId' ];
+		unset( $parameters[ 'officeId' ] );
 
 		$this->merge_parameters( array_merge( [ 'module' => 'users', 'action' => 'create', 'encrypted' => 'false' ],
 			$parameters ) );
@@ -112,14 +110,31 @@ class NebulaAPI
 	}
 
 	/**
-	 * Attempt to create a new organization
+	 * Retrieve a user matching the given value on the given field.
+	 *
+	 * @param string $value
+	 * @param string $field
+	 *
+	 * @return array
+	 */
+	public function getUser( $value, $field = 'email' ) {
+		global $currentOffice;
+
+//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'officeId' => $currentOffice->id ] );
+		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'officeId' => 1 ] );
+		$response = $this->get();
+
+		return new User( ( $response[ 'success' ] ? $response[ 'user' ] : [] ) );
+	}
+
+	/**
+	 * Attempt to create a new office
 	 *
 	 * @param array $parameters
 	 *
 	 * @return array
 	 */
-	public function organizationCreate( array $parameters )
-	{
+	public function officeCreate( array $parameters ) {
 		$this->merge_parameters( array_merge( [ 'module' => 'offices', 'action' => 'create' ],
 			$parameters ) );
 
@@ -129,40 +144,35 @@ class NebulaAPI
 	/**
 	 * @param array $parameters
 	 */
-	protected function merge_parameters( array $parameters )
-	{
+	protected function merge_parameters( array $parameters ) {
 		$this->parameters = array_merge( $this->parameters, $parameters );
 	}
 
 	/**
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	private function get()
-	{
+	private function get() {
 		return $this->request( 'get' );
 	}
 
 	/**
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	private function post()
-	{
+	private function post() {
 		return $this->request( 'post' );
 	}
 
 	/**
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	private function put()
-	{
+	private function put() {
 		return $this->request( 'put' );
 	}
 
 	/**
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	private function patch()
-	{
+	private function patch() {
 		return $this->request( 'patch' );
 	}
 
@@ -171,22 +181,37 @@ class NebulaAPI
 	 *
 	 * @return \Guzzle\Http\Message\Response
 	 */
-	private function request( $method )
-	{
+	private function request( $method ) {
 		try {
 			if( strtolower( $method ) == 'get' )
 				$response = $this->client->get( '', [ 'query' => $this->build_request() ] )->json();
 			else
 				$response = $this->client->{$method}( '', [ 'body' => $this->build_request() ] )->json();
 
-			$response[ 'success' ] = filter_var( $response[ 'success' ], FILTER_VALIDATE_BOOLEAN );
+			array_walk_recursive( $response, function ( &$item )
+			{
+				if( $item == 'true' )
+					$item = true;
+				else if( $item == 'false' )
+					$item = false;
+				else if( strtolower( $item ) == 'null' || $item == '' )
+					$item = null;
+			} );
+
+			if( $response[ 'success' ] ) {
+				$objects = [ 'user' => 'email', 'office' => 'officeId', 'sip' => 'sipAccount' ];
+				foreach( $objects as $obj => $id ) {
+					isset( $response[ $obj ] ) && $response[ $obj ][ $id ] && $response[ $obj ][ 'exists' ] = true;
+//					echo '<pre>' . var_export( $response[ $obj ], true ) . '</pre>';
+				}
+			}
 
 			return $response;
 		} catch( RequestException $e ) {
-			if( $e->hasResponse() )
-				abort( '500', var_export( [ $this->build_request(), 'sessionId' => session( 'nebulaSessionId' ) ], true ) );
-			else
-				abort( 503 );
+//			if( $e->hasResponse() )
+			abort( '500', json_encode( [ $this->build_request(), 'sessionId' => session( 'nebulaSessionId' ) ], true ) );
+//			else
+			abort( 503 );
 		} catch( Exception $e ) {
 
 		}
@@ -195,8 +220,14 @@ class NebulaAPI
 	/**
 	 * @return array
 	 */
-	private function build_request()
-	{
-		return [ 'request' => json_encode( $this->parameters ) ];
+	private function build_request() {
+		$params = $this->parameters;
+		array_walk_recursive( $params, function ( &$item )
+		{
+			$item = ( string )$item;
+		} );
+		$params = json_encode( $params );
+
+		return [ 'request' => $params ];
 	}
 }

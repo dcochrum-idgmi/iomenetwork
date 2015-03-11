@@ -3,7 +3,7 @@
 use Iome\Http\Requests\Request;
 use Auth;
 
-class OrgCreateRequest extends Request
+class OfficeCreateRequest extends Request
 {
 
 	/**
@@ -25,7 +25,7 @@ class OrgCreateRequest extends Request
 	{
 		return [
 			'officeName' => 'required|min:3',
-//			'slug' => 'required|alpha_num|unique:organizations|min:3|not_in:admin',
+//			'slug' => 'required|alpha_num|unique:offices|min:3|not_in:admin',
 			'slug' => 'required|alpha_num|min:3',
 		];
 	}

@@ -3,10 +3,9 @@
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use View;
-use Iome\Organization;
+use Iome\Office;
 
-class RouteServiceProvider extends ServiceProvider
-{
+class RouteServiceProvider extends ServiceProvider {
 
 	/**
 	 * This namespace is applied to the controller routes in your routes file.
@@ -24,21 +23,11 @@ class RouteServiceProvider extends ServiceProvider
 	 *
 	 * @return void
 	 */
-	public function boot( Router $router )
-	{
+	public function boot( Router $router ) {
 		parent::boot( $router );
 
 //		$router->model( 'exts', 'Iome\Extension' );
-		$router->bind( 'org_slug', function ( $value ) {
-			global $currentOrg;
-
-//			$currentOrg = Organization::where( 'slug', $value )->first();
-			$currentOrg = new Organization( [ 'id' => 1, 'name' => 'Vendor', 'slug' => 'admin', 'numAdmins' => 1, 'numUsers' => 2, 'numSips' => 3 ] );
-			View::share( 'currentOrg', $currentOrg );
-
-			return $currentOrg;
-		} );
-//		$router->model( 'orgs', 'Iome\Organization' );
+//		$router->model( 'office_slug', 'Iome\Office' );
 //		$router->model( 'users', 'Iome\User' );
 	}
 
@@ -49,8 +38,7 @@ class RouteServiceProvider extends ServiceProvider
 	 *
 	 * @return void
 	 */
-	public function map( Router $router )
-	{
+	public function map( Router $router ) {
 		$router->group( [ 'namespace' => $this->namespace ], function ( $router ) {
 			require app_path( 'Http/routes.php' );
 		} );

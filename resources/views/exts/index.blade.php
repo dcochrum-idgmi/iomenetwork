@@ -21,8 +21,8 @@
 	<thead>
 		<tr>
 			<th>{{{ trans('ext.extension') }}}</th>
-            @if( $currentOrg->isVendor() )
-            <th>{{{ trans('orgs.organization') }}}</th>
+            @if( $currentOffice->isVendor() )
+            <th>{{{ trans('offices.office') }}}</th>
             @endif
             <th>{{{ trans('ext.mac') }}}</th>
             <th>{{{ trans('admin.created_at') }}}</th>

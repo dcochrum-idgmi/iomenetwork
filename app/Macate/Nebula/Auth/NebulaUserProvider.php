@@ -43,10 +43,7 @@ class NebulaUserProvider implements UserProvider
 	 */
 	public function retrieveById( $identifier )
 	{
-//		$user = Nebula::getUser( $id );
-
-		return $this->createModel();
-//		return $this->createModel();
+		return Nebula::getUser( $identifier );
 	}
 
 	/**
@@ -59,14 +56,7 @@ class NebulaUserProvider implements UserProvider
 	 */
 	public function retrieveByToken( $identifier, $token )
 	{
-		return $this->createModel();
-
-//		$model = $this->createModel();
-//
-//		return $model->newQuery()
-//			->where($model->getKeyName(), $identifier)
-//			->where($model->getRememberTokenName(), $token)
-//			->first();
+		return $this->retrieveById( $identifier );
 	}
 
 	/**
@@ -93,18 +83,7 @@ class NebulaUserProvider implements UserProvider
 	 */
 	public function retrieveByCredentials( array $credentials )
 	{
-		return $this->createModel();
-
-		// First we will add each credential element to the query as a where clause.
-		// Then we can execute the query and, if we found a user, return it in a
-		// Eloquent User "model" that will be utilized by the Guard instances.
-		$query = $this->createModel()->newQuery();
-
-		foreach( $credentials as $key => $value ) {
-			if( ! str_contains( $key, 'password' ) ) $query->where( $key, $value );
-		}
-
-		return $query->first();
+		return Nebula::getUser( current( $credentials ), key( $credentials ) );
 	}
 
 	/**
@@ -122,22 +101,6 @@ class NebulaUserProvider implements UserProvider
 		$response[ 'success' ] && session( [ 'nebulaSessionId' => $response[ 'sessionId' ] ] );
 
 		return $response[ 'success' ];
-
-//		$plain = $credentials['password'];
-//
-//		return $this->hasher->check($plain, $user->getAuthPassword());
-	}
-
-	/**
-	 * Create a new instance of the model.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Model
-	 */
-	public function createModel()
-	{
-		$class = '\\' . ltrim( $this->model, '\\' );
-
-		return new $class( [ 'id' => 1, 'firstName' => 'Macate', 'lastName' => 'Master', 'authority' => 'ROLE_MASTER', 'email' => 'master@macate.com', 'organizationId' => 1, 'organizationName' => 'Admin', 'organizationSlug' => 'admin' ] );
 	}
 
 }

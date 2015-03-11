@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Iome\Organization;
+use Iome\Office;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -14,18 +14,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	use Authenticatable, CanResetPassword;
 
 	/**
-	 * The database table used by the model.
+	 * The primary key for the model.
 	 *
 	 * @var string
 	 */
-//	protected $table = 'users';
+	protected $primaryKey = 'email';
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'id', 'fname', 'lname', 'email', 'authority', 'organizationId', 'organizationSlug', 'organizationName' ];
+	protected $fillable = [ 'email', 'password', 'fname', 'lname', 'authority', 'enabled', 'username', 'sec_email', 'address', 'city', 'state', 'zipcode', 'language', 'officeId', 'officeSlug', 'officeName' ];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -39,24 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-//	protected $appends = [ 'full_name' ];
-
-	/**
-	 * The attributes that should be casted to native types.
-	 *
-	 * @var array
-	 */
-//	protected $casts = [
-//		'confirmed' => 'boolean',
-////		'admin'     => 'boolean',
-//	];
-
-	/**
-	 * Indicates if the model exists.
-	 *
-	 * @var bool
-	 */
-	public $exists = true;
+	protected $appends = [ 'name' ];
 
 	/**
 	 * Indicates whether attributes are snake cased on arrays.
@@ -66,32 +49,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public static $snakeAttributes = false;
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
-//	public function organization()
-//	{
-//		return $this->belongsTo( 'Iome\Organization' );
-//	}
-
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
-//	public function role()
-//	{
-//		return $this->belongsTo( 'Iome\Role' );
-//	}
-
-	/**
-	 * [isMemberOf description]
+	 * Create a new Eloquent model instance.
 	 *
-	 * @param Organization $org
-	 *
-	 * @return bool [description]
+	 * @param  array  $attributes
+	 * @return void
 	 */
-//	public function isMemberOf( Organization $org )
-//	{
-//		return $this->organization->id === $org->id;
-//	}
+	public function __construct( array $attributes = [] )
+	{
+		parent::__construct( $attributes );
+
+		isset( $attributes[ 'exists' ] ) && $this->exists = filter_var( $attributes[ 'exists' ], FILTER_VALIDATE_BOOLEAN );
+	}
 
 	/**
 	 * [isAdmin description]
@@ -134,12 +102,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * Get the value of the model's route key.
+	 *
+	 * @return mixed
+	 */
+	public function getRouteKey()
+	{
+		return urlencode( parent::getRouteKey() );
+	}
+
+	/**
 	 * [__toString description]
 	 * @return string [description]
 	 */
 	public function __toString()
 	{
-		return $this->fullName;
+		return $this->name;
 	}
 
 }

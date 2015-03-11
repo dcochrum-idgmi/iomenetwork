@@ -3,13 +3,19 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Fluent;
 
-class Organization extends Model
+class Office extends Model
 {
+	/**
+	 * The primary key for the model.
+	 *
+	 * @var string
+	 */
+	protected $primaryKey = 'officeSlug';
 
 	/**
-	 * The vendor (master) organization.
+	 * The vendor (master) office.
 	 *
-	 * @var Organzation
+	 * @var Office
 	 */
 //	protected static $vendor;
 
@@ -18,7 +24,14 @@ class Organization extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'id', 'officeName', 'slug', 'numAdmins', 'numUsers', 'numSips' ];
+	protected $fillable = [ 'officeId', 'officeName', 'officeSlug', 'numAdmins', 'numUsers', 'numSips' ];
+
+	/**
+	 * Indicates whether attributes are snake cased on arrays.
+	 *
+	 * @var bool
+	 */
+	public static $snakeAttributes = false;
 
 //	public static function vendor()
 //	{
@@ -27,25 +40,14 @@ class Organization extends Model
 //		return static::$vendor;
 //	}
 
-//	public function users()
-//	{
-//		return $this->hasMany( 'Iome\User' );
-//	}
-//
-//	public function extensions()
-//	{
-//		return $this->hasMany( 'Iome\Extension' );
-//	}
-
 	public function isVendor()
 	{
-		return $this->id == 1;
-		return $this->id === static::vendor()->id;
+		return $this->officeId == 1;
 	}
 
-	public function setSlugAttribute( $value )
+	public function setOfficeSlugAttribute( $value )
 	{
-		$this->attributes[ 'slug' ] = strtolower( $value );
+		$this->attributes[ 'officeSlug' ] = strtolower( $value );
 	}
 
 	public function getDataAttribute( $value )

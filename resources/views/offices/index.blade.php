@@ -1,14 +1,14 @@
 @extends('layouts.default')
 {{-- Web site Title --}}
-@section('title') {!! trans('orgs.organizations') !!} :: @parent @stop
+@section('title') {!! trans('offices.offices') !!} :: @parent @stop
 {{-- Content --}}
 @section('content')
 <div class="page-header">
 	<h3>
-		{!! trans('orgs.organizations') !!}
+		{!! trans('offices.offices') !!}
 		<div class="pull-right">
 			<div class="pull-right">
-				<a href="{!! sub_route('orgs.create') !!}" class="btn btn-sm btn-primary iframe">
+				<a href="{!! sub_route('offices.create') !!}" class="btn btn-sm btn-primary iframe">
 					<i class="fa fa-plus-circle"></i>
 					{{ trans('modal.new') }}
 				</a>
@@ -20,8 +20,8 @@
 <table id="table" class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th>{!! trans('orgs.name') !!}</th>
-			<th>{!! trans('orgs.slug') !!}</th>
+			<th>{!! trans('offices.name') !!}</th>
+			<th>{!! trans('offices.slug') !!}</th>
 			<th>{!! trans('admin.admins') !!}</th>
 			<th>{!! trans('users.active_users') !!}</th>
 			<th>{!! trans('users.users') !!}</th>
@@ -35,6 +35,6 @@
 @stop
 {{-- Scripts --}}
 @section('scripts')
-@include('partials.scripts.oTable', ['source' => sub_route('orgs.index')])
+@include('partials.scripts.oTable', ['source' => sub_route('offices.index')])
 @stop
 @stop
