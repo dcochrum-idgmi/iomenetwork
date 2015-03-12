@@ -43,26 +43,25 @@ class OfficeController extends Controller
 	/**
 	 * Create the specified resource in storage.
 	 *
-	 * @param $office
+	 * @param OfficeCreateRequest $request
+	 * @param Office              $office
 	 *
 	 * @return Response
 	 */
 	public function store( OfficeCreateRequest $request, Office $office )
 	{
-		$response = Nebula::officeCreate( $request->all() );
-		if( $response[ 'success' ] )
-			return response( $response, 200 );
-
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
-
-		$office->fill( $request->all() );
-		if( $office->save() ) {
+		$data = $request->all();
+		$response = Nebula::officeCreate( $data );
+		if( $response[ 'success' ] ) {
 			$this->flash_created();
 
-			return response( $office, 200 );
+			if( $request->wantsJson() )
+				return response( $office->fill( $data ), 200 );
+
+			return redirect( 'offices.index' );
 		}
 
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.' ], 422 );
+		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
 	}
 
 	/**
@@ -101,20 +100,22 @@ class OfficeController extends Controller
 	{
 		$new_slug = ( $request->get( 'slug' ) == $office->slug ) ? false : $request->get( 'slug' );
 
-		if( $office->update( $request->all() ) ) {
+		$data = $request->all();
+		$data[ 'officeId' ] = $office->officeId;
+		$response = Nebula::officeUpdate( $data );
+		if( $response[ 'success' ] ) {
 			$this->flash_updated();
 
-			if( Request::wantsJson() )
-				return response( $office, 200 );
+			if( $request->wantsJson() )
+				return response( $office->fill( $data ), 200 );
 
 			if( $new_slug )
 				return redirect( sub_route( 'settings' ) );
 
-			return redirect( 'settings' );
+			return redirect( 'offices.index' );
 		}
 
-		if( $request->wantsJson() )
-			return response( [ 'status' => 'error', 'message' => 'Unable to save.' ], 422 );
+		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
 	}
 
 	/**
@@ -152,28 +153,32 @@ class OfficeController extends Controller
 	 */
 	public function data()
 	{
+		return $this->dataTable( 'offices' );
 		$cols = [ 'offices.id', 'offices.name', 'offices.slug', 'admin_count', 'active_users_count', 'total_users_count', 'extensions_count', 'offices.created_at' ];
 		$sort_cols = array_values( array_diff( $cols, [ 'users.id' ] ) );
 		$this->col_as_alias( $sort_cols );
-		$offices = Office::select( $cols )
-			->leftJoin( DB::raw( '(select officeId, count(id) as admin_count from users where admin group by officeId) admin' ), function ( $join ) {
-				$join->on( 'offices.id', '=', 'admin.officeId' );
-			} )
-			->leftJoin( DB::raw( '(select officeId, count(id) as active_users_count from users where confirmed group by officeId) active_users' ), function ( $join ) {
-				$join->on( 'offices.id', '=', 'active_users.officeId' );
-			} )
-			->leftJoin( DB::raw( '(select officeId, count(id) as total_users_count from users group by officeId) users' ), function ( $join ) {
-				$join->on( 'offices.id', '=', 'users.officeId' );
-			} )
-			->leftJoin( DB::raw( '(select officeId, count(id) as extensions_count from extensions group by officeId) extensions' ), function ( $join ) {
-				$join->on( 'offices.id', '=', 'extensions.officeId' );
-			} )
-			->orderBy( $sort_cols[ Request::input( 'order.0.column', 0 ) ], Request::input( 'order.0.dir', 'asc' ) );
+		$offices = Office::select( ['*'] );
+//		$offices = Office::select( $cols )
+//			->leftJoin( DB::raw( '(select officeId, count(id) as admin_count from users where admin group by officeId) admin' ), function ( $join ) {
+//				$join->on( 'offices.id', '=', 'admin.officeId' );
+//			} )
+//			->leftJoin( DB::raw( '(select officeId, count(id) as active_users_count from users where confirmed group by officeId) active_users' ), function ( $join ) {
+//				$join->on( 'offices.id', '=', 'active_users.officeId' );
+//			} )
+//			->leftJoin( DB::raw( '(select officeId, count(id) as total_users_count from users group by officeId) users' ), function ( $join ) {
+//				$join->on( 'offices.id', '=', 'users.officeId' );
+//			} )
+//			->leftJoin( DB::raw( '(select officeId, count(id) as extensions_count from extensions group by officeId) extensions' ), function ( $join ) {
+//				$join->on( 'offices.id', '=', 'extensions.officeId' );
+//			} )
+//			->orderBy( $sort_cols[ Request::input( 'order.0.column', 0 ) ], Request::input( 'order.0.dir', 'asc' ) );
 
-		$data = Datatables::of( $offices )
-			->add_column( 'actions', '<a href="{!! sub_url("/", ["office_slug" => $slug]) !!}" class="btn btn-info btn-sm" title="{!! trans("modal.view") !!}"><i class="fa fa-external-link" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.view") !!}</span></a><a href="{!! route("offices.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{!! trans("modal.edit") !!}"><i class="fa fa-pencil" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.edit") !!}</span></a>@if ($id != 1)<a href="{!! route("offices.delete", $id) !!}" class="btn btn-danger btn-sm iframe" title="{!! trans("modal.delete") !!}"><i class="fa fa-trash" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.delete") !!}</span></a>@endif' )
-			->remove_column( 'id' );
-		$this->col_as_alias( $data->columns );
+		$data = Datatables::of( $offices );
+//			->add_column( 'actions', '<a href="{!! sub_url("/", ["office_slug" => $slug]) !!}" class="btn btn-info btn-sm" title="{!! trans("modal.view") !!}"><i class="fa fa-external-link" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.view") !!}</span></a><a href="{!! route("offices.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{!! trans("modal.edit") !!}"><i class="fa fa-pencil" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.edit") !!}</span></a>@if ($id != 1)<a href="{!! route("offices.delete", $id) !!}" class="btn btn-danger btn-sm iframe" title="{!! trans("modal.delete") !!}"><i class="fa fa-trash" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.delete") !!}</span></a>@endif' )
+//			->remove_column( 'id' );
+//		$this->col_as_alias( $data->columns );
+
+		$data->filter( function( $query ) { dd( $query ); } );
 
 		return $data->make();
 	}

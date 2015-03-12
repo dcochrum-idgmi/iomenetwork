@@ -8,7 +8,7 @@
 		{!! trans('offices.offices') !!}
 		<div class="pull-right">
 			<div class="pull-right">
-				<a href="{!! sub_route('offices.create') !!}" class="btn btn-sm btn-primary iframe">
+				<a href="{!! route('offices.create') !!}" class="btn btn-sm btn-primary iframe">
 					<i class="fa fa-plus-circle"></i>
 					{{ trans('modal.new') }}
 				</a>

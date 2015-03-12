@@ -59,7 +59,6 @@ class UserController extends Controller
 	public function store( UserCreateRequest $request, User $user )
 	{
 		$data = $request->all();
-//		! $data[ 'confirmed' ] && $data[ 'confirmation_code' ] = str_random( 32 );
 
 		// Maybe generate a random password if empty?
 		// if (empty($data['password']))
@@ -67,15 +66,9 @@ class UserController extends Controller
 
 		$response = Nebula::userCreate( $data );
 		if( $response[ 'success' ] )
-			return response( null, 200 );
+			return response( $user->fill( $data ), 200 );
 
 		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
-
-		$user->fill( $data );
-		if( $user->save() )
-			return response( $user, 200 );
-
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.' ], 422 );
 	}
 
 	/**
@@ -145,7 +138,7 @@ class UserController extends Controller
 		}
 
 		if( $user->update( $data ) )
-			return response( $user, 200 );
+			return response( $user->fill( $data ), 200 );
 
 		return response( [ 'status' => 'error', 'message' => 'Unable to save.' ], 422 );
 	}

@@ -14,13 +14,50 @@
 			{!! $errors->first( 'officeName', Form::label( 'officeName', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
-	<div class="form-group{!! $errors->has( 'slug' ) ? ' has-error' : '' !!}">
-		{!! Form::label( 'slug', trans( 'offices.slug' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+	<div class="form-group{!! $errors->has( 'officeSlug' ) ? ' has-error' : '' !!}">
+		{!! Form::label( 'officeSlug', trans( 'offices.slug' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
-			{!! Form::text( 'slug', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.slug-ph' ) ] ) !!}
-			{!! $errors->first( 'slug', Form::label( 'slug', ':message', [ 'class' => 'error' ] ) ) !!}
+			{!! Form::text( 'officeSlug', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.slug-ph' ) ] ) !!}
+			{!! $errors->first( 'officeSlug', Form::label( 'officeSlug', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
+    <div class="form-group{!! $errors->has( 'address' ) ? ' has-error' : '' !!}">
+        {!! Form::label( 'address', trans( 'offices.address' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+        <div class="col-md-10">
+            <div class="form-group">
+                <div class="col-xs-12">
+                    {!! Form::text( 'address', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.address-ph' ) ] ) !!}
+                    {!! $errors->first( 'address', Form::label( 'address', ':message', [ 'class' => 'error' ] ) ) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    {!! Form::text( 'city', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.city-ph' ) ] ) !!}
+                    {!! $errors->first( 'city', Form::label( 'city', ':message', [ 'class' => 'error' ] ) ) !!}
+                </div>
+                <div class="col-md-2">
+                    {!! Form::text( 'state', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.state-ph' ) ] ) !!}
+                    {!! $errors->first( 'state', Form::label( 'state', ':message', [ 'class' => 'error' ] ) ) !!}
+                </div>
+                <div class="col-md-3">
+                    {!! Form::text( 'zipcode', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.zipcode-ph' ) ] ) !!}
+                    {!! $errors->first( 'zipcode', Form::label( 'zipcode', ':message', [ 'class' => 'error' ] ) ) !!}
+                </div>
+                <div class="col-md-2">
+                    {!! Form::select( 'countryId', [ 'US' => 'US' ], null, [ 'class' => 'form-control', 'data-placeholder' => trans( 'site.country' ) ] ) !!}
+                    {{--{!! Form::text( 'countryId', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.country-ph' ) ] ) !!}--}}
+                    {!! $errors->first( 'countryId', Form::label( 'countryId', ':message', [ 'class' => 'error' ] ) ) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group{!! $errors->has( 'language' ) ? ' has-error' : '' !!}">
+        {!! Form::label( 'language', trans( 'site.language' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+        <div class="col-md-10">
+            {!! Form::select( 'language', [ 'en_US' => 'English - US' ], null, [ 'class' => 'form-control', 'data-placeholder' => trans( 'site.language' ) ] ) !!}
+            {!! $errors->first( 'language', Form::label( 'language', ':message', [ 'class' => 'error' ] ) ) !!}
+        </div>
+    </div>
 	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
 			{!! Form::submit( trans( 'modal.' . ( ( isset( $office ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}

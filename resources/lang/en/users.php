@@ -5,6 +5,7 @@ return [
 	'delete'                   => 'Delete User',
 	'delete_message'           => 'Are you sure you want to delete this user?',
 	'edit'                     => 'Edit',
+	'forgot'                   => 'Forgot your password?',
 	'update'                   => 'Update',
 	'user'                     => 'User',
 	'users'                    => 'Users',

@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Iome\Office;
 use Iome\User;
 
 class NebulaAPI {
@@ -55,8 +56,6 @@ class NebulaAPI {
 
 		$result[ 'success' ] && session( [ 'nebulaSessionId' => $result[ 'sessionId' ] ] );
 
-		dd( $result );
-
 		return $result;
 	}
 
@@ -100,13 +99,30 @@ class NebulaAPI {
 	 * @return array
 	 */
 	public function userCreate( array $parameters ) {
-		$parameters[ 'officeId' ] = $parameters[ 'officeId' ];
-		unset( $parameters[ 'officeId' ] );
-
 		$this->merge_parameters( array_merge( [ 'module' => 'users', 'action' => 'create', 'encrypted' => 'false' ],
 			$parameters ) );
 
 		return $this->post();
+	}
+
+	/**
+	 * Retrieve an array of models matching the given criteria.
+	 *
+	 * @param string $module
+	 * @param array  $filters
+	 *
+	 * @return array
+	 */
+	public function getAll( $module, $filters = [] ) {
+		global $currentOffice;
+
+		dd( $module, $filters, $currentOffice );
+
+		//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'officeId' => $currentOffice->id ] );
+		$this->merge_parameters( [ 'module' => $module, 'action' => 'get', 'fieldName' => $field, 'field' => $value, 'officeId' => 1 ] );
+		$response = $this->get();
+
+		return new User( ( $response[ 'success' ] ? $response[ 'user' ] : [] ) );
 	}
 
 	/**
@@ -139,6 +155,35 @@ class NebulaAPI {
 			$parameters ) );
 
 		return $this->post();
+	}
+
+	/**
+	 * Attempt to update an office
+	 *
+	 * @param array $parameters
+	 *
+	 * @return array
+	 */
+	public function officeUpdate( array $parameters ) {
+		$this->merge_parameters( [ 'module' => 'offices', 'action' => 'edit', 'office' => $parameters ] );
+
+		return $this->post();
+	}
+
+	/**
+	 * Retrieve an office matching the given value on the given field.
+	 *
+	 * @param string $value
+	 * @param string $field
+	 *
+	 * @return array
+	 */
+	public function getOffice( $value, $field = 'email' ) {
+		$this->merge_parameters( [ 'module' => 'offices', 'action' => 'get', 'officeId' => $value ] );
+		die( json_encode( $this->parameters ) );
+		$response = $this->get();
+
+		return new Office( ( $response[ 'success' ] ? $response[ 'office' ] : [] ) );
 	}
 
 	/**

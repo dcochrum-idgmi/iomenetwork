@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Iome\Office;
 
-Route::bind( 'offices', function ( $value ) {
+Route::bind( 'office_subdomain', function ( $value ) {
 	global $currentOffice;
 
 //	$currentOffice = Nebula::getOffice( $value );
@@ -11,6 +11,11 @@ Route::bind( 'offices', function ( $value ) {
 	View::share( 'currentOffice', $currentOffice );
 
 	return $currentOffice;
+} );
+
+Route::bind( 'offices', function ( $value ) {
+	//	$currentOffice = Nebula::getOffice( $value );
+	return new Office( [ 'officeId' => 1, 'officeName' => 'Master', 'officeSlug' => 'admin', 'address' => '3401 SW 160th Street Suite 430', 'city' => 'Miramar', 'state' => 'FL', 'zipcode' => '33027', 'numAdmins' => 1, 'numUsers' => 2, 'numSips' => 3, 'exists' => true ] );
 } );
 
 Route::bind( 'users', function ( $value ) {
@@ -23,7 +28,7 @@ Route::group( [ 'domain' => 'admin.' . config( 'app.domain' ), 'middleware' => [
 	route_resource_and_del( 'offices', 'Admin\OfficeController' );
 } );
 
-Route::group( [ 'domain' => '{offices}.' . config( 'app.domain' ) ], function () {
+Route::group( [ 'domain' => '{office_subdomain}.' . config( 'app.domain' ) ], function () {
 	Route::group( [ 'middleware' => [ 'auth', 'admin' ] ], function () {
 		route_resource_and_del( 'exts', 'ExtensionController' );
 		route_resource_and_del( 'users', 'UserController' );
@@ -82,8 +87,8 @@ function sub_url( $url = '/', $params = [ ], $secure = false )
 
 	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
 	//  so let's replace the components to make the intended URL
-	$url = str_replace( '/' . $params[ 'offices' ], '', $url );
-	$url = str_replace( [ ':/.' . config( 'app.domain' ), '://' . get_current_office_slug() . '.' . config( 'app.domain' ) ], '://' . $params[ 'offices' ] . '.' . config( 'app.domain' ), $url );
+	$url = str_replace( '/' . $params[ 'subdomain' ], '', $url );
+	$url = str_replace( [ ':/.' . config( 'app.domain' ), '://' . get_current_office_slug() . '.' . config( 'app.domain' ) ], '://' . $params[ 'subdomain' ] . '.' . config( 'app.domain' ), $url );
 //	//  Add back the {office_slug} but only in the subdomain position
 //	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
 
@@ -96,8 +101,8 @@ function sub_url( $url = '/', $params = [ ], $secure = false )
 function merge_office_slug( &$params )
 {
 	$params = (array)$params;
-	if( ! isset( $params[ 'offices' ] ) )
-		$params[ 'offices' ] = get_current_office_slug();
+	if( ! isset( $params[ 'subdomain' ] ) )
+		$params[ 'subdomain' ] = get_current_office_slug();
 }
 
 function get_current_office_slug() {
@@ -106,5 +111,5 @@ function get_current_office_slug() {
 }
 
 function get_current_office() {
-	return Route::current()->parameter( 'offices' ) ?: false;
+	return Route::current()->parameter( 'subdomain' ) ?: false;
 }

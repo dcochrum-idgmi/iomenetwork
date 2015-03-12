@@ -24,7 +24,7 @@ class Office extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'officeId', 'officeName', 'officeSlug', 'numAdmins', 'numUsers', 'numSips' ];
+	protected $fillable = [ 'officeId', 'officeName', 'officeSlug', 'address', 'city', 'state', 'zipcode', 'countryId', 'language', 'numAdmins', 'numUsers', 'numSips' ];
 
 	/**
 	 * Indicates whether attributes are snake cased on arrays.

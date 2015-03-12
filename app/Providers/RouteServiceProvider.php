@@ -25,10 +25,6 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function boot( Router $router ) {
 		parent::boot( $router );
-
-//		$router->model( 'exts', 'Iome\Extension' );
-//		$router->model( 'office_slug', 'Iome\Office' );
-//		$router->model( 'users', 'Iome\User' );
 	}
 
 	/**
