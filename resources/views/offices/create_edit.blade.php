@@ -22,30 +22,29 @@
 		</div>
 	</div>
     <div class="form-group{!! $errors->has( 'address' ) ? ' has-error' : '' !!}">
-        {!! Form::label( 'address', trans( 'offices.address' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+        {!! Form::label( 'address', trans( 'site.address' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
         <div class="col-md-10">
             <div class="form-group">
                 <div class="col-xs-12">
-                    {!! Form::text( 'address', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.address-ph' ) ] ) !!}
+                    {!! Form::text( 'address', null, [ 'class' => 'form-control', 'placeholder' => trans( 'site.address-ph' ) ] ) !!}
                     {!! $errors->first( 'address', Form::label( 'address', ':message', [ 'class' => 'error' ] ) ) !!}
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-5">
-                    {!! Form::text( 'city', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.city-ph' ) ] ) !!}
+                <div class="col-md-4">
+                    {!! Form::text( 'city', null, [ 'class' => 'form-control', 'placeholder' => trans( 'site.city-ph' ) ] ) !!}
                     {!! $errors->first( 'city', Form::label( 'city', ':message', [ 'class' => 'error' ] ) ) !!}
                 </div>
-                <div class="col-md-2">
-                    {!! Form::text( 'state', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.state-ph' ) ] ) !!}
+                <div class="col-md-3">
+	                {!! Form::select( 'state', [ '' => '' ] + $states, null, [ 'class' => 'form-control', 'data-placeholder' => trans( 'site.state-ph' ) ] ) !!}
                     {!! $errors->first( 'state', Form::label( 'state', ':message', [ 'class' => 'error' ] ) ) !!}
                 </div>
-                <div class="col-md-3">
-                    {!! Form::text( 'zipcode', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.zipcode-ph' ) ] ) !!}
+                <div class="col-md-2">
+                    {!! Form::text( 'zipcode', null, [ 'class' => 'form-control', 'placeholder' => trans( 'site.zipcode-ph' ) ] ) !!}
                     {!! $errors->first( 'zipcode', Form::label( 'zipcode', ':message', [ 'class' => 'error' ] ) ) !!}
                 </div>
-                <div class="col-md-2">
-                    {!! Form::select( 'countryId', [ 'US' => 'US' ], null, [ 'class' => 'form-control', 'data-placeholder' => trans( 'site.country' ) ] ) !!}
-                    {{--{!! Form::text( 'countryId', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.country-ph' ) ] ) !!}--}}
+                <div class="col-md-3">
+                    {!! Form::select( 'countryId', [ '' => '' ] + $countries, 'US', [ 'class' => 'form-control', 'data-placeholder' => trans( 'site.country' ) ] ) !!}
                     {!! $errors->first( 'countryId', Form::label( 'countryId', ':message', [ 'class' => 'error' ] ) ) !!}
                 </div>
             </div>
@@ -61,7 +60,7 @@
 	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
 			{!! Form::submit( trans( 'modal.' . ( ( isset( $office ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}
-			<button class="btn btn-link close_popup">{{{ trans( 'modal.cancel' ) }}}</button>
+			{!! link_to_route( 'offices.index', trans( 'modal.cancel' ), [], [ 'class' => 'btn btn-link close_popup' ] ) !!}
 		</div>
 	</div>
 {!! Form::close() !!}

@@ -12,8 +12,7 @@ use DB;
 use Nebula;
 use Request;
 
-class OfficeController extends Controller
-{
+class OfficeController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -22,13 +21,16 @@ class OfficeController extends Controller
 	 */
 	public function index()
 	{
-		if( Request::wantsJson() )
+		if ( Request::wantsJson() )
+		{
 			return $this->data();
+		}
 
 		$offices = Office::all();
 
-		return view( 'offices.index', compact( 'offices' ) );
+		return view('offices.index', compact('offices'));
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -37,8 +39,12 @@ class OfficeController extends Controller
 	 */
 	public function create()
 	{
-		return view( 'offices.create_edit' );
+		$states    = Nebula::getStates();
+		$countries = Nebula::getCountries();
+
+		return view('offices.create_edit', compact('states', 'countries'));
 	}
+
 
 	/**
 	 * Create the specified resource in storage.
@@ -48,21 +54,25 @@ class OfficeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store( OfficeCreateRequest $request, Office $office )
+	public function store(OfficeCreateRequest $request, Office $office)
 	{
-		$data = $request->all();
-		$response = Nebula::officeCreate( $data );
-		if( $response[ 'success' ] ) {
+		$data     = $request->all();
+		$response = Nebula::officeCreate($data);
+		if ( $response['success'] )
+		{
 			$this->flash_created();
 
-			if( $request->wantsJson() )
-				return response( $office->fill( $data ), 200 );
+			if ( $request->wantsJson() )
+			{
+				return response($office->fill($data), 200);
+			}
 
-			return redirect( 'offices.index' );
+			return redirect('offices.index');
 		}
 
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
+		return response([ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422);
 	}
+
 
 	/**
 	 * Display the specified resource.
@@ -71,10 +81,12 @@ class OfficeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function show( Office $office )
+	public function show(Office $office)
 	{
-		return view( 'offices.show', compact( 'office' ) );
+
+		return view('offices.show', compact('office'));
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -83,40 +95,50 @@ class OfficeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function edit( Office $office )
+	public function edit(Office $office)
 	{
-		return view( 'offices.create_edit', compact( 'office' ) );
+		$states    = Nebula::getStates();
+		$countries = Nebula::getCountries();
+
+		return view('offices.create_edit', compact('office', 'states', 'countries'));
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  OfficeCreateRequest $request
-	 * @param  Office     $office
+	 * @param  Office              $office
 	 *
 	 * @return Response
 	 */
-	public function update( OfficeEditRequest $request, Office $office )
+	public function update(OfficeEditRequest $request, Office $office)
 	{
-		$new_slug = ( $request->get( 'slug' ) == $office->slug ) ? false : $request->get( 'slug' );
+		$new_slug = ( $request->get('slug') == $office->slug ) ? false : $request->get('slug');
 
-		$data = $request->all();
-		$data[ 'officeId' ] = $office->officeId;
-		$response = Nebula::officeUpdate( $data );
-		if( $response[ 'success' ] ) {
+		$data             = $request->except([ '_method', '_token' ]);
+		$data['officeId'] = $office->officeId;
+		$response         = Nebula::officeUpdate($data);
+		if ( $response['success'] )
+		{
 			$this->flash_updated();
 
-			if( $request->wantsJson() )
-				return response( $office->fill( $data ), 200 );
+			if ( $request->wantsJson() )
+			{
+				return response($office->fill($data), 200);
+			}
 
-			if( $new_slug )
-				return redirect( sub_route( 'settings' ) );
+			if ( $new_slug )
+			{
+				return redirect(sub_route('settings'));
+			}
 
-			return redirect( 'offices.index' );
+			return redirect('offices.index');
 		}
 
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
+		return response([ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422);
 	}
+
 
 	/**
 	 * Confirm removal of the specified resource from storage.
@@ -125,10 +147,11 @@ class OfficeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function delete( Office $office )
+	public function delete(Office $office)
 	{
-		return view( 'offices.delete', compact( 'office' ) );
+		return view('offices.delete', compact('office'));
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -137,14 +160,15 @@ class OfficeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function destroy( OfficeDeleteRequest $request, Office $office )
+	public function destroy(OfficeDeleteRequest $request, Office $office)
 	{
 		$office->delete();
 
 		$this->flash_deleted();
 
-		return response( null, 204 );
+		return response(null, 204);
 	}
+
 
 	/**
 	 * Return a JSON list of offices formatted for Datatables.
@@ -153,11 +177,20 @@ class OfficeController extends Controller
 	 */
 	public function data()
 	{
-		return $this->dataTable( 'offices' );
-		$cols = [ 'offices.id', 'offices.name', 'offices.slug', 'admin_count', 'active_users_count', 'total_users_count', 'extensions_count', 'offices.created_at' ];
-		$sort_cols = array_values( array_diff( $cols, [ 'users.id' ] ) );
-		$this->col_as_alias( $sort_cols );
-		$offices = Office::select( ['*'] );
+		return $this->dataTable('offices');
+		$cols      = [
+			'offices.id',
+			'offices.name',
+			'offices.slug',
+			'admin_count',
+			'active_users_count',
+			'total_users_count',
+			'extensions_count',
+			'offices.created_at'
+		];
+		$sort_cols = array_values(array_diff($cols, [ 'users.id' ]));
+		$this->col_as_alias($sort_cols);
+		$offices = Office::select([ '*' ]);
 //		$offices = Office::select( $cols )
 //			->leftJoin( DB::raw( '(select officeId, count(id) as admin_count from users where admin group by officeId) admin' ), function ( $join ) {
 //				$join->on( 'offices.id', '=', 'admin.officeId' );
@@ -173,12 +206,15 @@ class OfficeController extends Controller
 //			} )
 //			->orderBy( $sort_cols[ Request::input( 'order.0.column', 0 ) ], Request::input( 'order.0.dir', 'asc' ) );
 
-		$data = Datatables::of( $offices );
+		$data = Datatables::of($offices);
 //			->add_column( 'actions', '<a href="{!! sub_url("/", ["office_slug" => $slug]) !!}" class="btn btn-info btn-sm" title="{!! trans("modal.view") !!}"><i class="fa fa-external-link" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.view") !!}</span></a><a href="{!! route("offices.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{!! trans("modal.edit") !!}"><i class="fa fa-pencil" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.edit") !!}</span></a>@if ($id != 1)<a href="{!! route("offices.delete", $id) !!}" class="btn btn-danger btn-sm iframe" title="{!! trans("modal.delete") !!}"><i class="fa fa-trash" aria-hidden="true"></i><span class="sr-only">{!! trans("modal.delete") !!}</span></a>@endif' )
 //			->remove_column( 'id' );
 //		$this->col_as_alias( $data->columns );
 
-		$data->filter( function( $query ) { dd( $query ); } );
+		$data->filter(function ($query)
+		{
+			dd($query);
+		});
 
 		return $data->make();
 	}

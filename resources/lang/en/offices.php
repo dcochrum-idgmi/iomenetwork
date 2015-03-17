@@ -10,7 +10,7 @@ return [
 	'office'         => 'Office',
 	'select'         => 'Select an office',
 	'slug'           => 'Slug',
-	'slug-ph'        => 'slug.' . config( 'app.domain' ),
+	'slug-ph'        => 'slug.' . config('app.domain'),
 	'yes'            => 'Yes',
 
 ];
