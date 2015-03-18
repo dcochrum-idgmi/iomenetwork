@@ -2,20 +2,25 @@
 
 use Iome\Office;
 
+global $currentOffice, $offices;
+$offices = ['admin' => 16, 'client' => 20, 'david' => 31];
+
 Route::bind('office_subdomain', function ($value)
 {
-	global $currentOffice;
+	global $currentOffice, $offices;
 
 	//$currentOffice = Nebula::getOffice($value);
-	//$currentOffice = Nebula::getOffice(1);
-	$currentOffice = new Office([ 'officeId'   => 1,
-								  'officeName' => 'Master',
-								  'officeSlug' => 'admin',
-								  'numAdmins'  => 1,
-								  'numUsers'   => 2,
-								  'numSips'    => 3,
-								  'exists'     => true
-	]);
+	$currentOffice = Nebula::getOffice($offices[ $value ]);
+	$currentOffice->officeSlug = $value;
+	//$currentOffice = new Office([
+	//	'officeId'   => 1,
+	//	'officeName' => 'Master',
+	//	'officeSlug' => 'admin',
+	//	'numAdmins'  => 1,
+	//	'numUsers'   => 2,
+	//	'numSips'    => 3,
+	//	'exists'     => true
+	//]);
 	View::share('currentOffice', $currentOffice);
 
 	return $currentOffice;
@@ -23,21 +28,24 @@ Route::bind('office_subdomain', function ($value)
 
 Route::bind('offices', function ($value)
 {
+	global $offices;
 	//return Nebula::getOffice($value);
-	//return Nebula::getOffice(1);
-	return new Office([
-		'officeId'   => 1,
-		'officeName' => 'Master',
-		'officeSlug' => 'admin',
-		'address'    => '3401 SW 160th Street Suite 430',
-		'city'       => 'Miramar',
-		'state'      => 'FL',
-		'zipcode'    => '33027',
-		'numAdmins'  => 1,
-		'numUsers'   => 2,
-		'numSips'    => 3,
-		'exists'     => true
-	]);
+	$office = Nebula::getOffice($offices[$value]);
+	$office->officeSlug = $value;
+	return $office;
+	//return new Office([
+	//	'officeId'   => 1,
+	//	'officeName' => 'Master',
+	//	'officeSlug' => 'admin',
+	//	'address'    => '3401 SW 160th Street Suite 430',
+	//	'city'       => 'Miramar',
+	//	'state'      => 'FL',
+	//	'zipcode'    => '33027',
+	//	'numAdmins'  => 1,
+	//	'numUsers'   => 2,
+	//	'numSips'    => 3,
+	//	'exists'     => true
+	//]);
 });
 
 Route::bind('users', function ($value)
@@ -45,15 +53,14 @@ Route::bind('users', function ($value)
 	return Nebula::getUser($value);
 });
 
-Route::group([ 'domain' => 'admin.' . config('app.domain'), 'middleware' => [ 'auth', 'vendoradmin' ] ], function ()
-{
-	Route::get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
-
-	route_resource_and_del('offices', 'Admin\OfficeController');
-});
-
 Route::group([ 'domain' => '{office_subdomain}.' . config('app.domain') ], function ()
 {
+	Route::group([ 'middleware' => [ 'auth', 'vendoradmin' ] ], function ()
+	{
+		Route::get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
+		route_resource_and_del('offices', 'Admin\OfficeController');
+	});
+
 	Route::group([ 'middleware' => [ 'auth', 'admin' ] ], function ()
 	{
 		route_resource_and_del('exts', 'ExtensionController');
@@ -100,6 +107,15 @@ function route_resource_and_del($name, $controller)
 	Route::resource($name, $controller);
 }
 
+function admin_route($route, $params = [ ], $absolute = true)
+{
+	$params['office_subdomain'] = 'admin';
+
+	$url = URL::route($route, $params, $absolute);
+
+	return $url;
+}
+
 function sub_route($route, $params = [ ], $absolute = true)
 {
 	merge_office_slug($params);
@@ -109,18 +125,36 @@ function sub_route($route, $params = [ ], $absolute = true)
 	return $url;
 }
 
+function admin_url($url = '/', $params = [ ], $secure = false)
+{
+	$params['office_subdomain'] = 'admin';
+
+	$url  = URL::to($url, $params, $secure); // admin.domain.tld || admin.domain.tld
+	//$slug = get_current_office_slug();
+
+	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
+	//  so let's replace the components to make the intended URL
+	//$url = str_replace('/' . $params['subdomain'], '', $url);
+	//$url = str_replace([ ':/.' . config('app.domain'), '://' . get_current_office_slug() . '.' . config('app.domain') ],
+	//	'://' . $params['subdomain'] . '.' . config('app.domain'), $url);
+//	//  Add back the {office_slug} but only in the subdomain position
+//	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
+
+	return $url;
+}
+
 function sub_url($url = '/', $params = [ ], $secure = false)
 {
 	merge_office_slug($params);
 
 	$url  = URL::to($url, $params, $secure); // admin.domain.tld || admin.domain.tld
-	$slug = get_current_office_slug();
+	//$slug = get_current_office_slug();
 
 	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
 	//  so let's replace the components to make the intended URL
-	$url = str_replace('/' . $params['subdomain'], '', $url);
-	$url = str_replace([ ':/.' . config('app.domain'), '://' . get_current_office_slug() . '.' . config('app.domain') ],
-		'://' . $params['subdomain'] . '.' . config('app.domain'), $url);
+	//$url = str_replace('/' . $params['office_subdomain'], '', $url);
+	//$url = str_replace([ ':/.' . config('app.domain'), '://' . $slug . '.' . config('app.domain') ],
+	//	'://' . $params['office_subdomain'] . '.' . config('app.domain'), $url);
 //	//  Add back the {office_slug} but only in the subdomain position
 //	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
 
@@ -133,9 +167,9 @@ function sub_url($url = '/', $params = [ ], $secure = false)
 function merge_office_slug(&$params)
 {
 	$params = (array) $params;
-	if ( ! isset( $params['subdomain'] ) )
+	if ( ! isset( $params['office_subdomain'] ) )
 	{
-		$params['subdomain'] = get_current_office_slug();
+		$params['office_subdomain'] = get_current_office_slug();
 	}
 }
 
@@ -153,5 +187,5 @@ function get_current_office()
 		return false;
 	}
 
-	return Route::current()->parameter('subdomain') ?: false;
+	return Route::current()->parameter('office_subdomain') ?: false;
 }

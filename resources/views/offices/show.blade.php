@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title') {{{ $user->name }}} :: @parent @stop {{-- Content --}}
+@section('title') {{{ $office->officeName }}} :: @parent @stop {{-- Content --}}
 @section('content')
-<pre>{!! var_dump($user->toArray()) !!}</pre>
+<pre>{!! dd( $currentOffice->toArray(), $office->toArray()) !!}</pre>
 @stop

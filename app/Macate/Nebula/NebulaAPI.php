@@ -211,7 +211,13 @@ class NebulaAPI {
 			'action' => 'create'
 		], $parameters));
 
-		return $this->post();
+		$response = $this->post();
+		if ( ! $response['success'] )
+		{
+			return $response;
+		}
+
+		return $this->getOffice($response['officeId']);
 	}
 
 
@@ -373,51 +379,20 @@ class NebulaAPI {
 		{
 			if ( strtolower($method) == 'get' )
 			{
-				$response = $this->client->get('', [ 'query' => $this->build_request() ])/*->json()*/
-				;
+				$response = $this->client->get('', [ 'query' => $this->build_request() ]);
 			}
 			else
 			{
-				$response = $this->client->{$method}('', [ 'body' => $this->build_request() ])/*->json()*/
-				;
+				$response = $this->client->{$method}('', [ 'body' => $this->build_request() ]);
 			}
 
-			$response = $response->json();
+			$json = $response->json();
 
-			array_walk_recursive($response, function (&$item)
-			{
-				if ( $item == 'true' )
-				{
-					$item = true;
-				}
-				else
-				{
-					if ( $item == 'false' )
-					{
-						$item = false;
-					}
-					else
-					{
-						if ( strtolower($item) == 'null' || $item == '' )
-						{
-							$item = null;
-						}
-					}
-				}
-			});
-
-			if ( $response['success'] )
-			{
-				$objects = [ 'user' => 'email', 'office' => 'officeId', 'sip' => 'sipAccount' ];
-				foreach ($objects as $obj => $id)
-				{
-					isset( $response[$obj] ) && $response[$obj][$id] && $response[$obj]['exists'] = true;
-				}
-			}
+			$json = $this->process_response($json);
 
 			$this->reset_options_params();
 
-			return $response;
+			return $json;
 		}
 		catch (RequestException $e)
 		{
@@ -430,14 +405,12 @@ class NebulaAPI {
 		}
 		catch (ParseException $e)
 		{
-
-			dd($this->build_request(), $this->parameters, $e->getMessage(), $response, $response->getBody());
+			$body = preg_replace([ '/(?<="dateEntered":)(.[^,]*)/', '/(?<=\"dateModified\":)(.[^,]*)/' ], "\"$1\"",
+				trim($response->getBody()));
+			$json = json_decode($body, true);
 			$this->reset_options_params();
 
-			if ( $e->hasResponse() )
-			{
-				echo $e->getFile();
-			}
+			return $this->process_response($json);
 		}
 		catch (Exception $e)
 		{
@@ -470,5 +443,49 @@ class NebulaAPI {
 	{
 		$this->parameters = $this->default_parameters;
 		$this->options    = $this->default_options;
+	}
+
+
+	/**
+	 * @param $json
+	 *
+	 * @return mixed
+	 */
+	private function process_response($json)
+	{
+		array_walk_recursive($json, function (&$item)
+		{
+			if ( $item == 'true' )
+			{
+				$item = true;
+			}
+			else
+			{
+				if ( $item == 'false' )
+				{
+					$item = false;
+				}
+				else
+				{
+					if ( strtolower($item) == 'null' || $item == '' )
+					{
+						$item = null;
+					}
+				}
+			}
+		});
+
+		if ( $json['success'] )
+		{
+			$objects = [ 'user' => 'email', 'office' => 'officeId', 'sip' => 'sipAccount' ];
+			foreach ($objects as $obj => $id)
+			{
+				isset( $json[$obj] ) && $json[$obj][$id] && $json[$obj]['exists'] = true;
+			}
+
+			return $json;
+		}
+
+		return $json;
 	}
 }

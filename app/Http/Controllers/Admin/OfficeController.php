@@ -58,6 +58,7 @@ class OfficeController extends Controller {
 	{
 		$data     = $request->all();
 		$response = Nebula::officeCreate($data);
+		dd( $response );
 		if ( $response['success'] )
 		{
 			$this->flash_created();

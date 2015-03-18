@@ -15,8 +15,7 @@ use Request;
 use Response;
 use Session;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
 
 	/*
 	* Display a listing of the resource.
@@ -27,11 +26,14 @@ class UserController extends Controller
 	{
 		$users = User::all();
 
-		if( Request::wantsJson() )
+		if ( Request::wantsJson() )
+		{
 			return $this->data();
+		}
 
-		return view( 'users.index', compact( 'users' ) );
+		return view('users.index', compact('users'));
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -43,10 +45,11 @@ class UserController extends Controller
 		$office_id = null;
 //		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
 		$offices = [ '-1' => 'Test' ];
-		$roles = User::listRoles();
+		$roles   = User::listRoles();
 
-		return view( 'users.create_edit', compact( 'office_id', 'offices', 'roles' ) );
+		return view('users.create_edit', compact('office_id', 'offices', 'roles'));
 	}
+
 
 	/**
 	 * Create the specified resource in storage.
@@ -56,7 +59,7 @@ class UserController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store( UserCreateRequest $request, User $user )
+	public function store(UserCreateRequest $request, User $user)
 	{
 		$data = $request->all();
 
@@ -64,12 +67,20 @@ class UserController extends Controller
 		// if (empty($data['password']))
 		// 	unset($data['password'], $data['password_confirmation']);
 
-		$response = Nebula::userCreate( $data );
-		if( $response[ 'success' ] )
-			return response( $user->fill( $data ), 200 );
+		$response = Nebula::userCreate($data);
+		if ( $response['success'] )
+		{
+			if ( $request->wantsJson() )
+			{
+				return response($user->fill($data), 200);
+			}
 
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422 );
+			return redirect(sub_route('users.index'));
+		}
+
+		return response([ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422);
 	}
+
 
 	/**
 	 * Display the specified resource.
@@ -79,15 +90,18 @@ class UserController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function show( Office $office, User $user )
+	public function show(Office $office, User $user)
 	{
-		Request::is( 'profile' ) && $user = Auth::user();
+		Request::is('profile') && $user = Auth::user();
 
-		if( ! $user->exists )
-			abort( 404 );
+		if ( ! $user->exists )
+		{
+			abort(404);
+		}
 
-		return view( 'users.show' )->with( 'user', $user );
+		return view('users.show')->with('user', $user);
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -97,20 +111,23 @@ class UserController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function edit( Office $office, User $user )
+	public function edit(Office $office, User $user)
 	{
-		Request::is( 'profile' ) && $user = Auth::user();
+		Request::is('profile') && $user = Auth::user();
 
-		if( ! $user->exists )
-			abort( 404 );
+		if ( ! $user->exists )
+		{
+			abort(404);
+		}
 
 		$office_id = $user->officeId;
 //		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
 		$offices = [ '-1' => 'Test' ];
-		$roles = User::listRoles();
+		$roles   = User::listRoles();
 
-		return view( 'users.create_edit', compact( 'user', 'office_id', 'offices', 'roles' ) );
+		return view('users.create_edit', compact('user', 'office_id', 'offices', 'roles'));
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
@@ -120,28 +137,45 @@ class UserController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function update( UserEditRequest $request, User $user )
+	public function update(UserEditRequest $request, User $user)
 	{
 		$data = $request->all();
 
-		if( empty( $data[ 'password' ] ) )
-			unset( $data[ 'password' ], $data[ 'password_confirmation' ] );
-		else if( $data[ 'password' ] !== $data[ 'password_confirmation' ] )
-			return response( [ 'password' => [ 'Password mismatch.' ], 'password_confirmation' => [ 'Password mismatch.' ] ], 422 );
+		if ( empty( $data['password'] ) )
+		{
+			unset( $data['password'], $data['password_confirmation'] );
+		}
+		else
+		{
+			if ( $data['password'] !== $data['password_confirmation'] )
+			{
+				return response([
+					'password'              => [ 'Password mismatch.' ],
+					'password_confirmation' => [ 'Password mismatch.' ]
+				], 422);
+			}
+		}
 
-		if( isset( $data[ 'admin' ] ) && $data[ 'admin' ] != $user->admin ) {
-			if( Auth::user()->id == $user->id )
-				return response( [ 'admin' => [ 'You cannot ' . ( $data[ 'admin' ] ? 'pro' : 'de' ) . 'mote yourself ' . ( $data[ 'admin' ] ? 'to' : 'from' ) . ' admin.' ] ], 422 );
+		if ( isset( $data['admin'] ) && $data['admin'] != $user->admin )
+		{
+			if ( Auth::user()->id == $user->id )
+			{
+				return response([ 'admin' => [ 'You cannot ' . ( $data['admin'] ? 'pro' : 'de' ) . 'mote yourself ' . ( $data['admin'] ? 'to' : 'from' ) . ' admin.' ] ],
+					422);
+			}
 
 			// if (! Auth::user()->isAdmin())
 			// 	return response(['admin' => ['Insufficient priveleges.']], 403);
 		}
 
-		if( $user->update( $data ) )
-			return response( $user->fill( $data ), 200 );
+		if ( $user->update($data) )
+		{
+			return response($user->fill($data), 200);
+		}
 
-		return response( [ 'status' => 'error', 'message' => 'Unable to save.' ], 422 );
+		return response([ 'status' => 'error', 'message' => 'Unable to save.' ], 422);
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -151,10 +185,11 @@ class UserController extends Controller
 	 * @return Response
 	 */
 
-	public function delete( User $user )
+	public function delete(User $user)
 	{
-		return view( 'users.delete', compact( 'user' ) );
+		return view('users.delete', compact('user'));
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -165,12 +200,13 @@ class UserController extends Controller
 	 * @return Response
 	 * @throws \Exception
 	 */
-	public function destroy( UserDeleteRequest $request, User $user )
+	public function destroy(UserDeleteRequest $request, User $user)
 	{
 		$user->delete();
 
-		return response( null, 204 );
+		return response(null, 204);
 	}
+
 
 	/**
 	 * Show a list of all the languages posts formatted for Datatables.
@@ -181,28 +217,42 @@ class UserController extends Controller
 	{
 		global $currentOffice;
 
-		$cols = [ 'users.id', 'users.first_name', 'users.last_name', 'offices.name as offices.name', 'users.email', 'users.confirmed', 'users.admin', 'users.created_at' ];
-		if( ! $currentOffice->isVendor() ) {
-			$cols = array_values( array_diff( $cols, [ 'offices.name as offices.name' ] ) );
-			$users = User::where( 'officeId', '=', $currentOffice->id );
-		} else
-			$users = User::join( 'offices', 'users.officeId', '=', 'offices.id' );
+		$cols = [
+			'users.id',
+			'users.first_name',
+			'users.last_name',
+			'offices.name as offices.name',
+			'users.email',
+			'users.confirmed',
+			'users.admin',
+			'users.created_at'
+		];
+		if ( ! $currentOffice->isVendor() )
+		{
+			$cols  = array_values(array_diff($cols, [ 'offices.name as offices.name' ]));
+			$users = User::where('officeId', '=', $currentOffice->id);
+		}
+		else
+		{
+			$users = User::join('offices', 'users.officeId', '=', 'offices.id');
+		}
 
-		$users->select( $cols );
+		$users->select($cols);
 
-		$sort_cols = array_values( array_diff( $cols, [ 'users.id' ] ) );
-		$this->col_as_alias( $sort_cols );
-		$order = Request::input( 'order', [ [ 'column' => 0, 'dir' => 'asc' ] ] );
-		foreach( $order as $index => $group )
-			$users->orderBy( $sort_cols[ $group[ 'column' ] ], $group[ 'dir' ] );
+		$sort_cols = array_values(array_diff($cols, [ 'users.id' ]));
+		$this->col_as_alias($sort_cols);
+		$order = Request::input('order', [ [ 'column' => 0, 'dir' => 'asc' ] ]);
+		foreach ($order as $index => $group)
+		{
+			$users->orderBy($sort_cols[$group['column']], $group['dir']);
+		}
 
-		$data = Datatables::of( $users )
-			->edit_column( 'confirmed', '<span class="glyphicon glyphicon-{{ ($confirmed) ? \'ok\' : \'remove\' }}"></span>' )
-			->edit_column( 'admin', '<span class="glyphicon glyphicon-{{ ($admin) ? \'ok\' : \'remove\' }}"></span>' )
-			->add_column( 'actions', '<a href="{!! route("users.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{{ trans("modal.edit") }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.edit") }}</span></a>@if ($id != Auth::user()->id) <a href="{!! route("users.delete", $id) !!}" class="btn btn-sm btn-danger iframe" title="{{ trans("modal.delete") }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.delete") }}</span></a> @endif' )
-			->remove_column( 'id' );
-		$this->col_as_alias( $data->columns );
-		$data->columns = array_values( array_diff( $sort_cols, [ 'actions' ] ) );
+		$data = Datatables::of($users)->edit_column('confirmed',
+			'<span class="glyphicon glyphicon-{{ ($confirmed) ? \'ok\' : \'remove\' }}"></span>')->edit_column('admin',
+			'<span class="glyphicon glyphicon-{{ ($admin) ? \'ok\' : \'remove\' }}"></span>')->add_column('actions',
+			'<a href="{!! route("users.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{{ trans("modal.edit") }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.edit") }}</span></a>@if ($id != Auth::user()->id) <a href="{!! route("users.delete", $id) !!}" class="btn btn-sm btn-danger iframe" title="{{ trans("modal.delete") }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.delete") }}</span></a> @endif')->remove_column('id');
+		$this->col_as_alias($data->columns);
+		$data->columns = array_values(array_diff($sort_cols, [ 'actions' ]));
 
 		return $data->make();
 	}

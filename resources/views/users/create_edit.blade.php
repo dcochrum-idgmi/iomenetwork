@@ -3,12 +3,12 @@
 @include( 'layouts.page_header', [ 'page_header' => trans( 'users.' . ( isset( $user ) ? 'edit' : 'create' ) ) . ' ' . trans( 'users.user' ) ] )
 @if( isset( $user ) )
 	@if( Request::is( 'profile' ) )
-{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'profile.update', $currentOffice->slug ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'profile.update', $currentOffice->getKey() ], 'class' => 'form-horizontal' ] ) !!}
 	@else
-{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'users.update', $currentOffice->slug, $user ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::model( $user, [ 'method' => 'PATCH', 'route' => [ 'users.update', $currentOffice->getKey(), $user ], 'class' => 'form-horizontal' ] ) !!}
 	@endif
 @else
-{!! Form::open( [ 'route' => [ 'users.store', $currentOffice->slug ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::open( [ 'route' => [ 'users.store', $currentOffice->getKey() ], 'class' => 'form-horizontal' ] ) !!}
 @endif
 	<div class="form-group{!! $errors->has( 'fname' ) ? ' has-error' : '' !!}">
 		{!! Form::label( 'fname', trans( 'users.first_name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
@@ -62,7 +62,7 @@
 		</div>
 	</div>
     @else
-    {!! Form::hidden( 'officeId', $currentOffice->id ) !!}
+    {!! Form::hidden( 'officeId', Input::old( 'officeId', ( isset( $user ) ? $user->officeId : $currentOffice->officeId ) ) ) !!}
 	@endif
 {{--	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
