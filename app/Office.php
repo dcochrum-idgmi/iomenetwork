@@ -56,7 +56,7 @@ class Office extends Model
 
 	public function isVendor()
 	{
-		return $this->officeId == 1;
+		return $this->officeId == 16;
 	}
 
 	public function setOfficeSlugAttribute( $value )

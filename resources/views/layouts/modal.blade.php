@@ -9,9 +9,9 @@
     <meta name="author" content="@yield('author')"/>
     <!-- Google will often use this as its description of your page/site. Make it good. -->
     <meta name="description" content="@yield('description')"/>
-    <!-- Speaking of Google, don't fofficeet to set your site up: http://google.com/webmasters -->
+    <!-- Speaking of Google, don't forget to set your site up: http://google.com/webmasters -->
     <meta name="google-site-verification" content="">
-    <!-- Dublin Core Metadata : http://dublincore.office/ -->
+    <!-- Dublin Core Metadata : http://dublincore.org/ -->
     <meta name="DC.title" content="Administration">
     <meta name="DC.subject" content="@yield('description')">
     <meta name="DC.creator" content="@yield('author')">

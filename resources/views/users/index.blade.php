@@ -20,16 +20,15 @@
 <table id="table" class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th>{{ trans( 'users.first_name' ) }}</th>
-			<th>{{ trans( 'users.last_name' ) }}</th>
+			<th data-name="fname">{{ trans( 'users.first_name' ) }}</th>
+			<th data-name="lname">{{ trans( 'users.last_name' ) }}</th>
             @if( $currentOffice->isVendor() )
-			<th>{{ trans( 'offices.office' ) }}</th>
+			<th data-name="officeId">{{ trans( 'offices.office' ) }}</th>
             @endif
-			<th>{{ trans( 'users.email' ) }}</th>
-			<th>{{ trans( 'users.active' ) }}</th>
-			<th>{{ trans( 'admin.admin' ) }}</th>
-			<th>{{ trans( 'admin.created_at' ) }}</th>
-			<th class="no-sort">{{ trans( 'admin.action' ) }}</th>
+			<th data-name="email">{{ trans( 'users.email' ) }}</th>
+			<th data-name="role">{{ trans( 'users.role' ) }}</th>
+			<th data-name="dateEntered">{{ trans( 'admin.created_at' ) }}</th>
+			<th class="no-sort" data-name="actions">{{ trans( 'admin.action' ) }}</th>
 		</tr>
 	</thead>
 	<tbody></tbody>

@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.0.16 on 2015-03-13.
+ * Generated for Laravel 5.0.14 on 2015-03-19.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -13,9 +13,8 @@ namespace {
     class App extends \Illuminate\Support\Facades\App{
         
         /**
-         * Get the version number of the application.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function version(){
@@ -23,55 +22,44 @@ namespace {
         }
         
         /**
-         * Run the given array of bootstrap classes.
+         * 
          *
-         * @param array $bootstrappers
-         * @return void 
          * @static 
          */
         public static function bootstrapWith($bootstrappers){
-            \Illuminate\Foundation\Application::bootstrapWith($bootstrappers);
+            return \Illuminate\Foundation\Application::bootstrapWith($bootstrappers);
         }
         
         /**
-         * Register a callback to run after loading the environment.
+         * 
          *
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function afterLoadingEnvironment($callback){
-            \Illuminate\Foundation\Application::afterLoadingEnvironment($callback);
+            return \Illuminate\Foundation\Application::afterLoadingEnvironment($callback);
         }
         
         /**
-         * Register a callback to run before a bootstrapper.
+         * 
          *
-         * @param string $bootstrapper
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function beforeBootstrapping($bootstrapper, $callback){
-            \Illuminate\Foundation\Application::beforeBootstrapping($bootstrapper, $callback);
+            return \Illuminate\Foundation\Application::beforeBootstrapping($bootstrapper, $callback);
         }
         
         /**
-         * Register a callback to run after a bootstrapper.
+         * 
          *
-         * @param string $bootstrapper
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function afterBootstrapping($bootstrapper, $callback){
-            \Illuminate\Foundation\Application::afterBootstrapping($bootstrapper, $callback);
+            return \Illuminate\Foundation\Application::afterBootstrapping($bootstrapper, $callback);
         }
         
         /**
-         * Determine if the application has been bootstrapped before.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function hasBeenBootstrapped(){
@@ -79,10 +67,8 @@ namespace {
         }
         
         /**
-         * Set the base path for the application.
+         * 
          *
-         * @param string $basePath
-         * @return $this 
          * @static 
          */
         public static function setBasePath($basePath){
@@ -90,9 +76,8 @@ namespace {
         }
         
         /**
-         * Get the path to the application "app" directory.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function path(){
@@ -100,9 +85,8 @@ namespace {
         }
         
         /**
-         * Get the base path of the Laravel installation.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function basePath(){
@@ -110,9 +94,8 @@ namespace {
         }
         
         /**
-         * Get the path to the application configuration files.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function configPath(){
@@ -120,9 +103,8 @@ namespace {
         }
         
         /**
-         * Get the path to the database directory.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function databasePath(){
@@ -130,9 +112,8 @@ namespace {
         }
         
         /**
-         * Get the path to the language files.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function langPath(){
@@ -140,9 +121,8 @@ namespace {
         }
         
         /**
-         * Get the path to the public / web directory.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function publicPath(){
@@ -150,9 +130,8 @@ namespace {
         }
         
         /**
-         * Get the path to the storage directory.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function storagePath(){
@@ -160,10 +139,8 @@ namespace {
         }
         
         /**
-         * Set the storage directory.
+         * 
          *
-         * @param string $path
-         * @return $this 
          * @static 
          */
         public static function useStoragePath($path){
@@ -171,10 +148,8 @@ namespace {
         }
         
         /**
-         * Set the environment file to be loaded during bootstrapping.
+         * 
          *
-         * @param string $file
-         * @return $this 
          * @static 
          */
         public static function loadEnvironmentFrom($file){
@@ -182,9 +157,8 @@ namespace {
         }
         
         /**
-         * Get the environment file the application is using.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function environmentFile(){
@@ -192,10 +166,8 @@ namespace {
         }
         
         /**
-         * Get or check the current application environment.
+         * 
          *
-         * @param mixed
-         * @return string 
          * @static 
          */
         public static function environment(){
@@ -203,9 +175,8 @@ namespace {
         }
         
         /**
-         * Determine if application is in local environment.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isLocal(){
@@ -213,10 +184,8 @@ namespace {
         }
         
         /**
-         * Detect the application's current environment.
+         * 
          *
-         * @param \Closure $callback
-         * @return string 
          * @static 
          */
         public static function detectEnvironment($callback){
@@ -224,9 +193,8 @@ namespace {
         }
         
         /**
-         * Determine if we are running in the console.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function runningInConsole(){
@@ -234,9 +202,8 @@ namespace {
         }
         
         /**
-         * Determine if we are running unit tests.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function runningUnitTests(){
@@ -244,22 +211,17 @@ namespace {
         }
         
         /**
-         * Register all of the configured providers.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function registerConfiguredProviders(){
-            \Illuminate\Foundation\Application::registerConfiguredProviders();
+            return \Illuminate\Foundation\Application::registerConfiguredProviders();
         }
         
         /**
-         * Register a service provider with the application.
+         * 
          *
-         * @param \Illuminate\Support\ServiceProvider|string $provider
-         * @param array $options
-         * @param bool $force
-         * @return \Illuminate\Support\ServiceProvider 
          * @static 
          */
         public static function register($provider, $options = array(), $force = false){
@@ -267,10 +229,8 @@ namespace {
         }
         
         /**
-         * Get the registered service provider instance if it exists.
+         * 
          *
-         * @param \Illuminate\Support\ServiceProvider|string $provider
-         * @return \Illuminate\Support\ServiceProvider|null 
          * @static 
          */
         public static function getProvider($provider){
@@ -278,10 +238,8 @@ namespace {
         }
         
         /**
-         * Resolve a service provider instance from the class name.
+         * 
          *
-         * @param string $provider
-         * @return \Illuminate\Support\ServiceProvider 
          * @static 
          */
         public static function resolveProviderClass($provider){
@@ -289,46 +247,35 @@ namespace {
         }
         
         /**
-         * Load and boot all of the remaining deferred providers.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function loadDeferredProviders(){
-            \Illuminate\Foundation\Application::loadDeferredProviders();
+            return \Illuminate\Foundation\Application::loadDeferredProviders();
         }
         
         /**
-         * Load the provider for a deferred service.
+         * 
          *
-         * @param string $service
-         * @return void 
          * @static 
          */
         public static function loadDeferredProvider($service){
-            \Illuminate\Foundation\Application::loadDeferredProvider($service);
+            return \Illuminate\Foundation\Application::loadDeferredProvider($service);
         }
         
         /**
-         * Register a deferred provider and service.
+         * 
          *
-         * @param string $provider
-         * @param string $service
-         * @return void 
          * @static 
          */
         public static function registerDeferredProvider($provider, $service = null){
-            \Illuminate\Foundation\Application::registerDeferredProvider($provider, $service);
+            return \Illuminate\Foundation\Application::registerDeferredProvider($provider, $service);
         }
         
         /**
-         * Resolve the given type from the container.
          * 
-         * (Overriding Container::make)
          *
-         * @param string $abstract
-         * @param array $parameters
-         * @return mixed 
          * @static 
          */
         public static function make($abstract, $parameters = array()){
@@ -336,12 +283,8 @@ namespace {
         }
         
         /**
-         * Determine if the given abstract type has been bound.
          * 
-         * (Overriding Container::bound)
          *
-         * @param string $abstract
-         * @return bool 
          * @static 
          */
         public static function bound($abstract){
@@ -349,9 +292,8 @@ namespace {
         }
         
         /**
-         * Determine if the application has booted.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isBooted(){
@@ -359,39 +301,34 @@ namespace {
         }
         
         /**
-         * Boot the application's service providers.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function boot(){
-            \Illuminate\Foundation\Application::boot();
+            return \Illuminate\Foundation\Application::boot();
         }
         
         /**
-         * Register a new boot listener.
+         * 
          *
-         * @param mixed $callback
-         * @return void 
          * @static 
          */
         public static function booting($callback){
-            \Illuminate\Foundation\Application::booting($callback);
+            return \Illuminate\Foundation\Application::booting($callback);
         }
         
         /**
-         * Register a new "booted" listener.
+         * 
          *
-         * @param mixed $callback
-         * @return void 
          * @static 
          */
         public static function booted($callback){
-            \Illuminate\Foundation\Application::booted($callback);
+            return \Illuminate\Foundation\Application::booted($callback);
         }
         
         /**
-         * {@inheritdoc}
+         * 
          *
          * @static 
          */
@@ -400,9 +337,8 @@ namespace {
         }
         
         /**
-         * Determine if the application configuration is cached.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function configurationIsCached(){
@@ -410,9 +346,8 @@ namespace {
         }
         
         /**
-         * Get the path to the configuration cache file.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getCachedConfigPath(){
@@ -420,9 +355,8 @@ namespace {
         }
         
         /**
-         * Determine if the application routes are cached.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function routesAreCached(){
@@ -430,9 +364,8 @@ namespace {
         }
         
         /**
-         * Get the path to the routes cache file.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getCachedRoutesPath(){
@@ -440,9 +373,8 @@ namespace {
         }
         
         /**
-         * Determine if the application is currently down for maintenance.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isDownForMaintenance(){
@@ -450,35 +382,26 @@ namespace {
         }
         
         /**
-         * Register a maintenance mode event listener.
+         * 
          *
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function down($callback){
-            \Illuminate\Foundation\Application::down($callback);
+            return \Illuminate\Foundation\Application::down($callback);
         }
         
         /**
-         * Throw an HttpException with the given data.
+         * 
          *
-         * @param int $code
-         * @param string $message
-         * @param array $headers
-         * @return void 
-         * @throws \Symfony\Component\HttpKernel\Exception\HttpException
          * @static 
          */
         public static function abort($code, $message = '', $headers = array()){
-            \Illuminate\Foundation\Application::abort($code, $message, $headers);
+            return \Illuminate\Foundation\Application::abort($code, $message, $headers);
         }
         
         /**
-         * Register a terminating callback with the application.
+         * 
          *
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function terminating($callback){
@@ -486,19 +409,17 @@ namespace {
         }
         
         /**
-         * Terminate the application.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function terminate(){
-            \Illuminate\Foundation\Application::terminate();
+            return \Illuminate\Foundation\Application::terminate();
         }
         
         /**
-         * Get the service providers that have been loaded.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getLoadedProviders(){
@@ -506,21 +427,17 @@ namespace {
         }
         
         /**
-         * Set the application's deferred services.
+         * 
          *
-         * @param array $services
-         * @return void 
          * @static 
          */
         public static function setDeferredServices($services){
-            \Illuminate\Foundation\Application::setDeferredServices($services);
+            return \Illuminate\Foundation\Application::setDeferredServices($services);
         }
         
         /**
-         * Determine if the given service is a deferred service.
+         * 
          *
-         * @param string $service
-         * @return bool 
          * @static 
          */
         public static function isDeferredService($service){
@@ -528,9 +445,8 @@ namespace {
         }
         
         /**
-         * Get the current application locale.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getLocale(){
@@ -538,41 +454,35 @@ namespace {
         }
         
         /**
-         * Set the current application locale.
+         * 
          *
-         * @param string $locale
-         * @return void 
          * @static 
          */
         public static function setLocale($locale){
-            \Illuminate\Foundation\Application::setLocale($locale);
+            return \Illuminate\Foundation\Application::setLocale($locale);
         }
         
         /**
-         * Register the core class aliases in the container.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function registerCoreContainerAliases(){
-            \Illuminate\Foundation\Application::registerCoreContainerAliases();
+            return \Illuminate\Foundation\Application::registerCoreContainerAliases();
         }
         
         /**
-         * Flush the container of all bindings and resolved instances.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flush(){
-            \Illuminate\Foundation\Application::flush();
+            return \Illuminate\Foundation\Application::flush();
         }
         
         /**
-         * Define a contextual binding.
+         * 
          *
-         * @param string $concrete
-         * @return \Illuminate\Contracts\Container\ContextualBindingBuilder 
          * @static 
          */
         public static function when($concrete){
@@ -581,10 +491,8 @@ namespace {
         }
         
         /**
-         * Determine if the given abstract type has been resolved.
+         * 
          *
-         * @param string $abstract
-         * @return bool 
          * @static 
          */
         public static function resolved($abstract){
@@ -593,10 +501,8 @@ namespace {
         }
         
         /**
-         * Determine if a given string is an alias.
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function isAlias($name){
@@ -605,25 +511,18 @@ namespace {
         }
         
         /**
-         * Register a binding with the container.
+         * 
          *
-         * @param string|array $abstract
-         * @param \Closure|string|null $concrete
-         * @param bool $shared
-         * @return void 
          * @static 
          */
         public static function bind($abstract, $concrete = null, $shared = false){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::bind($abstract, $concrete, $shared);
+            return \Illuminate\Foundation\Application::bind($abstract, $concrete, $shared);
         }
         
         /**
-         * Add a contextual binding to the container.
+         * 
          *
-         * @param string $concrete
-         * @param string $abstract
-         * @param \Closure|string $implementation
          * @static 
          */
         public static function addContextualBinding($concrete, $abstract, $implementation){
@@ -632,37 +531,28 @@ namespace {
         }
         
         /**
-         * Register a binding if it hasn't already been registered.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure|string|null $concrete
-         * @param bool $shared
-         * @return void 
          * @static 
          */
         public static function bindIf($abstract, $concrete = null, $shared = false){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::bindIf($abstract, $concrete, $shared);
+            return \Illuminate\Foundation\Application::bindIf($abstract, $concrete, $shared);
         }
         
         /**
-         * Register a shared binding in the container.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure|string|null $concrete
-         * @return void 
          * @static 
          */
         public static function singleton($abstract, $concrete = null){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::singleton($abstract, $concrete);
+            return \Illuminate\Foundation\Application::singleton($abstract, $concrete);
         }
         
         /**
-         * Wrap a Closure such that it is shared.
+         * 
          *
-         * @param \Closure $closure
-         * @return \Closure 
          * @static 
          */
         public static function share($closure){
@@ -671,63 +561,48 @@ namespace {
         }
         
         /**
-         * Bind a shared Closure into the container.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure $closure
-         * @return void 
          * @static 
          */
         public static function bindShared($abstract, $closure){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::bindShared($abstract, $closure);
+            return \Illuminate\Foundation\Application::bindShared($abstract, $closure);
         }
         
         /**
-         * "Extend" an abstract type in the container.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure $closure
-         * @return void 
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function extend($abstract, $closure){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::extend($abstract, $closure);
+            return \Illuminate\Foundation\Application::extend($abstract, $closure);
         }
         
         /**
-         * Register an existing instance as shared in the container.
+         * 
          *
-         * @param string $abstract
-         * @param mixed $instance
-         * @return void 
          * @static 
          */
         public static function instance($abstract, $instance){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::instance($abstract, $instance);
+            return \Illuminate\Foundation\Application::instance($abstract, $instance);
         }
         
         /**
-         * Assign a set of tags to a given binding.
+         * 
          *
-         * @param array|string $abstracts
-         * @param array|mixed $tags
-         * @return void 
          * @static 
          */
         public static function tag($abstracts, $tags){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::tag($abstracts, $tags);
+            return \Illuminate\Foundation\Application::tag($abstracts, $tags);
         }
         
         /**
-         * Resolve all of the bindings for a given tag.
+         * 
          *
-         * @param string $tag
-         * @return array 
          * @static 
          */
         public static function tagged($tag){
@@ -736,24 +611,18 @@ namespace {
         }
         
         /**
-         * Alias a type to a different name.
+         * 
          *
-         * @param string $abstract
-         * @param string $alias
-         * @return void 
          * @static 
          */
         public static function alias($abstract, $alias){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::alias($abstract, $alias);
+            return \Illuminate\Foundation\Application::alias($abstract, $alias);
         }
         
         /**
-         * Bind a new callback to an abstract's rebind event.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure $callback
-         * @return mixed 
          * @static 
          */
         public static function rebinding($abstract, $callback){
@@ -762,12 +631,8 @@ namespace {
         }
         
         /**
-         * Refresh an instance on the given target and method.
+         * 
          *
-         * @param string $abstract
-         * @param mixed $target
-         * @param string $method
-         * @return mixed 
          * @static 
          */
         public static function refresh($abstract, $target, $method){
@@ -776,11 +641,8 @@ namespace {
         }
         
         /**
-         * Wrap the given closure such that its dependencies will be injected when executed.
+         * 
          *
-         * @param \Closure $callback
-         * @param array $parameters
-         * @return \Closure 
          * @static 
          */
         public static function wrap($callback, $parameters = array()){
@@ -789,12 +651,8 @@ namespace {
         }
         
         /**
-         * Call the given Closure / class@method and inject its dependencies.
+         * 
          *
-         * @param callable|string $callback
-         * @param array $parameters
-         * @param string|null $defaultMethod
-         * @return mixed 
          * @static 
          */
         public static function call($callback, $parameters = array(), $defaultMethod = null){
@@ -803,12 +661,8 @@ namespace {
         }
         
         /**
-         * Instantiate a concrete instance of the given type.
+         * 
          *
-         * @param string $concrete
-         * @param array $parameters
-         * @return mixed 
-         * @throws BindingResolutionException
          * @static 
          */
         public static function build($concrete, $parameters = array()){
@@ -817,36 +671,28 @@ namespace {
         }
         
         /**
-         * Register a new resolving callback.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function resolving($abstract, $callback = null){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::resolving($abstract, $callback);
+            return \Illuminate\Foundation\Application::resolving($abstract, $callback);
         }
         
         /**
-         * Register a new after resolving callback for all types.
+         * 
          *
-         * @param string $abstract
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function afterResolving($abstract, $callback = null){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::afterResolving($abstract, $callback);
+            return \Illuminate\Foundation\Application::afterResolving($abstract, $callback);
         }
         
         /**
-         * Determine if a given type is shared.
+         * 
          *
-         * @param string $abstract
-         * @return bool 
          * @static 
          */
         public static function isShared($abstract){
@@ -855,9 +701,8 @@ namespace {
         }
         
         /**
-         * Get the container's bindings.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getBindings(){
@@ -866,32 +711,28 @@ namespace {
         }
         
         /**
-         * Remove a resolved instance from the instance cache.
+         * 
          *
-         * @param string $abstract
-         * @return void 
          * @static 
          */
         public static function forgetInstance($abstract){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::forgetInstance($abstract);
+            return \Illuminate\Foundation\Application::forgetInstance($abstract);
         }
         
         /**
-         * Clear all of the instances from the container.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function forgetInstances(){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::forgetInstances();
+            return \Illuminate\Foundation\Application::forgetInstances();
         }
         
         /**
-         * Set the globally available instance of the container.
+         * 
          *
-         * @return static 
          * @static 
          */
         public static function getInstance(){
@@ -900,22 +741,18 @@ namespace {
         }
         
         /**
-         * Set the shared instance of the container.
+         * 
          *
-         * @param \Illuminate\Contracts\Container\Container $container
-         * @return void 
          * @static 
          */
         public static function setInstance($container){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::setInstance($container);
+            return \Illuminate\Foundation\Application::setInstance($container);
         }
         
         /**
-         * Determine if a given offset exists.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function offsetExists($key){
@@ -924,10 +761,8 @@ namespace {
         }
         
         /**
-         * Get the value at a given offset.
+         * 
          *
-         * @param string $key
-         * @return mixed 
          * @static 
          */
         public static function offsetGet($key){
@@ -936,28 +771,23 @@ namespace {
         }
         
         /**
-         * Set the value at a given offset.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function offsetSet($key, $value){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::offsetSet($key, $value);
+            return \Illuminate\Foundation\Application::offsetSet($key, $value);
         }
         
         /**
-         * Unset the value at a given offset.
+         * 
          *
-         * @param string $key
-         * @return void 
          * @static 
          */
         public static function offsetUnset($key){
             //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::offsetUnset($key);
+            return \Illuminate\Foundation\Application::offsetUnset($key);
         }
         
     }
@@ -1056,9 +886,8 @@ namespace {
     class Auth extends \Illuminate\Support\Facades\Auth{
         
         /**
-         * Create an instance of the database driver.
+         * 
          *
-         * @return \Illuminate\Auth\Guard 
          * @static 
          */
         public static function createDatabaseDriver(){
@@ -1066,9 +895,8 @@ namespace {
         }
         
         /**
-         * Create an instance of the Eloquent driver.
+         * 
          *
-         * @return \Illuminate\Auth\Guard 
          * @static 
          */
         public static function createEloquentDriver(){
@@ -1076,9 +904,8 @@ namespace {
         }
         
         /**
-         * Get the default authentication driver name.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getDefaultDriver(){
@@ -1086,21 +913,17 @@ namespace {
         }
         
         /**
-         * Set the default authentication driver name.
+         * 
          *
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function setDefaultDriver($name){
-            \Illuminate\Auth\AuthManager::setDefaultDriver($name);
+            return \Illuminate\Auth\AuthManager::setDefaultDriver($name);
         }
         
         /**
-         * Get a driver instance.
+         * 
          *
-         * @param string $driver
-         * @return mixed 
          * @static 
          */
         public static function driver($driver = null){
@@ -1109,11 +932,8 @@ namespace {
         }
         
         /**
-         * Register a custom driver creator Closure.
+         * 
          *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function extend($driver, $callback){
@@ -1122,9 +942,8 @@ namespace {
         }
         
         /**
-         * Get all of the created "drivers".
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getDrivers(){
@@ -1133,9 +952,8 @@ namespace {
         }
         
         /**
-         * Determine if the current user is authenticated.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function check(){
@@ -1143,9 +961,8 @@ namespace {
         }
         
         /**
-         * Determine if the current user is a guest.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function guest(){
@@ -1153,9 +970,8 @@ namespace {
         }
         
         /**
-         * Get the currently authenticated user.
+         * 
          *
-         * @return \Iome\User|null 
          * @static 
          */
         public static function user(){
@@ -1163,9 +979,8 @@ namespace {
         }
         
         /**
-         * Get the ID for the currently authenticated user.
+         * 
          *
-         * @return int|null 
          * @static 
          */
         public static function id(){
@@ -1173,10 +988,8 @@ namespace {
         }
         
         /**
-         * Log a user into the application without sessions or cookies.
+         * 
          *
-         * @param array $credentials
-         * @return bool 
          * @static 
          */
         public static function once($credentials = array()){
@@ -1184,10 +997,8 @@ namespace {
         }
         
         /**
-         * Validate a user's credentials.
+         * 
          *
-         * @param array $credentials
-         * @return bool 
          * @static 
          */
         public static function validate($credentials = array()){
@@ -1195,10 +1006,8 @@ namespace {
         }
         
         /**
-         * Attempt to authenticate using HTTP Basic Auth.
+         * 
          *
-         * @param string $field
-         * @return \Symfony\Component\HttpFoundation\Response|null 
          * @static 
          */
         public static function basic($field = 'email'){
@@ -1206,10 +1015,8 @@ namespace {
         }
         
         /**
-         * Perform a stateless HTTP Basic login attempt.
+         * 
          *
-         * @param string $field
-         * @return \Symfony\Component\HttpFoundation\Response|null 
          * @static 
          */
         public static function onceBasic($field = 'email'){
@@ -1217,12 +1024,8 @@ namespace {
         }
         
         /**
-         * Attempt to authenticate a user using the given credentials.
+         * 
          *
-         * @param array $credentials
-         * @param bool $remember
-         * @param bool $login
-         * @return bool 
          * @static 
          */
         public static function attempt($credentials = array(), $remember = false, $login = true){
@@ -1230,34 +1033,26 @@ namespace {
         }
         
         /**
-         * Register an authentication attempt event listener.
+         * 
          *
-         * @param mixed $callback
-         * @return void 
          * @static 
          */
         public static function attempting($callback){
-            \Illuminate\Auth\Guard::attempting($callback);
+            return \Illuminate\Auth\Guard::attempting($callback);
         }
         
         /**
-         * Log a user into the application.
+         * 
          *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @param bool $remember
-         * @return void 
          * @static 
          */
         public static function login($user, $remember = false){
-            \Illuminate\Auth\Guard::login($user, $remember);
+            return \Illuminate\Auth\Guard::login($user, $remember);
         }
         
         /**
-         * Log the given user ID into the application.
+         * 
          *
-         * @param mixed $id
-         * @param bool $remember
-         * @return \Iome\User 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1265,10 +1060,8 @@ namespace {
         }
         
         /**
-         * Log the given user ID into the application without sessions or cookies.
+         * 
          *
-         * @param mixed $id
-         * @return bool 
          * @static 
          */
         public static function onceUsingId($id){
@@ -1276,20 +1069,17 @@ namespace {
         }
         
         /**
-         * Log the user out of the application.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function logout(){
-            \Illuminate\Auth\Guard::logout();
+            return \Illuminate\Auth\Guard::logout();
         }
         
         /**
-         * Get the cookie creator instance used by the guard.
+         * 
          *
-         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
-         * @throws \RuntimeException
          * @static 
          */
         public static function getCookieJar(){
@@ -1297,20 +1087,17 @@ namespace {
         }
         
         /**
-         * Set the cookie creator instance used by the guard.
+         * 
          *
-         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
-         * @return void 
          * @static 
          */
         public static function setCookieJar($cookie){
-            \Illuminate\Auth\Guard::setCookieJar($cookie);
+            return \Illuminate\Auth\Guard::setCookieJar($cookie);
         }
         
         /**
-         * Get the event dispatcher instance.
+         * 
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher 
          * @static 
          */
         public static function getDispatcher(){
@@ -1318,20 +1105,17 @@ namespace {
         }
         
         /**
-         * Set the event dispatcher instance.
+         * 
          *
-         * @param \Illuminate\Contracts\Events\Dispatcher
-         * @return void 
          * @static 
          */
         public static function setDispatcher($events){
-            \Illuminate\Auth\Guard::setDispatcher($events);
+            return \Illuminate\Auth\Guard::setDispatcher($events);
         }
         
         /**
-         * Get the session store used by the guard.
+         * 
          *
-         * @return \Illuminate\Session\Store 
          * @static 
          */
         public static function getSession(){
@@ -1339,9 +1123,8 @@ namespace {
         }
         
         /**
-         * Get the user provider used by the guard.
+         * 
          *
-         * @return \Illuminate\Contracts\Auth\UserProvider 
          * @static 
          */
         public static function getProvider(){
@@ -1349,20 +1132,17 @@ namespace {
         }
         
         /**
-         * Set the user provider used by the guard.
+         * 
          *
-         * @param \Illuminate\Contracts\Auth\UserProvider $provider
-         * @return void 
          * @static 
          */
         public static function setProvider($provider){
-            \Illuminate\Auth\Guard::setProvider($provider);
+            return \Illuminate\Auth\Guard::setProvider($provider);
         }
         
         /**
-         * Return the currently cached user of the application.
+         * 
          *
-         * @return \Iome\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1370,20 +1150,17 @@ namespace {
         }
         
         /**
-         * Set the current user of the application.
+         * 
          *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return void 
          * @static 
          */
         public static function setUser($user){
-            \Illuminate\Auth\Guard::setUser($user);
+            return \Illuminate\Auth\Guard::setUser($user);
         }
         
         /**
-         * Get the current request instance.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\Request 
          * @static 
          */
         public static function getRequest(){
@@ -1391,10 +1168,8 @@ namespace {
         }
         
         /**
-         * Set the current request instance.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\Request
-         * @return $this 
          * @static 
          */
         public static function setRequest($request){
@@ -1402,9 +1177,8 @@ namespace {
         }
         
         /**
-         * Get the last user we attempted to authenticate.
+         * 
          *
-         * @return \Iome\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1412,9 +1186,8 @@ namespace {
         }
         
         /**
-         * Get a unique identifier for the auth session value.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getName(){
@@ -1422,9 +1195,8 @@ namespace {
         }
         
         /**
-         * Get the name of the cookie used to store the "recaller".
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getRecallerName(){
@@ -1432,9 +1204,8 @@ namespace {
         }
         
         /**
-         * Determine if the user was authenticated via "remember me" cookie.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function viaRemember(){
@@ -1447,20 +1218,17 @@ namespace {
     class Blade extends \Illuminate\Support\Facades\Blade{
         
         /**
-         * Compile the view at the given path.
+         * 
          *
-         * @param string $path
-         * @return void 
          * @static 
          */
         public static function compile($path = null){
-            \Illuminate\View\Compilers\BladeCompiler::compile($path);
+            return \Illuminate\View\Compilers\BladeCompiler::compile($path);
         }
         
         /**
-         * Get the path currently being compiled.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getPath(){
@@ -1468,21 +1236,17 @@ namespace {
         }
         
         /**
-         * Set the path currently being compiled.
+         * 
          *
-         * @param string $path
-         * @return void 
          * @static 
          */
         public static function setPath($path){
-            \Illuminate\View\Compilers\BladeCompiler::setPath($path);
+            return \Illuminate\View\Compilers\BladeCompiler::setPath($path);
         }
         
         /**
-         * Compile the given Blade template contents.
+         * 
          *
-         * @param string $value
-         * @return string 
          * @static 
          */
         public static function compileString($value){
@@ -1490,10 +1254,8 @@ namespace {
         }
         
         /**
-         * Compile the default values for the echo statement.
+         * 
          *
-         * @param string $value
-         * @return string 
          * @static 
          */
         public static function compileEchoDefaults($value){
@@ -1501,21 +1263,17 @@ namespace {
         }
         
         /**
-         * Register a custom Blade compiler.
+         * 
          *
-         * @param callable $compiler
-         * @return void 
          * @static 
          */
         public static function extend($compiler){
-            \Illuminate\View\Compilers\BladeCompiler::extend($compiler);
+            return \Illuminate\View\Compilers\BladeCompiler::extend($compiler);
         }
         
         /**
-         * Get the regular expression for a generic Blade function.
+         * 
          *
-         * @param string $function
-         * @return string 
          * @static 
          */
         public static function createMatcher($function){
@@ -1523,10 +1281,8 @@ namespace {
         }
         
         /**
-         * Get the regular expression for a generic Blade function.
+         * 
          *
-         * @param string $function
-         * @return string 
          * @static 
          */
         public static function createOpenMatcher($function){
@@ -1534,10 +1290,8 @@ namespace {
         }
         
         /**
-         * Create a plain Blade matcher.
+         * 
          *
-         * @param string $function
-         * @return string 
          * @static 
          */
         public static function createPlainMatcher($function){
@@ -1545,46 +1299,35 @@ namespace {
         }
         
         /**
-         * Sets the raw tags used for the compiler.
+         * 
          *
-         * @param string $openTag
-         * @param string $closeTag
-         * @return void 
          * @static 
          */
         public static function setRawTags($openTag, $closeTag){
-            \Illuminate\View\Compilers\BladeCompiler::setRawTags($openTag, $closeTag);
+            return \Illuminate\View\Compilers\BladeCompiler::setRawTags($openTag, $closeTag);
         }
         
         /**
-         * Sets the content tags used for the compiler.
+         * 
          *
-         * @param string $openTag
-         * @param string $closeTag
-         * @param bool $escaped
-         * @return void 
          * @static 
          */
         public static function setContentTags($openTag, $closeTag, $escaped = false){
-            \Illuminate\View\Compilers\BladeCompiler::setContentTags($openTag, $closeTag, $escaped);
+            return \Illuminate\View\Compilers\BladeCompiler::setContentTags($openTag, $closeTag, $escaped);
         }
         
         /**
-         * Sets the escaped content tags used for the compiler.
+         * 
          *
-         * @param string $openTag
-         * @param string $closeTag
-         * @return void 
          * @static 
          */
         public static function setEscapedContentTags($openTag, $closeTag){
-            \Illuminate\View\Compilers\BladeCompiler::setEscapedContentTags($openTag, $closeTag);
+            return \Illuminate\View\Compilers\BladeCompiler::setEscapedContentTags($openTag, $closeTag);
         }
         
         /**
-         * Gets the content tags used for the compiler.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getContentTags(){
@@ -1592,9 +1335,8 @@ namespace {
         }
         
         /**
-         * Gets the escaped content tags used for the compiler.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getEscapedContentTags(){
@@ -1602,21 +1344,17 @@ namespace {
         }
         
         /**
-         * Set the echo format to be used by the compiler.
+         * 
          *
-         * @param string $format
-         * @return void 
          * @static 
          */
         public static function setEchoFormat($format){
-            \Illuminate\View\Compilers\BladeCompiler::setEchoFormat($format);
+            return \Illuminate\View\Compilers\BladeCompiler::setEchoFormat($format);
         }
         
         /**
-         * Get the path to the compiled version of a view.
+         * 
          *
-         * @param string $path
-         * @return string 
          * @static 
          */
         public static function getCompiledPath($path){
@@ -1625,10 +1363,8 @@ namespace {
         }
         
         /**
-         * Determine if the view at the given path is expired.
+         * 
          *
-         * @param string $path
-         * @return bool 
          * @static 
          */
         public static function isExpired($path){
@@ -1642,11 +1378,8 @@ namespace {
     class Bus extends \Illuminate\Support\Facades\Bus{
         
         /**
-         * Marshal a command and dispatch it to its appropriate handler.
+         * 
          *
-         * @param mixed $command
-         * @param array $array
-         * @return mixed 
          * @static 
          */
         public static function dispatchFromArray($command, $array){
@@ -1654,12 +1387,8 @@ namespace {
         }
         
         /**
-         * Marshal a command and dispatch it to its appropriate handler.
+         * 
          *
-         * @param mixed $command
-         * @param \ArrayAccess $source
-         * @param array $extras
-         * @return mixed 
          * @static 
          */
         public static function dispatchFrom($command, $source, $extras = array()){
@@ -1667,11 +1396,8 @@ namespace {
         }
         
         /**
-         * Dispatch a command to its appropriate handler.
+         * 
          *
-         * @param mixed $command
-         * @param \Closure|null $afterResolving
-         * @return mixed 
          * @static 
          */
         public static function dispatch($command, $afterResolving = null){
@@ -1679,11 +1405,8 @@ namespace {
         }
         
         /**
-         * Dispatch a command to its appropriate handler in the current process.
+         * 
          *
-         * @param mixed $command
-         * @param \Closure|null $afterResolving
-         * @return mixed 
          * @static 
          */
         public static function dispatchNow($command, $afterResolving = null){
@@ -1691,11 +1414,8 @@ namespace {
         }
         
         /**
-         * Dispatch a command to its appropriate handler behind a queue.
+         * 
          *
-         * @param mixed $command
-         * @return mixed 
-         * @throws \RuntimeException
          * @static 
          */
         public static function dispatchToQueue($command){
@@ -1703,10 +1423,8 @@ namespace {
         }
         
         /**
-         * Get the handler instance for the given command.
+         * 
          *
-         * @param mixed $command
-         * @return mixed 
          * @static 
          */
         public static function resolveHandler($command){
@@ -1714,10 +1432,8 @@ namespace {
         }
         
         /**
-         * Get the handler class for the given command.
+         * 
          *
-         * @param mixed $command
-         * @return string 
          * @static 
          */
         public static function getHandlerClass($command){
@@ -1725,10 +1441,8 @@ namespace {
         }
         
         /**
-         * Get the handler method for the given command.
+         * 
          *
-         * @param mixed $command
-         * @return string 
          * @static 
          */
         public static function getHandlerMethod($command){
@@ -1736,34 +1450,26 @@ namespace {
         }
         
         /**
-         * Register command to handler mappings.
+         * 
          *
-         * @param array $commands
-         * @return void 
          * @static 
          */
         public static function maps($commands){
-            \Illuminate\Bus\Dispatcher::maps($commands);
+            return \Illuminate\Bus\Dispatcher::maps($commands);
         }
         
         /**
-         * Register a fallback mapper callback.
+         * 
          *
-         * @param \Closure $mapper
-         * @return void 
          * @static 
          */
         public static function mapUsing($mapper){
-            \Illuminate\Bus\Dispatcher::mapUsing($mapper);
+            return \Illuminate\Bus\Dispatcher::mapUsing($mapper);
         }
         
         /**
-         * Map the command to a handler within a given root namespace.
+         * 
          *
-         * @param mixed $command
-         * @param string $commandNamespace
-         * @param string $handlerNamespace
-         * @return string 
          * @static 
          */
         public static function simpleMapping($command, $commandNamespace, $handlerNamespace){
@@ -1771,10 +1477,8 @@ namespace {
         }
         
         /**
-         * Set the pipes commands should be piped through before dispatching.
+         * 
          *
-         * @param array $pipes
-         * @return $this 
          * @static 
          */
         public static function pipeThrough($pipes){
@@ -2061,22 +1765,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Cache\Repository::macro($name, $macro);
+            return \Illuminate\Cache\Repository::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -2084,12 +1783,8 @@ namespace {
         }
         
         /**
-         * Dynamically handle calls to the class.
+         * 
          *
-         * @param string $method
-         * @param array $parameters
-         * @return mixed 
-         * @throws \BadMethodCallException
          * @static 
          */
         public static function macroCall($method, $parameters){
@@ -2166,10 +1861,8 @@ namespace {
     class Config extends \Illuminate\Support\Facades\Config{
         
         /**
-         * Determine if the given configuration value exists.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function has($key){
@@ -2177,11 +1870,8 @@ namespace {
         }
         
         /**
-         * Get the specified configuration value.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function get($key, $default = null){
@@ -2189,45 +1879,35 @@ namespace {
         }
         
         /**
-         * Set a given configuration value.
+         * 
          *
-         * @param array|string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function set($key, $value = null){
-            \Illuminate\Config\Repository::set($key, $value);
+            return \Illuminate\Config\Repository::set($key, $value);
         }
         
         /**
-         * Prepend a value onto an array configuration value.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function prepend($key, $value){
-            \Illuminate\Config\Repository::prepend($key, $value);
+            return \Illuminate\Config\Repository::prepend($key, $value);
         }
         
         /**
-         * Push a value onto an array configuration value.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function push($key, $value){
-            \Illuminate\Config\Repository::push($key, $value);
+            return \Illuminate\Config\Repository::push($key, $value);
         }
         
         /**
-         * Get all of the configuration items for the application.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function all(){
@@ -2235,10 +1915,8 @@ namespace {
         }
         
         /**
-         * Determine if the given configuration option exists.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function offsetExists($key){
@@ -2246,10 +1924,8 @@ namespace {
         }
         
         /**
-         * Get a configuration option.
+         * 
          *
-         * @param string $key
-         * @return mixed 
          * @static 
          */
         public static function offsetGet($key){
@@ -2257,26 +1933,21 @@ namespace {
         }
         
         /**
-         * Set a configuration option.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function offsetSet($key, $value){
-            \Illuminate\Config\Repository::offsetSet($key, $value);
+            return \Illuminate\Config\Repository::offsetSet($key, $value);
         }
         
         /**
-         * Unset a configuration option.
+         * 
          *
-         * @param string $key
-         * @return void 
          * @static 
          */
         public static function offsetUnset($key){
-            \Illuminate\Config\Repository::offsetUnset($key);
+            return \Illuminate\Config\Repository::offsetUnset($key);
         }
         
     }
@@ -2285,16 +1956,8 @@ namespace {
     class Cookie extends \Illuminate\Support\Facades\Cookie{
         
         /**
-         * Create a new cookie instance.
+         * 
          *
-         * @param string $name
-         * @param string $value
-         * @param int $minutes
-         * @param string $path
-         * @param string $domain
-         * @param bool $secure
-         * @param bool $httpOnly
-         * @return \Symfony\Component\HttpFoundation\Cookie 
          * @static 
          */
         public static function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = true){
@@ -2302,15 +1965,8 @@ namespace {
         }
         
         /**
-         * Create a cookie that lasts "forever" (five years).
+         * 
          *
-         * @param string $name
-         * @param string $value
-         * @param string $path
-         * @param string $domain
-         * @param bool $secure
-         * @param bool $httpOnly
-         * @return \Symfony\Component\HttpFoundation\Cookie 
          * @static 
          */
         public static function forever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true){
@@ -2318,12 +1974,8 @@ namespace {
         }
         
         /**
-         * Expire the given cookie.
+         * 
          *
-         * @param string $name
-         * @param string $path
-         * @param string $domain
-         * @return \Symfony\Component\HttpFoundation\Cookie 
          * @static 
          */
         public static function forget($name, $path = null, $domain = null){
@@ -2331,10 +1983,8 @@ namespace {
         }
         
         /**
-         * Determine if a cookie has been queued.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasQueued($key){
@@ -2342,11 +1992,8 @@ namespace {
         }
         
         /**
-         * Get a queued cookie instance.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\Cookie 
          * @static 
          */
         public static function queued($key, $default = null){
@@ -2354,20 +2001,17 @@ namespace {
         }
         
         /**
-         * Queue a cookie to send with the next response.
+         * 
          *
-         * @param mixed
-         * @return void 
          * @static 
          */
         public static function queue(){
-            \Illuminate\Cookie\CookieJar::queue();
+            return \Illuminate\Cookie\CookieJar::queue();
         }
         
         /**
-         * Remove a cookie from the queue.
+         * 
          *
-         * @param string $name
          * @static 
          */
         public static function unqueue($name){
@@ -2375,11 +2019,8 @@ namespace {
         }
         
         /**
-         * Set the default path and domain for the jar.
+         * 
          *
-         * @param string $path
-         * @param string $domain
-         * @return $this 
          * @static 
          */
         public static function setDefaultPathAndDomain($path, $domain){
@@ -2387,9 +2028,8 @@ namespace {
         }
         
         /**
-         * Get the cookies which have been queued for the next request
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getQueuedCookies(){
@@ -2402,10 +2042,8 @@ namespace {
     class Crypt extends \Illuminate\Support\Facades\Crypt{
         
         /**
-         * Encrypt the given value.
+         * 
          *
-         * @param string $value
-         * @return string 
          * @static 
          */
         public static function encrypt($value){
@@ -2413,10 +2051,8 @@ namespace {
         }
         
         /**
-         * Decrypt the given value.
+         * 
          *
-         * @param string $payload
-         * @return string 
          * @static 
          */
         public static function decrypt($payload){
@@ -2424,36 +2060,30 @@ namespace {
         }
         
         /**
-         * Set the encryption key.
+         * 
          *
-         * @param string $key
-         * @return void 
          * @static 
          */
         public static function setKey($key){
-            \Illuminate\Encryption\Encrypter::setKey($key);
+            return \Illuminate\Encryption\Encrypter::setKey($key);
         }
         
         /**
-         * Set the encryption cipher.
+         * 
          *
-         * @param string $cipher
-         * @return void 
          * @static 
          */
         public static function setCipher($cipher){
-            \Illuminate\Encryption\Encrypter::setCipher($cipher);
+            return \Illuminate\Encryption\Encrypter::setCipher($cipher);
         }
         
         /**
-         * Set the encryption mode.
+         * 
          *
-         * @param string $mode
-         * @return void 
          * @static 
          */
         public static function setMode($mode){
-            \Illuminate\Encryption\Encrypter::setMode($mode);
+            return \Illuminate\Encryption\Encrypter::setMode($mode);
         }
         
     }
@@ -2467,10 +2097,8 @@ namespace {
     class DB extends \Illuminate\Support\Facades\DB{
         
         /**
-         * Get a database connection instance.
+         * 
          *
-         * @param string $name
-         * @return \Illuminate\Database\Connection 
          * @static 
          */
         public static function connection($name = null){
@@ -2478,32 +2106,26 @@ namespace {
         }
         
         /**
-         * Disconnect from the given database and remove from local cache.
+         * 
          *
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function purge($name = null){
-            \Illuminate\Database\DatabaseManager::purge($name);
+            return \Illuminate\Database\DatabaseManager::purge($name);
         }
         
         /**
-         * Disconnect from the given database.
+         * 
          *
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function disconnect($name = null){
-            \Illuminate\Database\DatabaseManager::disconnect($name);
+            return \Illuminate\Database\DatabaseManager::disconnect($name);
         }
         
         /**
-         * Reconnect to the given database.
+         * 
          *
-         * @param string $name
-         * @return \Illuminate\Database\Connection 
          * @static 
          */
         public static function reconnect($name = null){
@@ -2511,9 +2133,8 @@ namespace {
         }
         
         /**
-         * Get the default connection name.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getDefaultConnection(){
@@ -2521,32 +2142,26 @@ namespace {
         }
         
         /**
-         * Set the default connection name.
+         * 
          *
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function setDefaultConnection($name){
-            \Illuminate\Database\DatabaseManager::setDefaultConnection($name);
+            return \Illuminate\Database\DatabaseManager::setDefaultConnection($name);
         }
         
         /**
-         * Register an extension connection resolver.
+         * 
          *
-         * @param string $name
-         * @param callable $resolver
-         * @return void 
          * @static 
          */
         public static function extend($name, $resolver){
-            \Illuminate\Database\DatabaseManager::extend($name, $resolver);
+            return \Illuminate\Database\DatabaseManager::extend($name, $resolver);
         }
         
         /**
-         * Return all of the created connections.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getConnections(){
@@ -3218,13 +2833,13 @@ namespace {
         /**
          * Find a model by its primary key.
          *
-         * @param array $id
+         * @param array $ids
          * @param array $columns
-         * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static 
+         * @return \Illuminate\Database\Eloquent\Collection 
          * @static 
          */
-        public static function findMany($id, $columns = array()){
-            return \Illuminate\Database\Eloquent\Builder::findMany($id, $columns);
+        public static function findMany($ids, $columns = array()){
+            return \Illuminate\Database\Eloquent\Builder::findMany($ids, $columns);
         }
         
         /**
@@ -4516,23 +4131,17 @@ namespace {
     class Event extends \Illuminate\Support\Facades\Event{
         
         /**
-         * Register an event listener with the dispatcher.
+         * 
          *
-         * @param string|array $events
-         * @param mixed $listener
-         * @param int $priority
-         * @return void 
          * @static 
          */
         public static function listen($events, $listener, $priority = 0){
-            \Illuminate\Events\Dispatcher::listen($events, $listener, $priority);
+            return \Illuminate\Events\Dispatcher::listen($events, $listener, $priority);
         }
         
         /**
-         * Determine if a given event has listeners.
+         * 
          *
-         * @param string $eventName
-         * @return bool 
          * @static 
          */
         public static function hasListeners($eventName){
@@ -4540,34 +4149,26 @@ namespace {
         }
         
         /**
-         * Register an event and payload to be fired later.
+         * 
          *
-         * @param string $event
-         * @param array $payload
-         * @return void 
          * @static 
          */
         public static function push($event, $payload = array()){
-            \Illuminate\Events\Dispatcher::push($event, $payload);
+            return \Illuminate\Events\Dispatcher::push($event, $payload);
         }
         
         /**
-         * Register an event subscriber with the dispatcher.
+         * 
          *
-         * @param string $subscriber
-         * @return void 
          * @static 
          */
         public static function subscribe($subscriber){
-            \Illuminate\Events\Dispatcher::subscribe($subscriber);
+            return \Illuminate\Events\Dispatcher::subscribe($subscriber);
         }
         
         /**
-         * Fire an event until the first non-null response is returned.
+         * 
          *
-         * @param string $event
-         * @param array $payload
-         * @return mixed 
          * @static 
          */
         public static function until($event, $payload = array()){
@@ -4575,20 +4176,17 @@ namespace {
         }
         
         /**
-         * Flush a set of pushed events.
+         * 
          *
-         * @param string $event
-         * @return void 
          * @static 
          */
         public static function flush($event){
-            \Illuminate\Events\Dispatcher::flush($event);
+            return \Illuminate\Events\Dispatcher::flush($event);
         }
         
         /**
-         * Get the event that is currently firing.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function firing(){
@@ -4596,12 +4194,8 @@ namespace {
         }
         
         /**
-         * Fire an event and call the listeners.
+         * 
          *
-         * @param string|object $event
-         * @param mixed $payload
-         * @param bool $halt
-         * @return array|null 
          * @static 
          */
         public static function fire($event, $payload = array(), $halt = false){
@@ -4609,10 +4203,8 @@ namespace {
         }
         
         /**
-         * Get all of the listeners for a given event name.
+         * 
          *
-         * @param string $eventName
-         * @return array 
          * @static 
          */
         public static function getListeners($eventName){
@@ -4620,10 +4212,8 @@ namespace {
         }
         
         /**
-         * Register an event listener with the dispatcher.
+         * 
          *
-         * @param mixed $listener
-         * @return mixed 
          * @static 
          */
         public static function makeListener($listener){
@@ -4631,10 +4221,8 @@ namespace {
         }
         
         /**
-         * Create a class based listener using the IoC container.
+         * 
          *
-         * @param mixed $listener
-         * @return \Closure 
          * @static 
          */
         public static function createClassListener($listener){
@@ -4642,31 +4230,26 @@ namespace {
         }
         
         /**
-         * Remove a set of listeners from the dispatcher.
+         * 
          *
-         * @param string $event
-         * @return void 
          * @static 
          */
         public static function forget($event){
-            \Illuminate\Events\Dispatcher::forget($event);
+            return \Illuminate\Events\Dispatcher::forget($event);
         }
         
         /**
-         * Forget all of the pushed listeners.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function forgetPushed(){
-            \Illuminate\Events\Dispatcher::forgetPushed();
+            return \Illuminate\Events\Dispatcher::forgetPushed();
         }
         
         /**
-         * Set the queue resolver implementation.
+         * 
          *
-         * @param callable $resolver
-         * @return $this 
          * @static 
          */
         public static function setQueueResolver($resolver){
@@ -4679,10 +4262,8 @@ namespace {
     class File extends \Illuminate\Support\Facades\File{
         
         /**
-         * Determine if a file exists.
+         * 
          *
-         * @param string $path
-         * @return bool 
          * @static 
          */
         public static function exists($path){
@@ -4690,11 +4271,8 @@ namespace {
         }
         
         /**
-         * Get the contents of a file.
+         * 
          *
-         * @param string $path
-         * @return string 
-         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
          * @static 
          */
         public static function get($path){
@@ -4702,11 +4280,8 @@ namespace {
         }
         
         /**
-         * Get the returned value of a file.
+         * 
          *
-         * @param string $path
-         * @return mixed 
-         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
          * @static 
          */
         public static function getRequire($path){
@@ -4714,10 +4289,8 @@ namespace {
         }
         
         /**
-         * Require the given file once.
+         * 
          *
-         * @param string $file
-         * @return mixed 
          * @static 
          */
         public static function requireOnce($file){
@@ -4725,12 +4298,8 @@ namespace {
         }
         
         /**
-         * Write the contents of a file.
+         * 
          *
-         * @param string $path
-         * @param string $contents
-         * @param bool $lock
-         * @return int 
          * @static 
          */
         public static function put($path, $contents, $lock = false){
@@ -4738,11 +4307,8 @@ namespace {
         }
         
         /**
-         * Prepend to a file.
+         * 
          *
-         * @param string $path
-         * @param string $data
-         * @return int 
          * @static 
          */
         public static function prepend($path, $data){
@@ -4750,11 +4316,8 @@ namespace {
         }
         
         /**
-         * Append to a file.
+         * 
          *
-         * @param string $path
-         * @param string $data
-         * @return int 
          * @static 
          */
         public static function append($path, $data){
@@ -4762,10 +4325,8 @@ namespace {
         }
         
         /**
-         * Delete the file at a given path.
+         * 
          *
-         * @param string|array $paths
-         * @return bool 
          * @static 
          */
         public static function delete($paths){
@@ -4773,11 +4334,8 @@ namespace {
         }
         
         /**
-         * Move a file to a new location.
+         * 
          *
-         * @param string $path
-         * @param string $target
-         * @return bool 
          * @static 
          */
         public static function move($path, $target){
@@ -4785,11 +4343,8 @@ namespace {
         }
         
         /**
-         * Copy a file to a new location.
+         * 
          *
-         * @param string $path
-         * @param string $target
-         * @return bool 
          * @static 
          */
         public static function copy($path, $target){
@@ -4797,10 +4352,8 @@ namespace {
         }
         
         /**
-         * Extract the file name from a file path.
+         * 
          *
-         * @param string $path
-         * @return string 
          * @static 
          */
         public static function name($path){
@@ -4808,10 +4361,8 @@ namespace {
         }
         
         /**
-         * Extract the file extension from a file path.
+         * 
          *
-         * @param string $path
-         * @return string 
          * @static 
          */
         public static function extension($path){
@@ -4819,10 +4370,8 @@ namespace {
         }
         
         /**
-         * Get the file type of a given file.
+         * 
          *
-         * @param string $path
-         * @return string 
          * @static 
          */
         public static function type($path){
@@ -4830,10 +4379,8 @@ namespace {
         }
         
         /**
-         * Get the mime-type of a given file.
+         * 
          *
-         * @param string $path
-         * @return string|false 
          * @static 
          */
         public static function mimeType($path){
@@ -4841,10 +4388,8 @@ namespace {
         }
         
         /**
-         * Get the file size of a given file.
+         * 
          *
-         * @param string $path
-         * @return int 
          * @static 
          */
         public static function size($path){
@@ -4852,10 +4397,8 @@ namespace {
         }
         
         /**
-         * Get the file's last modification time.
+         * 
          *
-         * @param string $path
-         * @return int 
          * @static 
          */
         public static function lastModified($path){
@@ -4863,10 +4406,8 @@ namespace {
         }
         
         /**
-         * Determine if the given path is a directory.
+         * 
          *
-         * @param string $directory
-         * @return bool 
          * @static 
          */
         public static function isDirectory($directory){
@@ -4874,10 +4415,8 @@ namespace {
         }
         
         /**
-         * Determine if the given path is writable.
+         * 
          *
-         * @param string $path
-         * @return bool 
          * @static 
          */
         public static function isWritable($path){
@@ -4885,10 +4424,8 @@ namespace {
         }
         
         /**
-         * Determine if the given path is a file.
+         * 
          *
-         * @param string $file
-         * @return bool 
          * @static 
          */
         public static function isFile($file){
@@ -4896,11 +4433,8 @@ namespace {
         }
         
         /**
-         * Find path names matching a given pattern.
+         * 
          *
-         * @param string $pattern
-         * @param int $flags
-         * @return array 
          * @static 
          */
         public static function glob($pattern, $flags = 0){
@@ -4908,10 +4442,8 @@ namespace {
         }
         
         /**
-         * Get an array of all files in a directory.
+         * 
          *
-         * @param string $directory
-         * @return array 
          * @static 
          */
         public static function files($directory){
@@ -4919,10 +4451,8 @@ namespace {
         }
         
         /**
-         * Get all of the files from the given directory (recursive).
+         * 
          *
-         * @param string $directory
-         * @return array 
          * @static 
          */
         public static function allFiles($directory){
@@ -4930,10 +4460,8 @@ namespace {
         }
         
         /**
-         * Get all of the directories within a given directory.
+         * 
          *
-         * @param string $directory
-         * @return array 
          * @static 
          */
         public static function directories($directory){
@@ -4941,13 +4469,8 @@ namespace {
         }
         
         /**
-         * Create a directory.
+         * 
          *
-         * @param string $path
-         * @param int $mode
-         * @param bool $recursive
-         * @param bool $force
-         * @return bool 
          * @static 
          */
         public static function makeDirectory($path, $mode = 493, $recursive = false, $force = false){
@@ -4955,12 +4478,8 @@ namespace {
         }
         
         /**
-         * Copy a directory from one location to another.
+         * 
          *
-         * @param string $directory
-         * @param string $destination
-         * @param int $options
-         * @return bool 
          * @static 
          */
         public static function copyDirectory($directory, $destination, $options = null){
@@ -4968,13 +4487,8 @@ namespace {
         }
         
         /**
-         * Recursively delete a directory.
          * 
-         * The directory itself may be optionally preserved.
          *
-         * @param string $directory
-         * @param bool $preserve
-         * @return bool 
          * @static 
          */
         public static function deleteDirectory($directory, $preserve = false){
@@ -4982,10 +4496,8 @@ namespace {
         }
         
         /**
-         * Empty the specified directory of all files and folders.
+         * 
          *
-         * @param string $directory
-         * @return bool 
          * @static 
          */
         public static function cleanDirectory($directory){
@@ -4993,22 +4505,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Filesystem\Filesystem::macro($name, $macro);
+            return \Illuminate\Filesystem\Filesystem::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -5487,22 +4994,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Html\FormBuilder::macro($name, $macro);
+            return \Illuminate\Html\FormBuilder::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -5515,12 +5017,8 @@ namespace {
     class Hash extends \Illuminate\Support\Facades\Hash{
         
         /**
-         * Hash the given value.
+         * 
          *
-         * @param string $value
-         * @param array $options
-         * @return string 
-         * @throws \RuntimeException
          * @static 
          */
         public static function make($value, $options = array()){
@@ -5528,12 +5026,8 @@ namespace {
         }
         
         /**
-         * Check the given plain value against a hash.
+         * 
          *
-         * @param string $value
-         * @param string $hashedValue
-         * @param array $options
-         * @return bool 
          * @static 
          */
         public static function check($value, $hashedValue, $options = array()){
@@ -5541,11 +5035,8 @@ namespace {
         }
         
         /**
-         * Check if the given hash has been hashed using the given options.
+         * 
          *
-         * @param string $hashedValue
-         * @param array $options
-         * @return bool 
          * @static 
          */
         public static function needsRehash($hashedValue, $options = array()){
@@ -5553,10 +5044,8 @@ namespace {
         }
         
         /**
-         * Set the default password work factor.
+         * 
          *
-         * @param int $rounds
-         * @return $this 
          * @static 
          */
         public static function setRounds($rounds){
@@ -5783,22 +5272,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Html\HtmlBuilder::macro($name, $macro);
+            return \Illuminate\Html\HtmlBuilder::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -5811,9 +5295,8 @@ namespace {
     class Input extends \Illuminate\Support\Facades\Input{
         
         /**
-         * Create a new Illuminate HTTP request from server variables.
+         * 
          *
-         * @return static 
          * @static 
          */
         public static function capture(){
@@ -5821,9 +5304,8 @@ namespace {
         }
         
         /**
-         * Return the Request instance.
+         * 
          *
-         * @return $this 
          * @static 
          */
         public static function instance(){
@@ -5831,9 +5313,8 @@ namespace {
         }
         
         /**
-         * Get the request method.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function method(){
@@ -5841,9 +5322,8 @@ namespace {
         }
         
         /**
-         * Get the root URL for the application.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function root(){
@@ -5851,9 +5331,8 @@ namespace {
         }
         
         /**
-         * Get the URL (no query string) for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function url(){
@@ -5861,9 +5340,8 @@ namespace {
         }
         
         /**
-         * Get the full URL for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function fullUrl(){
@@ -5871,9 +5349,8 @@ namespace {
         }
         
         /**
-         * Get the current path info for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function path(){
@@ -5881,9 +5358,8 @@ namespace {
         }
         
         /**
-         * Get the current encoded path info for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function decodedPath(){
@@ -5891,11 +5367,8 @@ namespace {
         }
         
         /**
-         * Get a segment from the URI (1 based index).
+         * 
          *
-         * @param int $index
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function segment($index, $default = null){
@@ -5903,9 +5376,8 @@ namespace {
         }
         
         /**
-         * Get all of the segments for the request path.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function segments(){
@@ -5913,10 +5385,8 @@ namespace {
         }
         
         /**
-         * Determine if the current request URI matches a pattern.
+         * 
          *
-         * @param mixed  string
-         * @return bool 
          * @static 
          */
         public static function is(){
@@ -5924,9 +5394,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is the result of an AJAX call.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function ajax(){
@@ -5934,9 +5403,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is the result of an PJAX call.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function pjax(){
@@ -5944,9 +5412,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is over HTTPS.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function secure(){
@@ -5954,9 +5421,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP address.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function ip(){
@@ -5964,9 +5430,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP addresses.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function ips(){
@@ -5974,10 +5439,8 @@ namespace {
         }
         
         /**
-         * Determine if the request contains a given input item key.
+         * 
          *
-         * @param string|array $key
-         * @return bool 
          * @static 
          */
         public static function exists($key){
@@ -5985,10 +5448,8 @@ namespace {
         }
         
         /**
-         * Determine if the request contains a non-empty value for an input item.
+         * 
          *
-         * @param string|array $key
-         * @return bool 
          * @static 
          */
         public static function has($key){
@@ -5996,9 +5457,8 @@ namespace {
         }
         
         /**
-         * Get all of the input and files for the request.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function all(){
@@ -6006,11 +5466,8 @@ namespace {
         }
         
         /**
-         * Retrieve an input item from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string|array 
          * @static 
          */
         public static function input($key = null, $default = null){
@@ -6018,10 +5475,8 @@ namespace {
         }
         
         /**
-         * Get a subset of the items from the input data.
+         * 
          *
-         * @param array $keys
-         * @return array 
          * @static 
          */
         public static function only($keys){
@@ -6029,10 +5484,8 @@ namespace {
         }
         
         /**
-         * Get all of the input except for a specified array of items.
+         * 
          *
-         * @param array $keys
-         * @return array 
          * @static 
          */
         public static function except($keys){
@@ -6040,11 +5493,8 @@ namespace {
         }
         
         /**
-         * Retrieve a query string item from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function query($key = null, $default = null){
@@ -6052,10 +5502,8 @@ namespace {
         }
         
         /**
-         * Determine if a cookie is set on the request.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasCookie($key){
@@ -6063,11 +5511,8 @@ namespace {
         }
         
         /**
-         * Retrieve a cookie from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function cookie($key = null, $default = null){
@@ -6075,11 +5520,8 @@ namespace {
         }
         
         /**
-         * Retrieve a file from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array 
          * @static 
          */
         public static function file($key = null, $default = null){
@@ -6087,10 +5529,8 @@ namespace {
         }
         
         /**
-         * Determine if the uploaded data contains a file.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasFile($key){
@@ -6098,11 +5538,8 @@ namespace {
         }
         
         /**
-         * Retrieve a header from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function header($key = null, $default = null){
@@ -6110,11 +5547,8 @@ namespace {
         }
         
         /**
-         * Retrieve a server variable from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function server($key = null, $default = null){
@@ -6122,11 +5556,8 @@ namespace {
         }
         
         /**
-         * Retrieve an old input item.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function old($key = null, $default = null){
@@ -6134,77 +5565,62 @@ namespace {
         }
         
         /**
-         * Flash the input for the current request to the session.
+         * 
          *
-         * @param string $filter
-         * @param array $keys
-         * @return void 
          * @static 
          */
         public static function flash($filter = null, $keys = array()){
-            \Illuminate\Http\Request::flash($filter, $keys);
+            return \Illuminate\Http\Request::flash($filter, $keys);
         }
         
         /**
-         * Flash only some of the input to the session.
+         * 
          *
-         * @param mixed  string
-         * @return void 
          * @static 
          */
         public static function flashOnly($keys){
-            \Illuminate\Http\Request::flashOnly($keys);
+            return \Illuminate\Http\Request::flashOnly($keys);
         }
         
         /**
-         * Flash only some of the input to the session.
+         * 
          *
-         * @param mixed  string
-         * @return void 
          * @static 
          */
         public static function flashExcept($keys){
-            \Illuminate\Http\Request::flashExcept($keys);
+            return \Illuminate\Http\Request::flashExcept($keys);
         }
         
         /**
-         * Flush all of the old input from the session.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flush(){
-            \Illuminate\Http\Request::flush();
+            return \Illuminate\Http\Request::flush();
         }
         
         /**
-         * Merge new input into the current request's input array.
+         * 
          *
-         * @param array $input
-         * @return void 
          * @static 
          */
         public static function merge($input){
-            \Illuminate\Http\Request::merge($input);
+            return \Illuminate\Http\Request::merge($input);
         }
         
         /**
-         * Replace the input for the current request.
+         * 
          *
-         * @param array $input
-         * @return void 
          * @static 
          */
         public static function replace($input){
-            \Illuminate\Http\Request::replace($input);
+            return \Illuminate\Http\Request::replace($input);
         }
         
         /**
-         * Get the JSON payload for the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function json($key = null, $default = null){
@@ -6212,9 +5628,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is sending JSON.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isJson(){
@@ -6222,9 +5637,8 @@ namespace {
         }
         
         /**
-         * Determine if the current request is asking for JSON in return.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function wantsJson(){
@@ -6232,10 +5646,8 @@ namespace {
         }
         
         /**
-         * Get the data format expected in the response.
+         * 
          *
-         * @param string $default
-         * @return string 
          * @static 
          */
         public static function format($default = 'html'){
@@ -6243,10 +5655,8 @@ namespace {
         }
         
         /**
-         * Create an Illuminate request from a Symfony instance.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\Request $request
-         * @return \Illuminate\Http\Request 
          * @static 
          */
         public static function createFromBase($request){
@@ -6254,16 +5664,8 @@ namespace {
         }
         
         /**
-         * Clones a request and overrides some of its parameters.
+         * 
          *
-         * @param array $query The GET parameters
-         * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-         * @param array $cookies The COOKIE parameters
-         * @param array $files The FILES parameters
-         * @param array $server The SERVER parameters
-         * @return \Symfony\Component\HttpFoundation\Request The duplicated request
-         * @api 
          * @static 
          */
         public static function duplicate($query = null, $request = null, $attributes = null, $cookies = null, $files = null, $server = null){
@@ -6271,10 +5673,8 @@ namespace {
         }
         
         /**
-         * Get the session associated with the request.
+         * 
          *
-         * @return \Illuminate\Session\Store 
-         * @throws \RuntimeException
          * @static 
          */
         public static function session(){
@@ -6282,9 +5682,8 @@ namespace {
         }
         
         /**
-         * Get the user making the request.
+         * 
          *
-         * @return mixed 
          * @static 
          */
         public static function user(){
@@ -6292,9 +5691,8 @@ namespace {
         }
         
         /**
-         * Get the route handling the request.
+         * 
          *
-         * @return \Illuminate\Routing\Route|null 
          * @static 
          */
         public static function route(){
@@ -6302,9 +5700,8 @@ namespace {
         }
         
         /**
-         * Get the user resolver callback.
+         * 
          *
-         * @return \Closure 
          * @static 
          */
         public static function getUserResolver(){
@@ -6312,10 +5709,8 @@ namespace {
         }
         
         /**
-         * Set the user resolver callback.
+         * 
          *
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function setUserResolver($callback){
@@ -6323,9 +5718,8 @@ namespace {
         }
         
         /**
-         * Get the route resolver callback.
+         * 
          *
-         * @return \Closure 
          * @static 
          */
         public static function getRouteResolver(){
@@ -6333,10 +5727,8 @@ namespace {
         }
         
         /**
-         * Set the route resolver callback.
+         * 
          *
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function setRouteResolver($callback){
@@ -6344,10 +5736,8 @@ namespace {
         }
         
         /**
-         * Determine if the given offset exists.
+         * 
          *
-         * @param string $offset
-         * @return bool 
          * @static 
          */
         public static function offsetExists($offset){
@@ -6355,10 +5745,8 @@ namespace {
         }
         
         /**
-         * Get the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @return mixed 
          * @static 
          */
         public static function offsetGet($offset){
@@ -6366,41 +5754,26 @@ namespace {
         }
         
         /**
-         * Set the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function offsetSet($offset, $value){
-            \Illuminate\Http\Request::offsetSet($offset, $value);
+            return \Illuminate\Http\Request::offsetSet($offset, $value);
         }
         
         /**
-         * Remove the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @return void 
          * @static 
          */
         public static function offsetUnset($offset){
-            \Illuminate\Http\Request::offsetUnset($offset);
+            return \Illuminate\Http\Request::offsetUnset($offset);
         }
         
         /**
-         * Sets the parameters for this request.
          * 
-         * This method also re-initializes all properties.
          *
-         * @param array $query The GET parameters
-         * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-         * @param array $cookies The COOKIE parameters
-         * @param array $files The FILES parameters
-         * @param array $server The SERVER parameters
-         * @param string $content The raw body data
-         * @api 
          * @static 
          */
         public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -6409,10 +5782,8 @@ namespace {
         }
         
         /**
-         * Creates a new request with values from PHP's super globals.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\Request A new request
-         * @api 
          * @static 
          */
         public static function createFromGlobals(){
@@ -6421,20 +5792,8 @@ namespace {
         }
         
         /**
-         * Creates a Request based on a given URI and configuration.
          * 
-         * The information contained in the URI always take precedence
-         * over the other information (server and parameters).
          *
-         * @param string $uri The URI
-         * @param string $method The HTTP method
-         * @param array $parameters The query (GET) or request (POST) parameters
-         * @param array $cookies The request cookies ($_COOKIE)
-         * @param array $files The request files ($_FILES)
-         * @param array $server The server parameters ($_SERVER)
-         * @param string $content The raw body data
-         * @return \Symfony\Component\HttpFoundation\Request A Request instance
-         * @api 
          * @static 
          */
         public static function create($uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -6443,13 +5802,8 @@ namespace {
         }
         
         /**
-         * Sets a callable able to create a Request instance.
          * 
-         * This is mainly useful when you need to override the Request class
-         * to keep BC with an existing system. It should not be used for any
-         * other purpose.
          *
-         * @param callable|null $callable A PHP callable
          * @static 
          */
         public static function setFactory($callable){
@@ -6458,12 +5812,8 @@ namespace {
         }
         
         /**
-         * Overrides the PHP global variables according to this request instance.
          * 
-         * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
-         * $_FILES is never overridden, see rfc1867
          *
-         * @api 
          * @static 
          */
         public static function overrideGlobals(){
@@ -6472,12 +5822,8 @@ namespace {
         }
         
         /**
-         * Sets a list of trusted proxies.
          * 
-         * You should only list the reverse proxies that you manage directly.
          *
-         * @param array $proxies A list of trusted proxies
-         * @api 
          * @static 
          */
         public static function setTrustedProxies($proxies){
@@ -6486,9 +5832,8 @@ namespace {
         }
         
         /**
-         * Gets the list of trusted proxies.
+         * 
          *
-         * @return array An array of trusted proxies.
          * @static 
          */
         public static function getTrustedProxies(){
@@ -6497,11 +5842,8 @@ namespace {
         }
         
         /**
-         * Sets a list of trusted host patterns.
          * 
-         * You should only list the hosts you manage using regexs.
          *
-         * @param array $hostPatterns A list of trusted host patterns
          * @static 
          */
         public static function setTrustedHosts($hostPatterns){
@@ -6510,9 +5852,8 @@ namespace {
         }
         
         /**
-         * Gets the list of trusted host patterns.
+         * 
          *
-         * @return array An array of trusted host patterns.
          * @static 
          */
         public static function getTrustedHosts(){
@@ -6521,20 +5862,8 @@ namespace {
         }
         
         /**
-         * Sets the name for trusted headers.
          * 
-         * The following header keys are supported:
-         * 
-         *  * Request::HEADER_CLIENT_IP:    defaults to X-Forwarded-For   (see getClientIp())
-         *  * Request::HEADER_CLIENT_HOST:  defaults to X-Forwarded-Host  (see getClientHost())
-         *  * Request::HEADER_CLIENT_PORT:  defaults to X-Forwarded-Port  (see getClientPort())
-         *  * Request::HEADER_CLIENT_PROTO: defaults to X-Forwarded-Proto (see getScheme() and isSecure())
-         * 
-         * Setting an empty value allows to disable the trusted header for the given key.
          *
-         * @param string $key The header key
-         * @param string $value The header name
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function setTrustedHeaderName($key, $value){
@@ -6543,11 +5872,8 @@ namespace {
         }
         
         /**
-         * Gets the trusted proxy header name.
+         * 
          *
-         * @param string $key The header key
-         * @return string The header name
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function getTrustedHeaderName($key){
@@ -6556,13 +5882,8 @@ namespace {
         }
         
         /**
-         * Normalizes a query string.
          * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized,
-         * have consistent escaping and unneeded delimiters are removed.
          *
-         * @param string $qs Query string
-         * @return string A normalized query string for the Request
          * @static 
          */
         public static function normalizeQueryString($qs){
@@ -6571,15 +5892,7 @@ namespace {
         }
         
         /**
-         * Enables support for the _method request parameter to determine the intended HTTP method.
          * 
-         * Be warned that enabling this feature might lead to CSRF issues in your code.
-         * Check that you are using CSRF tokens when required.
-         * If the HTTP method parameter override is enabled, an html-form with method "POST" can be altered
-         * and used to send a "PUT" or "DELETE" request via the _method request parameter.
-         * If these methods are not protected against CSRF, this presents a possible vulnerability.
-         * 
-         * The HTTP method can only be overridden when the real HTTP method is POST.
          *
          * @static 
          */
@@ -6589,9 +5902,8 @@ namespace {
         }
         
         /**
-         * Checks whether support for the _method request parameter is enabled.
+         * 
          *
-         * @return bool True when the _method request parameter is enabled, false otherwise
          * @static 
          */
         public static function getHttpMethodParameterOverride(){
@@ -6600,24 +5912,8 @@ namespace {
         }
         
         /**
-         * Gets a "parameter" value.
          * 
-         * This method is mainly useful for libraries that want to provide some flexibility.
-         * 
-         * Order of precedence: GET, PATH, POST
-         * 
-         * Avoid using this method in controllers:
-         * 
-         *  * slow
-         *  * prefer to get from a "named" source
-         * 
-         * It is better to explicitly get request parameters from the appropriate
-         * public property instead (query, attributes, request).
          *
-         * @param string $key the key
-         * @param mixed $default the default value
-         * @param bool $deep is parameter deep in multidimensional array
-         * @return mixed 
          * @static 
          */
         public static function get($key, $default = null, $deep = false){
@@ -6626,10 +5922,8 @@ namespace {
         }
         
         /**
-         * Gets the Session.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\SessionInterface|null The session
-         * @api 
          * @static 
          */
         public static function getSession(){
@@ -6638,11 +5932,8 @@ namespace {
         }
         
         /**
-         * Whether the request contains a Session which was started in one of the
-         * previous requests.
+         * 
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function hasPreviousSession(){
@@ -6651,14 +5942,8 @@ namespace {
         }
         
         /**
-         * Whether the request contains a Session object.
          * 
-         * This method does not give any information about the state of the session object,
-         * like whether the session is started or not. It is just a way to check if this Request
-         * is associated with a Session instance.
          *
-         * @return bool true when the Request contains a Session object, false otherwise
-         * @api 
          * @static 
          */
         public static function hasSession(){
@@ -6667,10 +5952,8 @@ namespace {
         }
         
         /**
-         * Sets the Session.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\SessionInterface $session The Session
-         * @api 
          * @static 
          */
         public static function setSession($session){
@@ -6679,16 +5962,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP addresses.
          * 
-         * In the returned array the most trusted IP address is first, and the
-         * least trusted one last. The "real" client IP address is the last one,
-         * but this is also the least trusted one. Trusted proxies are stripped.
-         * 
-         * Use this method carefully; you should use getClientIp() instead.
          *
-         * @return array The client IP addresses
-         * @see getClientIp()
          * @static 
          */
         public static function getClientIps(){
@@ -6697,22 +5972,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP address.
          * 
-         * This method can read the client IP address from the "X-Forwarded-For" header
-         * when trusted proxies were set via "setTrustedProxies()". The "X-Forwarded-For"
-         * header value is a comma+space separated list of IP addresses, the left-most
-         * being the original client, and each successive proxy that passed the request
-         * adding the IP address where it received the request from.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-ip" key.
          *
-         * @return string The client IP address
-         * @see getClientIps()
-         * @see http://en.wikipedia.org/wiki/X-Forwarded-For
-         * @api 
          * @static 
          */
         public static function getClientIp(){
@@ -6721,10 +5982,8 @@ namespace {
         }
         
         /**
-         * Returns current script name.
+         * 
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getScriptName(){
@@ -6733,19 +5992,8 @@ namespace {
         }
         
         /**
-         * Returns the path being requested relative to the executed script.
          * 
-         * The path info always starts with a /.
-         * 
-         * Suppose this request is instantiated from /mysite on localhost:
-         * 
-         *  * http://localhost/mysite              returns an empty string
-         *  * http://localhost/mysite/about        returns '/about'
-         *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
-         *  * http://localhost/mysite/about?var=1  returns '/about'
          *
-         * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getPathInfo(){
@@ -6754,17 +6002,8 @@ namespace {
         }
         
         /**
-         * Returns the root path from which this request is executed.
          * 
-         * Suppose that an index.php file instantiates this request object:
-         * 
-         *  * http://localhost/index.php         returns an empty string
-         *  * http://localhost/index.php/page    returns an empty string
-         *  * http://localhost/web/index.php     returns '/web'
-         *  * http://localhost/we%20b/index.php  returns '/we%20b'
          *
-         * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBasePath(){
@@ -6773,15 +6012,8 @@ namespace {
         }
         
         /**
-         * Returns the root URL from which this request is executed.
          * 
-         * The base URL never ends with a /.
-         * 
-         * This is similar to getBasePath(), except that it also includes the
-         * script filename (e.g. index.php) if one exists.
          *
-         * @return string The raw URL (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBaseUrl(){
@@ -6790,10 +6022,8 @@ namespace {
         }
         
         /**
-         * Gets the request's scheme.
+         * 
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getScheme(){
@@ -6802,18 +6032,8 @@ namespace {
         }
         
         /**
-         * Returns the port on which the request is made.
          * 
-         * This method can read the client port from the "X-Forwarded-Port" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Port" header must contain the client port.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Port",
-         * configure it via "setTrustedHeaderName()" with the "client-port" key.
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getPort(){
@@ -6822,9 +6042,8 @@ namespace {
         }
         
         /**
-         * Returns the user.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function getUser(){
@@ -6833,9 +6052,8 @@ namespace {
         }
         
         /**
-         * Returns the password.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function getPassword(){
@@ -6844,9 +6062,8 @@ namespace {
         }
         
         /**
-         * Gets the user info.
+         * 
          *
-         * @return string A user name and, optionally, scheme-specific information about how to gain authorization to access the server
          * @static 
          */
         public static function getUserInfo(){
@@ -6855,12 +6072,8 @@ namespace {
         }
         
         /**
-         * Returns the HTTP host being requested.
          * 
-         * The port name will be appended to the host if it's non-standard.
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getHttpHost(){
@@ -6869,10 +6082,8 @@ namespace {
         }
         
         /**
-         * Returns the requested URI (path and query string).
+         * 
          *
-         * @return string The raw URI (i.e. not URI decoded)
-         * @api 
          * @static 
          */
         public static function getRequestUri(){
@@ -6881,12 +6092,8 @@ namespace {
         }
         
         /**
-         * Gets the scheme and HTTP host.
          * 
-         * If the URL was called with basic authentication, the user
-         * and the password are not added to the generated string.
          *
-         * @return string The scheme and HTTP host
          * @static 
          */
         public static function getSchemeAndHttpHost(){
@@ -6895,11 +6102,8 @@ namespace {
         }
         
         /**
-         * Generates a normalized URI (URL) for the Request.
+         * 
          *
-         * @return string A normalized URI (URL) for the Request
-         * @see getQueryString()
-         * @api 
          * @static 
          */
         public static function getUri(){
@@ -6908,11 +6112,8 @@ namespace {
         }
         
         /**
-         * Generates a normalized URI for the given path.
+         * 
          *
-         * @param string $path A path to use instead of the current one
-         * @return string The normalized URI for the path
-         * @api 
          * @static 
          */
         public static function getUriForPath($path){
@@ -6921,13 +6122,8 @@ namespace {
         }
         
         /**
-         * Generates the normalized query string for the Request.
          * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized
-         * and have consistent escaping.
          *
-         * @return string|null A normalized query string for the Request
-         * @api 
          * @static 
          */
         public static function getQueryString(){
@@ -6936,19 +6132,8 @@ namespace {
         }
         
         /**
-         * Checks whether the request is secure or not.
          * 
-         * This method can read the client port from the "X-Forwarded-Proto" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Proto"
-         * ("SSL_HTTPS" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-proto" key.
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function isSecure(){
@@ -6957,19 +6142,8 @@ namespace {
         }
         
         /**
-         * Returns the host name.
          * 
-         * This method can read the client port from the "X-Forwarded-Host" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Host" header must contain the client host name.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Host",
-         * configure it via "setTrustedHeaderName()" with the "client-host" key.
          *
-         * @return string 
-         * @throws \UnexpectedValueException when the host name is invalid
-         * @api 
          * @static 
          */
         public static function getHost(){
@@ -6978,10 +6152,8 @@ namespace {
         }
         
         /**
-         * Sets the request method.
+         * 
          *
-         * @param string $method
-         * @api 
          * @static 
          */
         public static function setMethod($method){
@@ -6990,19 +6162,8 @@ namespace {
         }
         
         /**
-         * Gets the request "intended" method.
          * 
-         * If the X-HTTP-Method-Override header is set, and if the method is a POST,
-         * then it is used to determine the "real" intended HTTP method.
-         * 
-         * The _method request parameter can also be used to determine the HTTP method,
-         * but only if enableHttpMethodParameterOverride() has been called.
-         * 
-         * The method is always an uppercased string.
          *
-         * @return string The request method
-         * @api 
-         * @see getRealMethod()
          * @static 
          */
         public static function getMethod(){
@@ -7011,10 +6172,8 @@ namespace {
         }
         
         /**
-         * Gets the "real" request method.
+         * 
          *
-         * @return string The request method
-         * @see getMethod()
          * @static 
          */
         public static function getRealMethod(){
@@ -7023,11 +6182,8 @@ namespace {
         }
         
         /**
-         * Gets the mime type associated with the format.
+         * 
          *
-         * @param string $format The format
-         * @return string The associated mime type (null if not found)
-         * @api 
          * @static 
          */
         public static function getMimeType($format){
@@ -7036,11 +6192,8 @@ namespace {
         }
         
         /**
-         * Gets the format associated with the mime type.
+         * 
          *
-         * @param string $mimeType The associated mime type
-         * @return string|null The format (null if not found)
-         * @api 
          * @static 
          */
         public static function getFormat($mimeType){
@@ -7049,11 +6202,8 @@ namespace {
         }
         
         /**
-         * Associates a format with mime types.
+         * 
          *
-         * @param string $format The format
-         * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-         * @api 
          * @static 
          */
         public static function setFormat($format, $mimeTypes){
@@ -7062,17 +6212,8 @@ namespace {
         }
         
         /**
-         * Gets the request format.
          * 
-         * Here is the process to determine the format:
-         * 
-         *  * format defined by the user (with setRequestFormat())
-         *  * _format request parameter
-         *  * $default
          *
-         * @param string $default The default format
-         * @return string The request format
-         * @api 
          * @static 
          */
         public static function getRequestFormat($default = 'html'){
@@ -7081,10 +6222,8 @@ namespace {
         }
         
         /**
-         * Sets the request format.
+         * 
          *
-         * @param string $format The request format.
-         * @api 
          * @static 
          */
         public static function setRequestFormat($format){
@@ -7093,10 +6232,8 @@ namespace {
         }
         
         /**
-         * Gets the format associated with the request.
+         * 
          *
-         * @return string|null The format (null if no content type is present)
-         * @api 
          * @static 
          */
         public static function getContentType(){
@@ -7105,10 +6242,8 @@ namespace {
         }
         
         /**
-         * Sets the default locale.
+         * 
          *
-         * @param string $locale
-         * @api 
          * @static 
          */
         public static function setDefaultLocale($locale){
@@ -7117,9 +6252,8 @@ namespace {
         }
         
         /**
-         * Get the default locale.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getDefaultLocale(){
@@ -7128,10 +6262,8 @@ namespace {
         }
         
         /**
-         * Sets the locale.
+         * 
          *
-         * @param string $locale
-         * @api 
          * @static 
          */
         public static function setLocale($locale){
@@ -7140,9 +6272,8 @@ namespace {
         }
         
         /**
-         * Get the locale.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getLocale(){
@@ -7151,10 +6282,8 @@ namespace {
         }
         
         /**
-         * Checks if the request method is of specified type.
+         * 
          *
-         * @param string $method Uppercase request method (GET, POST etc).
-         * @return bool 
          * @static 
          */
         public static function isMethod($method){
@@ -7163,10 +6292,8 @@ namespace {
         }
         
         /**
-         * Checks whether the method is safe or not.
+         * 
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function isMethodSafe(){
@@ -7175,11 +6302,8 @@ namespace {
         }
         
         /**
-         * Returns the request body content.
+         * 
          *
-         * @param bool $asResource If true, a resource will be returned
-         * @return string|resource The request body content or a resource to read the body stream.
-         * @throws \LogicException
          * @static 
          */
         public static function getContent($asResource = false){
@@ -7188,9 +6312,8 @@ namespace {
         }
         
         /**
-         * Gets the Etags.
+         * 
          *
-         * @return array The entity tags
          * @static 
          */
         public static function getETags(){
@@ -7201,7 +6324,6 @@ namespace {
         /**
          * 
          *
-         * @return bool 
          * @static 
          */
         public static function isNoCache(){
@@ -7210,11 +6332,8 @@ namespace {
         }
         
         /**
-         * Returns the preferred language.
+         * 
          *
-         * @param array $locales An array of ordered available locales
-         * @return string|null The preferred locale
-         * @api 
          * @static 
          */
         public static function getPreferredLanguage($locales = null){
@@ -7223,10 +6342,8 @@ namespace {
         }
         
         /**
-         * Gets a list of languages acceptable by the client browser.
+         * 
          *
-         * @return array Languages ordered in the user browser preferences
-         * @api 
          * @static 
          */
         public static function getLanguages(){
@@ -7235,10 +6352,8 @@ namespace {
         }
         
         /**
-         * Gets a list of charsets acceptable by the client browser.
+         * 
          *
-         * @return array List of charsets in preferable order
-         * @api 
          * @static 
          */
         public static function getCharsets(){
@@ -7247,9 +6362,8 @@ namespace {
         }
         
         /**
-         * Gets a list of encodings acceptable by the client browser.
+         * 
          *
-         * @return array List of encodings in preferable order
          * @static 
          */
         public static function getEncodings(){
@@ -7258,10 +6372,8 @@ namespace {
         }
         
         /**
-         * Gets a list of content types acceptable by the client browser.
+         * 
          *
-         * @return array List of content types in preferable order
-         * @api 
          * @static 
          */
         public static function getAcceptableContentTypes(){
@@ -7270,14 +6382,8 @@ namespace {
         }
         
         /**
-         * Returns true if the request is a XMLHttpRequest.
          * 
-         * It works if your JavaScript library sets an X-Requested-With HTTP header.
-         * It is known to work with common JavaScript frameworks:
          *
-         * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
-         * @return bool true if the request is an XMLHttpRequest, false otherwise
-         * @api 
          * @static 
          */
         public static function isXmlHttpRequest(){
@@ -7483,16 +6589,13 @@ namespace {
         }
         
         /**
-         * Set the parsed value of a key.
+         * 
          *
-         * @param string $key
-         * @param array $parsed
-         * @return void 
          * @static 
          */
         public static function setParsedKey($key, $parsed){
             //Method inherited from \Illuminate\Support\NamespacedItemResolver            
-            \Illuminate\Translation\Translator::setParsedKey($key, $parsed);
+            return \Illuminate\Translation\Translator::setParsedKey($key, $parsed);
         }
         
     }
@@ -7501,11 +6604,8 @@ namespace {
     class Log extends \Illuminate\Support\Facades\Log{
         
         /**
-         * Adds a log record at the DEBUG level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function debug($message, $context = array()){
@@ -7513,11 +6613,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the INFO level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function info($message, $context = array()){
@@ -7525,11 +6622,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the NOTICE level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function notice($message, $context = array()){
@@ -7537,11 +6631,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the WARNING level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function warning($message, $context = array()){
@@ -7549,11 +6640,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the ERROR level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function error($message, $context = array()){
@@ -7561,11 +6649,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the CRITICAL level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function critical($message, $context = array()){
@@ -7573,11 +6658,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the ALERT level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function alert($message, $context = array()){
@@ -7585,11 +6667,8 @@ namespace {
         }
         
         /**
-         * Adds a log record at the EMERGENCY level.
+         * 
          *
-         * @param string $message The log message
-         * @param array $context The log context
-         * @return Boolean Whether the record has been processed
          * @static 
          */
         public static function emergency($message, $context = array()){
@@ -7597,97 +6676,71 @@ namespace {
         }
         
         /**
-         * Log a message to the logs.
+         * 
          *
-         * @param string $level
-         * @param string $message
-         * @param array $context
-         * @return void 
          * @static 
          */
         public static function log($level, $message, $context = array()){
-            \Illuminate\Log\Writer::log($level, $message, $context);
+            return \Illuminate\Log\Writer::log($level, $message, $context);
         }
         
         /**
-         * Dynamically pass log calls into the writer.
+         * 
          *
-         * @param string $level
-         * @param string $message
-         * @param array $context
-         * @return void 
          * @static 
          */
         public static function write($level, $message, $context = array()){
-            \Illuminate\Log\Writer::write($level, $message, $context);
+            return \Illuminate\Log\Writer::write($level, $message, $context);
         }
         
         /**
-         * Register a file log handler.
+         * 
          *
-         * @param string $path
-         * @param string $level
-         * @return void 
          * @static 
          */
         public static function useFiles($path, $level = 'debug'){
-            \Illuminate\Log\Writer::useFiles($path, $level);
+            return \Illuminate\Log\Writer::useFiles($path, $level);
         }
         
         /**
-         * Register a daily file log handler.
+         * 
          *
-         * @param string $path
-         * @param int $days
-         * @param string $level
-         * @return void 
          * @static 
          */
         public static function useDailyFiles($path, $days = 0, $level = 'debug'){
-            \Illuminate\Log\Writer::useDailyFiles($path, $days, $level);
+            return \Illuminate\Log\Writer::useDailyFiles($path, $days, $level);
         }
         
         /**
-         * Register a Syslog handler.
+         * 
          *
-         * @param string $name
-         * @param string $level
-         * @return void 
          * @static 
          */
         public static function useSyslog($name = 'laravel', $level = 'debug'){
-            \Illuminate\Log\Writer::useSyslog($name, $level);
+            return \Illuminate\Log\Writer::useSyslog($name, $level);
         }
         
         /**
-         * Register an error_log handler.
+         * 
          *
-         * @param string $level
-         * @param integer $messageType
-         * @return void 
          * @static 
          */
         public static function useErrorLog($level = 'debug', $messageType = 0){
-            \Illuminate\Log\Writer::useErrorLog($level, $messageType);
+            return \Illuminate\Log\Writer::useErrorLog($level, $messageType);
         }
         
         /**
-         * Register a new callback handler for when
-         * a log event is triggered.
+         * 
          *
-         * @param \Closure $callback
-         * @return void 
-         * @throws \RuntimeException
          * @static 
          */
         public static function listen($callback){
-            \Illuminate\Log\Writer::listen($callback);
+            return \Illuminate\Log\Writer::listen($callback);
         }
         
         /**
-         * Get the underlying Monolog instance.
+         * 
          *
-         * @return \Monolog\Logger 
          * @static 
          */
         public static function getMonolog(){
@@ -7695,9 +6748,8 @@ namespace {
         }
         
         /**
-         * Get the event dispatcher instance.
+         * 
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher 
          * @static 
          */
         public static function getEventDispatcher(){
@@ -7705,14 +6757,12 @@ namespace {
         }
         
         /**
-         * Set the event dispatcher instance.
+         * 
          *
-         * @param \Illuminate\Contracts\Events\Dispatcher
-         * @return void 
          * @static 
          */
         public static function setEventDispatcher($dispatcher){
-            \Illuminate\Log\Writer::setEventDispatcher($dispatcher);
+            return \Illuminate\Log\Writer::setEventDispatcher($dispatcher);
         }
         
     }
@@ -8036,8 +7086,29 @@ namespace {
          * @return array 
          * @static 
          */
-        public static function getOffice($value, $field = 'email'){
+        public static function getOffice($value, $field = 'officeId'){
             return \Iome\Macate\Nebula\NebulaAPI::getOffice($value, $field);
+        }
+        
+        /**
+         * Retrieve an array of countries in name=>OSI code format.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getCountries(){
+            return \Iome\Macate\Nebula\NebulaAPI::getCountries();
+        }
+        
+        /**
+         * Retrieve an array of states in name=>OSI code format.
+         *
+         * @param string $countryId
+         * @return array 
+         * @static 
+         */
+        public static function getStates($countryId = 'US'){
+            return \Iome\Macate\Nebula\NebulaAPI::getStates($countryId);
         }
         
     }
@@ -8545,9 +7616,8 @@ namespace {
     class Request extends \Illuminate\Support\Facades\Request{
         
         /**
-         * Create a new Illuminate HTTP request from server variables.
+         * 
          *
-         * @return static 
          * @static 
          */
         public static function capture(){
@@ -8555,9 +7625,8 @@ namespace {
         }
         
         /**
-         * Return the Request instance.
+         * 
          *
-         * @return $this 
          * @static 
          */
         public static function instance(){
@@ -8565,9 +7634,8 @@ namespace {
         }
         
         /**
-         * Get the request method.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function method(){
@@ -8575,9 +7643,8 @@ namespace {
         }
         
         /**
-         * Get the root URL for the application.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function root(){
@@ -8585,9 +7652,8 @@ namespace {
         }
         
         /**
-         * Get the URL (no query string) for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function url(){
@@ -8595,9 +7661,8 @@ namespace {
         }
         
         /**
-         * Get the full URL for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function fullUrl(){
@@ -8605,9 +7670,8 @@ namespace {
         }
         
         /**
-         * Get the current path info for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function path(){
@@ -8615,9 +7679,8 @@ namespace {
         }
         
         /**
-         * Get the current encoded path info for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function decodedPath(){
@@ -8625,11 +7688,8 @@ namespace {
         }
         
         /**
-         * Get a segment from the URI (1 based index).
+         * 
          *
-         * @param int $index
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function segment($index, $default = null){
@@ -8637,9 +7697,8 @@ namespace {
         }
         
         /**
-         * Get all of the segments for the request path.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function segments(){
@@ -8647,10 +7706,8 @@ namespace {
         }
         
         /**
-         * Determine if the current request URI matches a pattern.
+         * 
          *
-         * @param mixed  string
-         * @return bool 
          * @static 
          */
         public static function is(){
@@ -8658,9 +7715,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is the result of an AJAX call.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function ajax(){
@@ -8668,9 +7724,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is the result of an PJAX call.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function pjax(){
@@ -8678,9 +7733,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is over HTTPS.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function secure(){
@@ -8688,9 +7742,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP address.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function ip(){
@@ -8698,9 +7751,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP addresses.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function ips(){
@@ -8708,10 +7760,8 @@ namespace {
         }
         
         /**
-         * Determine if the request contains a given input item key.
+         * 
          *
-         * @param string|array $key
-         * @return bool 
          * @static 
          */
         public static function exists($key){
@@ -8719,10 +7769,8 @@ namespace {
         }
         
         /**
-         * Determine if the request contains a non-empty value for an input item.
+         * 
          *
-         * @param string|array $key
-         * @return bool 
          * @static 
          */
         public static function has($key){
@@ -8730,9 +7778,8 @@ namespace {
         }
         
         /**
-         * Get all of the input and files for the request.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function all(){
@@ -8740,11 +7787,8 @@ namespace {
         }
         
         /**
-         * Retrieve an input item from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string|array 
          * @static 
          */
         public static function input($key = null, $default = null){
@@ -8752,10 +7796,8 @@ namespace {
         }
         
         /**
-         * Get a subset of the items from the input data.
+         * 
          *
-         * @param array $keys
-         * @return array 
          * @static 
          */
         public static function only($keys){
@@ -8763,10 +7805,8 @@ namespace {
         }
         
         /**
-         * Get all of the input except for a specified array of items.
+         * 
          *
-         * @param array $keys
-         * @return array 
          * @static 
          */
         public static function except($keys){
@@ -8774,11 +7814,8 @@ namespace {
         }
         
         /**
-         * Retrieve a query string item from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function query($key = null, $default = null){
@@ -8786,10 +7823,8 @@ namespace {
         }
         
         /**
-         * Determine if a cookie is set on the request.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasCookie($key){
@@ -8797,11 +7832,8 @@ namespace {
         }
         
         /**
-         * Retrieve a cookie from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function cookie($key = null, $default = null){
@@ -8809,11 +7841,8 @@ namespace {
         }
         
         /**
-         * Retrieve a file from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\File\UploadedFile|array 
          * @static 
          */
         public static function file($key = null, $default = null){
@@ -8821,10 +7850,8 @@ namespace {
         }
         
         /**
-         * Determine if the uploaded data contains a file.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasFile($key){
@@ -8832,11 +7859,8 @@ namespace {
         }
         
         /**
-         * Retrieve a header from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function header($key = null, $default = null){
@@ -8844,11 +7868,8 @@ namespace {
         }
         
         /**
-         * Retrieve a server variable from the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return string 
          * @static 
          */
         public static function server($key = null, $default = null){
@@ -8856,11 +7877,8 @@ namespace {
         }
         
         /**
-         * Retrieve an old input item.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function old($key = null, $default = null){
@@ -8868,77 +7886,62 @@ namespace {
         }
         
         /**
-         * Flash the input for the current request to the session.
+         * 
          *
-         * @param string $filter
-         * @param array $keys
-         * @return void 
          * @static 
          */
         public static function flash($filter = null, $keys = array()){
-            \Illuminate\Http\Request::flash($filter, $keys);
+            return \Illuminate\Http\Request::flash($filter, $keys);
         }
         
         /**
-         * Flash only some of the input to the session.
+         * 
          *
-         * @param mixed  string
-         * @return void 
          * @static 
          */
         public static function flashOnly($keys){
-            \Illuminate\Http\Request::flashOnly($keys);
+            return \Illuminate\Http\Request::flashOnly($keys);
         }
         
         /**
-         * Flash only some of the input to the session.
+         * 
          *
-         * @param mixed  string
-         * @return void 
          * @static 
          */
         public static function flashExcept($keys){
-            \Illuminate\Http\Request::flashExcept($keys);
+            return \Illuminate\Http\Request::flashExcept($keys);
         }
         
         /**
-         * Flush all of the old input from the session.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flush(){
-            \Illuminate\Http\Request::flush();
+            return \Illuminate\Http\Request::flush();
         }
         
         /**
-         * Merge new input into the current request's input array.
+         * 
          *
-         * @param array $input
-         * @return void 
          * @static 
          */
         public static function merge($input){
-            \Illuminate\Http\Request::merge($input);
+            return \Illuminate\Http\Request::merge($input);
         }
         
         /**
-         * Replace the input for the current request.
+         * 
          *
-         * @param array $input
-         * @return void 
          * @static 
          */
         public static function replace($input){
-            \Illuminate\Http\Request::replace($input);
+            return \Illuminate\Http\Request::replace($input);
         }
         
         /**
-         * Get the JSON payload for the request.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function json($key = null, $default = null){
@@ -8946,9 +7949,8 @@ namespace {
         }
         
         /**
-         * Determine if the request is sending JSON.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isJson(){
@@ -8956,9 +7958,8 @@ namespace {
         }
         
         /**
-         * Determine if the current request is asking for JSON in return.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function wantsJson(){
@@ -8966,10 +7967,8 @@ namespace {
         }
         
         /**
-         * Get the data format expected in the response.
+         * 
          *
-         * @param string $default
-         * @return string 
          * @static 
          */
         public static function format($default = 'html'){
@@ -8977,10 +7976,8 @@ namespace {
         }
         
         /**
-         * Create an Illuminate request from a Symfony instance.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\Request $request
-         * @return \Illuminate\Http\Request 
          * @static 
          */
         public static function createFromBase($request){
@@ -8988,16 +7985,8 @@ namespace {
         }
         
         /**
-         * Clones a request and overrides some of its parameters.
+         * 
          *
-         * @param array $query The GET parameters
-         * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-         * @param array $cookies The COOKIE parameters
-         * @param array $files The FILES parameters
-         * @param array $server The SERVER parameters
-         * @return \Symfony\Component\HttpFoundation\Request The duplicated request
-         * @api 
          * @static 
          */
         public static function duplicate($query = null, $request = null, $attributes = null, $cookies = null, $files = null, $server = null){
@@ -9005,10 +7994,8 @@ namespace {
         }
         
         /**
-         * Get the session associated with the request.
+         * 
          *
-         * @return \Illuminate\Session\Store 
-         * @throws \RuntimeException
          * @static 
          */
         public static function session(){
@@ -9016,9 +8003,8 @@ namespace {
         }
         
         /**
-         * Get the user making the request.
+         * 
          *
-         * @return mixed 
          * @static 
          */
         public static function user(){
@@ -9026,9 +8012,8 @@ namespace {
         }
         
         /**
-         * Get the route handling the request.
+         * 
          *
-         * @return \Illuminate\Routing\Route|null 
          * @static 
          */
         public static function route(){
@@ -9036,9 +8021,8 @@ namespace {
         }
         
         /**
-         * Get the user resolver callback.
+         * 
          *
-         * @return \Closure 
          * @static 
          */
         public static function getUserResolver(){
@@ -9046,10 +8030,8 @@ namespace {
         }
         
         /**
-         * Set the user resolver callback.
+         * 
          *
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function setUserResolver($callback){
@@ -9057,9 +8039,8 @@ namespace {
         }
         
         /**
-         * Get the route resolver callback.
+         * 
          *
-         * @return \Closure 
          * @static 
          */
         public static function getRouteResolver(){
@@ -9067,10 +8048,8 @@ namespace {
         }
         
         /**
-         * Set the route resolver callback.
+         * 
          *
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function setRouteResolver($callback){
@@ -9078,10 +8057,8 @@ namespace {
         }
         
         /**
-         * Determine if the given offset exists.
+         * 
          *
-         * @param string $offset
-         * @return bool 
          * @static 
          */
         public static function offsetExists($offset){
@@ -9089,10 +8066,8 @@ namespace {
         }
         
         /**
-         * Get the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @return mixed 
          * @static 
          */
         public static function offsetGet($offset){
@@ -9100,41 +8075,26 @@ namespace {
         }
         
         /**
-         * Set the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function offsetSet($offset, $value){
-            \Illuminate\Http\Request::offsetSet($offset, $value);
+            return \Illuminate\Http\Request::offsetSet($offset, $value);
         }
         
         /**
-         * Remove the value at the given offset.
+         * 
          *
-         * @param string $offset
-         * @return void 
          * @static 
          */
         public static function offsetUnset($offset){
-            \Illuminate\Http\Request::offsetUnset($offset);
+            return \Illuminate\Http\Request::offsetUnset($offset);
         }
         
         /**
-         * Sets the parameters for this request.
          * 
-         * This method also re-initializes all properties.
          *
-         * @param array $query The GET parameters
-         * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-         * @param array $cookies The COOKIE parameters
-         * @param array $files The FILES parameters
-         * @param array $server The SERVER parameters
-         * @param string $content The raw body data
-         * @api 
          * @static 
          */
         public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -9143,10 +8103,8 @@ namespace {
         }
         
         /**
-         * Creates a new request with values from PHP's super globals.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\Request A new request
-         * @api 
          * @static 
          */
         public static function createFromGlobals(){
@@ -9155,20 +8113,8 @@ namespace {
         }
         
         /**
-         * Creates a Request based on a given URI and configuration.
          * 
-         * The information contained in the URI always take precedence
-         * over the other information (server and parameters).
          *
-         * @param string $uri The URI
-         * @param string $method The HTTP method
-         * @param array $parameters The query (GET) or request (POST) parameters
-         * @param array $cookies The request cookies ($_COOKIE)
-         * @param array $files The request files ($_FILES)
-         * @param array $server The server parameters ($_SERVER)
-         * @param string $content The raw body data
-         * @return \Symfony\Component\HttpFoundation\Request A Request instance
-         * @api 
          * @static 
          */
         public static function create($uri, $method = 'GET', $parameters = array(), $cookies = array(), $files = array(), $server = array(), $content = null){
@@ -9177,13 +8123,8 @@ namespace {
         }
         
         /**
-         * Sets a callable able to create a Request instance.
          * 
-         * This is mainly useful when you need to override the Request class
-         * to keep BC with an existing system. It should not be used for any
-         * other purpose.
          *
-         * @param callable|null $callable A PHP callable
          * @static 
          */
         public static function setFactory($callable){
@@ -9192,12 +8133,8 @@ namespace {
         }
         
         /**
-         * Overrides the PHP global variables according to this request instance.
          * 
-         * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
-         * $_FILES is never overridden, see rfc1867
          *
-         * @api 
          * @static 
          */
         public static function overrideGlobals(){
@@ -9206,12 +8143,8 @@ namespace {
         }
         
         /**
-         * Sets a list of trusted proxies.
          * 
-         * You should only list the reverse proxies that you manage directly.
          *
-         * @param array $proxies A list of trusted proxies
-         * @api 
          * @static 
          */
         public static function setTrustedProxies($proxies){
@@ -9220,9 +8153,8 @@ namespace {
         }
         
         /**
-         * Gets the list of trusted proxies.
+         * 
          *
-         * @return array An array of trusted proxies.
          * @static 
          */
         public static function getTrustedProxies(){
@@ -9231,11 +8163,8 @@ namespace {
         }
         
         /**
-         * Sets a list of trusted host patterns.
          * 
-         * You should only list the hosts you manage using regexs.
          *
-         * @param array $hostPatterns A list of trusted host patterns
          * @static 
          */
         public static function setTrustedHosts($hostPatterns){
@@ -9244,9 +8173,8 @@ namespace {
         }
         
         /**
-         * Gets the list of trusted host patterns.
+         * 
          *
-         * @return array An array of trusted host patterns.
          * @static 
          */
         public static function getTrustedHosts(){
@@ -9255,20 +8183,8 @@ namespace {
         }
         
         /**
-         * Sets the name for trusted headers.
          * 
-         * The following header keys are supported:
-         * 
-         *  * Request::HEADER_CLIENT_IP:    defaults to X-Forwarded-For   (see getClientIp())
-         *  * Request::HEADER_CLIENT_HOST:  defaults to X-Forwarded-Host  (see getClientHost())
-         *  * Request::HEADER_CLIENT_PORT:  defaults to X-Forwarded-Port  (see getClientPort())
-         *  * Request::HEADER_CLIENT_PROTO: defaults to X-Forwarded-Proto (see getScheme() and isSecure())
-         * 
-         * Setting an empty value allows to disable the trusted header for the given key.
          *
-         * @param string $key The header key
-         * @param string $value The header name
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function setTrustedHeaderName($key, $value){
@@ -9277,11 +8193,8 @@ namespace {
         }
         
         /**
-         * Gets the trusted proxy header name.
+         * 
          *
-         * @param string $key The header key
-         * @return string The header name
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function getTrustedHeaderName($key){
@@ -9290,13 +8203,8 @@ namespace {
         }
         
         /**
-         * Normalizes a query string.
          * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized,
-         * have consistent escaping and unneeded delimiters are removed.
          *
-         * @param string $qs Query string
-         * @return string A normalized query string for the Request
          * @static 
          */
         public static function normalizeQueryString($qs){
@@ -9305,15 +8213,7 @@ namespace {
         }
         
         /**
-         * Enables support for the _method request parameter to determine the intended HTTP method.
          * 
-         * Be warned that enabling this feature might lead to CSRF issues in your code.
-         * Check that you are using CSRF tokens when required.
-         * If the HTTP method parameter override is enabled, an html-form with method "POST" can be altered
-         * and used to send a "PUT" or "DELETE" request via the _method request parameter.
-         * If these methods are not protected against CSRF, this presents a possible vulnerability.
-         * 
-         * The HTTP method can only be overridden when the real HTTP method is POST.
          *
          * @static 
          */
@@ -9323,9 +8223,8 @@ namespace {
         }
         
         /**
-         * Checks whether support for the _method request parameter is enabled.
+         * 
          *
-         * @return bool True when the _method request parameter is enabled, false otherwise
          * @static 
          */
         public static function getHttpMethodParameterOverride(){
@@ -9334,24 +8233,8 @@ namespace {
         }
         
         /**
-         * Gets a "parameter" value.
          * 
-         * This method is mainly useful for libraries that want to provide some flexibility.
-         * 
-         * Order of precedence: GET, PATH, POST
-         * 
-         * Avoid using this method in controllers:
-         * 
-         *  * slow
-         *  * prefer to get from a "named" source
-         * 
-         * It is better to explicitly get request parameters from the appropriate
-         * public property instead (query, attributes, request).
          *
-         * @param string $key the key
-         * @param mixed $default the default value
-         * @param bool $deep is parameter deep in multidimensional array
-         * @return mixed 
          * @static 
          */
         public static function get($key, $default = null, $deep = false){
@@ -9360,10 +8243,8 @@ namespace {
         }
         
         /**
-         * Gets the Session.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\SessionInterface|null The session
-         * @api 
          * @static 
          */
         public static function getSession(){
@@ -9372,11 +8253,8 @@ namespace {
         }
         
         /**
-         * Whether the request contains a Session which was started in one of the
-         * previous requests.
+         * 
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function hasPreviousSession(){
@@ -9385,14 +8263,8 @@ namespace {
         }
         
         /**
-         * Whether the request contains a Session object.
          * 
-         * This method does not give any information about the state of the session object,
-         * like whether the session is started or not. It is just a way to check if this Request
-         * is associated with a Session instance.
          *
-         * @return bool true when the Request contains a Session object, false otherwise
-         * @api 
          * @static 
          */
         public static function hasSession(){
@@ -9401,10 +8273,8 @@ namespace {
         }
         
         /**
-         * Sets the Session.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\SessionInterface $session The Session
-         * @api 
          * @static 
          */
         public static function setSession($session){
@@ -9413,16 +8283,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP addresses.
          * 
-         * In the returned array the most trusted IP address is first, and the
-         * least trusted one last. The "real" client IP address is the last one,
-         * but this is also the least trusted one. Trusted proxies are stripped.
-         * 
-         * Use this method carefully; you should use getClientIp() instead.
          *
-         * @return array The client IP addresses
-         * @see getClientIp()
          * @static 
          */
         public static function getClientIps(){
@@ -9431,22 +8293,8 @@ namespace {
         }
         
         /**
-         * Returns the client IP address.
          * 
-         * This method can read the client IP address from the "X-Forwarded-For" header
-         * when trusted proxies were set via "setTrustedProxies()". The "X-Forwarded-For"
-         * header value is a comma+space separated list of IP addresses, the left-most
-         * being the original client, and each successive proxy that passed the request
-         * adding the IP address where it received the request from.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-ip" key.
          *
-         * @return string The client IP address
-         * @see getClientIps()
-         * @see http://en.wikipedia.org/wiki/X-Forwarded-For
-         * @api 
          * @static 
          */
         public static function getClientIp(){
@@ -9455,10 +8303,8 @@ namespace {
         }
         
         /**
-         * Returns current script name.
+         * 
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getScriptName(){
@@ -9467,19 +8313,8 @@ namespace {
         }
         
         /**
-         * Returns the path being requested relative to the executed script.
          * 
-         * The path info always starts with a /.
-         * 
-         * Suppose this request is instantiated from /mysite on localhost:
-         * 
-         *  * http://localhost/mysite              returns an empty string
-         *  * http://localhost/mysite/about        returns '/about'
-         *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
-         *  * http://localhost/mysite/about?var=1  returns '/about'
          *
-         * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getPathInfo(){
@@ -9488,17 +8323,8 @@ namespace {
         }
         
         /**
-         * Returns the root path from which this request is executed.
          * 
-         * Suppose that an index.php file instantiates this request object:
-         * 
-         *  * http://localhost/index.php         returns an empty string
-         *  * http://localhost/index.php/page    returns an empty string
-         *  * http://localhost/web/index.php     returns '/web'
-         *  * http://localhost/we%20b/index.php  returns '/we%20b'
          *
-         * @return string The raw path (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBasePath(){
@@ -9507,15 +8333,8 @@ namespace {
         }
         
         /**
-         * Returns the root URL from which this request is executed.
          * 
-         * The base URL never ends with a /.
-         * 
-         * This is similar to getBasePath(), except that it also includes the
-         * script filename (e.g. index.php) if one exists.
          *
-         * @return string The raw URL (i.e. not urldecoded)
-         * @api 
          * @static 
          */
         public static function getBaseUrl(){
@@ -9524,10 +8343,8 @@ namespace {
         }
         
         /**
-         * Gets the request's scheme.
+         * 
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getScheme(){
@@ -9536,18 +8353,8 @@ namespace {
         }
         
         /**
-         * Returns the port on which the request is made.
          * 
-         * This method can read the client port from the "X-Forwarded-Port" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Port" header must contain the client port.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Port",
-         * configure it via "setTrustedHeaderName()" with the "client-port" key.
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getPort(){
@@ -9556,9 +8363,8 @@ namespace {
         }
         
         /**
-         * Returns the user.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function getUser(){
@@ -9567,9 +8373,8 @@ namespace {
         }
         
         /**
-         * Returns the password.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function getPassword(){
@@ -9578,9 +8383,8 @@ namespace {
         }
         
         /**
-         * Gets the user info.
+         * 
          *
-         * @return string A user name and, optionally, scheme-specific information about how to gain authorization to access the server
          * @static 
          */
         public static function getUserInfo(){
@@ -9589,12 +8393,8 @@ namespace {
         }
         
         /**
-         * Returns the HTTP host being requested.
          * 
-         * The port name will be appended to the host if it's non-standard.
          *
-         * @return string 
-         * @api 
          * @static 
          */
         public static function getHttpHost(){
@@ -9603,10 +8403,8 @@ namespace {
         }
         
         /**
-         * Returns the requested URI (path and query string).
+         * 
          *
-         * @return string The raw URI (i.e. not URI decoded)
-         * @api 
          * @static 
          */
         public static function getRequestUri(){
@@ -9615,12 +8413,8 @@ namespace {
         }
         
         /**
-         * Gets the scheme and HTTP host.
          * 
-         * If the URL was called with basic authentication, the user
-         * and the password are not added to the generated string.
          *
-         * @return string The scheme and HTTP host
          * @static 
          */
         public static function getSchemeAndHttpHost(){
@@ -9629,11 +8423,8 @@ namespace {
         }
         
         /**
-         * Generates a normalized URI (URL) for the Request.
+         * 
          *
-         * @return string A normalized URI (URL) for the Request
-         * @see getQueryString()
-         * @api 
          * @static 
          */
         public static function getUri(){
@@ -9642,11 +8433,8 @@ namespace {
         }
         
         /**
-         * Generates a normalized URI for the given path.
+         * 
          *
-         * @param string $path A path to use instead of the current one
-         * @return string The normalized URI for the path
-         * @api 
          * @static 
          */
         public static function getUriForPath($path){
@@ -9655,13 +8443,8 @@ namespace {
         }
         
         /**
-         * Generates the normalized query string for the Request.
          * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized
-         * and have consistent escaping.
          *
-         * @return string|null A normalized query string for the Request
-         * @api 
          * @static 
          */
         public static function getQueryString(){
@@ -9670,19 +8453,8 @@ namespace {
         }
         
         /**
-         * Checks whether the request is secure or not.
          * 
-         * This method can read the client port from the "X-Forwarded-Proto" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Proto"
-         * ("SSL_HTTPS" for instance), configure it via "setTrustedHeaderName()" with
-         * the "client-proto" key.
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function isSecure(){
@@ -9691,19 +8463,8 @@ namespace {
         }
         
         /**
-         * Returns the host name.
          * 
-         * This method can read the client port from the "X-Forwarded-Host" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Host" header must contain the client host name.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-Host",
-         * configure it via "setTrustedHeaderName()" with the "client-host" key.
          *
-         * @return string 
-         * @throws \UnexpectedValueException when the host name is invalid
-         * @api 
          * @static 
          */
         public static function getHost(){
@@ -9712,10 +8473,8 @@ namespace {
         }
         
         /**
-         * Sets the request method.
+         * 
          *
-         * @param string $method
-         * @api 
          * @static 
          */
         public static function setMethod($method){
@@ -9724,19 +8483,8 @@ namespace {
         }
         
         /**
-         * Gets the request "intended" method.
          * 
-         * If the X-HTTP-Method-Override header is set, and if the method is a POST,
-         * then it is used to determine the "real" intended HTTP method.
-         * 
-         * The _method request parameter can also be used to determine the HTTP method,
-         * but only if enableHttpMethodParameterOverride() has been called.
-         * 
-         * The method is always an uppercased string.
          *
-         * @return string The request method
-         * @api 
-         * @see getRealMethod()
          * @static 
          */
         public static function getMethod(){
@@ -9745,10 +8493,8 @@ namespace {
         }
         
         /**
-         * Gets the "real" request method.
+         * 
          *
-         * @return string The request method
-         * @see getMethod()
          * @static 
          */
         public static function getRealMethod(){
@@ -9757,11 +8503,8 @@ namespace {
         }
         
         /**
-         * Gets the mime type associated with the format.
+         * 
          *
-         * @param string $format The format
-         * @return string The associated mime type (null if not found)
-         * @api 
          * @static 
          */
         public static function getMimeType($format){
@@ -9770,11 +8513,8 @@ namespace {
         }
         
         /**
-         * Gets the format associated with the mime type.
+         * 
          *
-         * @param string $mimeType The associated mime type
-         * @return string|null The format (null if not found)
-         * @api 
          * @static 
          */
         public static function getFormat($mimeType){
@@ -9783,11 +8523,8 @@ namespace {
         }
         
         /**
-         * Associates a format with mime types.
+         * 
          *
-         * @param string $format The format
-         * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-         * @api 
          * @static 
          */
         public static function setFormat($format, $mimeTypes){
@@ -9796,17 +8533,8 @@ namespace {
         }
         
         /**
-         * Gets the request format.
          * 
-         * Here is the process to determine the format:
-         * 
-         *  * format defined by the user (with setRequestFormat())
-         *  * _format request parameter
-         *  * $default
          *
-         * @param string $default The default format
-         * @return string The request format
-         * @api 
          * @static 
          */
         public static function getRequestFormat($default = 'html'){
@@ -9815,10 +8543,8 @@ namespace {
         }
         
         /**
-         * Sets the request format.
+         * 
          *
-         * @param string $format The request format.
-         * @api 
          * @static 
          */
         public static function setRequestFormat($format){
@@ -9827,10 +8553,8 @@ namespace {
         }
         
         /**
-         * Gets the format associated with the request.
+         * 
          *
-         * @return string|null The format (null if no content type is present)
-         * @api 
          * @static 
          */
         public static function getContentType(){
@@ -9839,10 +8563,8 @@ namespace {
         }
         
         /**
-         * Sets the default locale.
+         * 
          *
-         * @param string $locale
-         * @api 
          * @static 
          */
         public static function setDefaultLocale($locale){
@@ -9851,9 +8573,8 @@ namespace {
         }
         
         /**
-         * Get the default locale.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getDefaultLocale(){
@@ -9862,10 +8583,8 @@ namespace {
         }
         
         /**
-         * Sets the locale.
+         * 
          *
-         * @param string $locale
-         * @api 
          * @static 
          */
         public static function setLocale($locale){
@@ -9874,9 +8593,8 @@ namespace {
         }
         
         /**
-         * Get the locale.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getLocale(){
@@ -9885,10 +8603,8 @@ namespace {
         }
         
         /**
-         * Checks if the request method is of specified type.
+         * 
          *
-         * @param string $method Uppercase request method (GET, POST etc).
-         * @return bool 
          * @static 
          */
         public static function isMethod($method){
@@ -9897,10 +8613,8 @@ namespace {
         }
         
         /**
-         * Checks whether the method is safe or not.
+         * 
          *
-         * @return bool 
-         * @api 
          * @static 
          */
         public static function isMethodSafe(){
@@ -9909,11 +8623,8 @@ namespace {
         }
         
         /**
-         * Returns the request body content.
+         * 
          *
-         * @param bool $asResource If true, a resource will be returned
-         * @return string|resource The request body content or a resource to read the body stream.
-         * @throws \LogicException
          * @static 
          */
         public static function getContent($asResource = false){
@@ -9922,9 +8633,8 @@ namespace {
         }
         
         /**
-         * Gets the Etags.
+         * 
          *
-         * @return array The entity tags
          * @static 
          */
         public static function getETags(){
@@ -9935,7 +8645,6 @@ namespace {
         /**
          * 
          *
-         * @return bool 
          * @static 
          */
         public static function isNoCache(){
@@ -9944,11 +8653,8 @@ namespace {
         }
         
         /**
-         * Returns the preferred language.
+         * 
          *
-         * @param array $locales An array of ordered available locales
-         * @return string|null The preferred locale
-         * @api 
          * @static 
          */
         public static function getPreferredLanguage($locales = null){
@@ -9957,10 +8663,8 @@ namespace {
         }
         
         /**
-         * Gets a list of languages acceptable by the client browser.
+         * 
          *
-         * @return array Languages ordered in the user browser preferences
-         * @api 
          * @static 
          */
         public static function getLanguages(){
@@ -9969,10 +8673,8 @@ namespace {
         }
         
         /**
-         * Gets a list of charsets acceptable by the client browser.
+         * 
          *
-         * @return array List of charsets in preferable order
-         * @api 
          * @static 
          */
         public static function getCharsets(){
@@ -9981,9 +8683,8 @@ namespace {
         }
         
         /**
-         * Gets a list of encodings acceptable by the client browser.
+         * 
          *
-         * @return array List of encodings in preferable order
          * @static 
          */
         public static function getEncodings(){
@@ -9992,10 +8693,8 @@ namespace {
         }
         
         /**
-         * Gets a list of content types acceptable by the client browser.
+         * 
          *
-         * @return array List of content types in preferable order
-         * @api 
          * @static 
          */
         public static function getAcceptableContentTypes(){
@@ -10004,14 +8703,8 @@ namespace {
         }
         
         /**
-         * Returns true if the request is a XMLHttpRequest.
          * 
-         * It works if your JavaScript library sets an X-Requested-With HTTP header.
-         * It is known to work with common JavaScript frameworks:
          *
-         * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
-         * @return bool true if the request is an XMLHttpRequest, false otherwise
-         * @api 
          * @static 
          */
         public static function isXmlHttpRequest(){
@@ -10178,22 +8871,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Routing\ResponseFactory::macro($name, $macro);
+            return \Illuminate\Routing\ResponseFactory::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -10206,11 +8894,8 @@ namespace {
     class Route extends \Illuminate\Support\Facades\Route{
         
         /**
-         * Register a new GET route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function get($uri, $action){
@@ -10218,11 +8903,8 @@ namespace {
         }
         
         /**
-         * Register a new POST route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function post($uri, $action){
@@ -10230,11 +8912,8 @@ namespace {
         }
         
         /**
-         * Register a new PUT route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function put($uri, $action){
@@ -10242,11 +8921,8 @@ namespace {
         }
         
         /**
-         * Register a new PATCH route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function patch($uri, $action){
@@ -10254,11 +8930,8 @@ namespace {
         }
         
         /**
-         * Register a new DELETE route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function delete($uri, $action){
@@ -10266,11 +8939,8 @@ namespace {
         }
         
         /**
-         * Register a new OPTIONS route with the router.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function options($uri, $action){
@@ -10278,11 +8948,8 @@ namespace {
         }
         
         /**
-         * Register a new route responding to all verbs.
+         * 
          *
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function any($uri, $action){
@@ -10290,12 +8957,8 @@ namespace {
         }
         
         /**
-         * Register a new route with the given verbs.
+         * 
          *
-         * @param array|string $methods
-         * @param string $uri
-         * @param \Closure|array|string $action
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function match($methods, $uri, $action){
@@ -10303,70 +8966,53 @@ namespace {
         }
         
         /**
-         * Register an array of controllers with wildcard routing.
+         * 
          *
-         * @param array $controllers
-         * @return void 
          * @static 
          */
         public static function controllers($controllers){
-            \Illuminate\Routing\Router::controllers($controllers);
+            return \Illuminate\Routing\Router::controllers($controllers);
         }
         
         /**
-         * Route a controller to a URI with wildcard routing.
+         * 
          *
-         * @param string $uri
-         * @param string $controller
-         * @param array $names
-         * @return void 
          * @static 
          */
         public static function controller($uri, $controller, $names = array()){
-            \Illuminate\Routing\Router::controller($uri, $controller, $names);
+            return \Illuminate\Routing\Router::controller($uri, $controller, $names);
         }
         
         /**
-         * Register an array of resource controllers.
+         * 
          *
-         * @param array $resources
-         * @return void 
          * @static 
          */
         public static function resources($resources){
-            \Illuminate\Routing\Router::resources($resources);
+            return \Illuminate\Routing\Router::resources($resources);
         }
         
         /**
-         * Route a resource to a controller.
+         * 
          *
-         * @param string $name
-         * @param string $controller
-         * @param array $options
-         * @return void 
          * @static 
          */
         public static function resource($name, $controller, $options = array()){
-            \Illuminate\Routing\Router::resource($name, $controller, $options);
+            return \Illuminate\Routing\Router::resource($name, $controller, $options);
         }
         
         /**
-         * Create a route group with shared attributes.
+         * 
          *
-         * @param array $attributes
-         * @param \Closure $callback
-         * @return void 
          * @static 
          */
         public static function group($attributes, $callback){
-            \Illuminate\Routing\Router::group($attributes, $callback);
+            return \Illuminate\Routing\Router::group($attributes, $callback);
         }
         
         /**
-         * Merge the given array with the last group stack.
+         * 
          *
-         * @param array $new
-         * @return array 
          * @static 
          */
         public static function mergeWithLastGroup($new){
@@ -10374,11 +9020,8 @@ namespace {
         }
         
         /**
-         * Merge the given group attributes.
+         * 
          *
-         * @param array $new
-         * @param array $old
-         * @return array 
          * @static 
          */
         public static function mergeGroup($new, $old){
@@ -10386,9 +9029,8 @@ namespace {
         }
         
         /**
-         * Get the prefix from the last group on the stack.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getLastGroupPrefix(){
@@ -10396,10 +9038,8 @@ namespace {
         }
         
         /**
-         * Dispatch the request to the application.
+         * 
          *
-         * @param \Illuminate\Http\Request $request
-         * @return \Illuminate\Http\Response 
          * @static 
          */
         public static function dispatch($request){
@@ -10407,10 +9047,8 @@ namespace {
         }
         
         /**
-         * Dispatch the request to a route and return the response.
+         * 
          *
-         * @param \Illuminate\Http\Request $request
-         * @return mixed 
          * @static 
          */
         public static function dispatchToRoute($request){
@@ -10418,10 +9056,8 @@ namespace {
         }
         
         /**
-         * Gather the middleware for the given route.
+         * 
          *
-         * @param \Illuminate\Routing\Route $route
-         * @return array 
          * @static 
          */
         public static function gatherRouteMiddlewares($route){
@@ -10429,42 +9065,35 @@ namespace {
         }
         
         /**
-         * Register a route matched event listener.
+         * 
          *
-         * @param string|callable $callback
-         * @return void 
          * @static 
          */
         public static function matched($callback){
-            \Illuminate\Routing\Router::matched($callback);
+            return \Illuminate\Routing\Router::matched($callback);
         }
         
         /**
-         * Register a new "before" filter with the router.
+         * 
          *
-         * @param string|callable $callback
-         * @return void 
          * @static 
          */
         public static function before($callback){
-            \Illuminate\Routing\Router::before($callback);
+            return \Illuminate\Routing\Router::before($callback);
         }
         
         /**
-         * Register a new "after" filter with the router.
+         * 
          *
-         * @param string|callable $callback
-         * @return void 
          * @static 
          */
         public static function after($callback){
-            \Illuminate\Routing\Router::after($callback);
+            return \Illuminate\Routing\Router::after($callback);
         }
         
         /**
-         * Get all of the defined middleware short-hand names.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getMiddleware(){
@@ -10472,11 +9101,8 @@ namespace {
         }
         
         /**
-         * Register a short-hand name for a middleware.
+         * 
          *
-         * @param string $name
-         * @param string $class
-         * @return $this 
          * @static 
          */
         public static function middleware($name, $class){
@@ -10484,74 +9110,53 @@ namespace {
         }
         
         /**
-         * Register a new filter with the router.
+         * 
          *
-         * @param string $name
-         * @param string|callable $callback
-         * @return void 
          * @static 
          */
         public static function filter($name, $callback){
-            \Illuminate\Routing\Router::filter($name, $callback);
+            return \Illuminate\Routing\Router::filter($name, $callback);
         }
         
         /**
-         * Register a pattern-based filter with the router.
+         * 
          *
-         * @param string $pattern
-         * @param string $name
-         * @param array|null $methods
-         * @return void 
          * @static 
          */
         public static function when($pattern, $name, $methods = null){
-            \Illuminate\Routing\Router::when($pattern, $name, $methods);
+            return \Illuminate\Routing\Router::when($pattern, $name, $methods);
         }
         
         /**
-         * Register a regular expression based filter with the router.
+         * 
          *
-         * @param string $pattern
-         * @param string $name
-         * @param array|null $methods
-         * @return void 
          * @static 
          */
         public static function whenRegex($pattern, $name, $methods = null){
-            \Illuminate\Routing\Router::whenRegex($pattern, $name, $methods);
+            return \Illuminate\Routing\Router::whenRegex($pattern, $name, $methods);
         }
         
         /**
-         * Register a model binder for a wildcard.
+         * 
          *
-         * @param string $key
-         * @param string $class
-         * @param \Closure|null $callback
-         * @return void 
-         * @throws NotFoundHttpException
          * @static 
          */
         public static function model($key, $class, $callback = null){
-            \Illuminate\Routing\Router::model($key, $class, $callback);
+            return \Illuminate\Routing\Router::model($key, $class, $callback);
         }
         
         /**
-         * Add a new route parameter binder.
+         * 
          *
-         * @param string $key
-         * @param string|callable $binder
-         * @return void 
          * @static 
          */
         public static function bind($key, $binder){
-            \Illuminate\Routing\Router::bind($key, $binder);
+            return \Illuminate\Routing\Router::bind($key, $binder);
         }
         
         /**
-         * Create a class based binding using the IoC container.
+         * 
          *
-         * @param string $binding
-         * @return \Closure 
          * @static 
          */
         public static function createClassBinding($binding){
@@ -10559,34 +9164,26 @@ namespace {
         }
         
         /**
-         * Set a global where pattern on all routes
+         * 
          *
-         * @param string $key
-         * @param string $pattern
-         * @return void 
          * @static 
          */
         public static function pattern($key, $pattern){
-            \Illuminate\Routing\Router::pattern($key, $pattern);
+            return \Illuminate\Routing\Router::pattern($key, $pattern);
         }
         
         /**
-         * Set a group of global where patterns on all routes
+         * 
          *
-         * @param array $patterns
-         * @return void 
          * @static 
          */
         public static function patterns($patterns){
-            \Illuminate\Routing\Router::patterns($patterns);
+            return \Illuminate\Routing\Router::patterns($patterns);
         }
         
         /**
-         * Call the given route's before filters.
+         * 
          *
-         * @param \Illuminate\Routing\Route $route
-         * @param \Illuminate\Http\Request $request
-         * @return mixed 
          * @static 
          */
         public static function callRouteBefore($route, $request){
@@ -10594,10 +9191,8 @@ namespace {
         }
         
         /**
-         * Find the patterned filters matching a request.
+         * 
          *
-         * @param \Illuminate\Http\Request $request
-         * @return array 
          * @static 
          */
         public static function findPatternFilters($request){
@@ -10605,12 +9200,8 @@ namespace {
         }
         
         /**
-         * Call the given route's after filters.
+         * 
          *
-         * @param \Illuminate\Routing\Route $route
-         * @param \Illuminate\Http\Request $request
-         * @param \Illuminate\Http\Response $response
-         * @return mixed 
          * @static 
          */
         public static function callRouteAfter($route, $request, $response){
@@ -10618,14 +9209,8 @@ namespace {
         }
         
         /**
-         * Call the given route filter.
+         * 
          *
-         * @param string $filter
-         * @param array $parameters
-         * @param \Illuminate\Routing\Route $route
-         * @param \Illuminate\Http\Request $request
-         * @param \Illuminate\Http\Response|null $response
-         * @return mixed 
          * @static 
          */
         public static function callRouteFilter($filter, $parameters, $route, $request, $response = null){
@@ -10633,9 +9218,8 @@ namespace {
         }
         
         /**
-         * Determine if the router currently has a group stack.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function hasGroupStack(){
@@ -10643,9 +9227,8 @@ namespace {
         }
         
         /**
-         * Get the current group stack for the router.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getGroupStack(){
@@ -10653,11 +9236,8 @@ namespace {
         }
         
         /**
-         * Get a route parameter for the current route.
+         * 
          *
-         * @param string $key
-         * @param string $default
-         * @return mixed 
          * @static 
          */
         public static function input($key, $default = null){
@@ -10665,9 +9245,8 @@ namespace {
         }
         
         /**
-         * Get the currently dispatched route instance.
+         * 
          *
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function getCurrentRoute(){
@@ -10675,9 +9254,8 @@ namespace {
         }
         
         /**
-         * Get the currently dispatched route instance.
+         * 
          *
-         * @return \Illuminate\Routing\Route 
          * @static 
          */
         public static function current(){
@@ -10685,10 +9263,8 @@ namespace {
         }
         
         /**
-         * Check if a route with the given name exists.
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function has($name){
@@ -10696,9 +9272,8 @@ namespace {
         }
         
         /**
-         * Get the current route name.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function currentRouteName(){
@@ -10706,10 +9281,8 @@ namespace {
         }
         
         /**
-         * Alias for the "currentRouteNamed" method.
+         * 
          *
-         * @param mixed  string
-         * @return bool 
          * @static 
          */
         public static function is(){
@@ -10717,10 +9290,8 @@ namespace {
         }
         
         /**
-         * Determine if the current route matches a given name.
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function currentRouteNamed($name){
@@ -10728,9 +9299,8 @@ namespace {
         }
         
         /**
-         * Get the current route action.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function currentRouteAction(){
@@ -10738,10 +9308,8 @@ namespace {
         }
         
         /**
-         * Alias for the "currentRouteUses" method.
+         * 
          *
-         * @param mixed  string
-         * @return bool 
          * @static 
          */
         public static function uses(){
@@ -10749,10 +9317,8 @@ namespace {
         }
         
         /**
-         * Determine if the current route action matches a given action.
+         * 
          *
-         * @param string $action
-         * @return bool 
          * @static 
          */
         public static function currentRouteUses($action){
@@ -10760,9 +9326,8 @@ namespace {
         }
         
         /**
-         * Get the request currently being dispatched.
+         * 
          *
-         * @return \Illuminate\Http\Request 
          * @static 
          */
         public static function getCurrentRequest(){
@@ -10770,9 +9335,8 @@ namespace {
         }
         
         /**
-         * Get the underlying route collection.
+         * 
          *
-         * @return \Illuminate\Routing\RouteCollection 
          * @static 
          */
         public static function getRoutes(){
@@ -10780,20 +9344,17 @@ namespace {
         }
         
         /**
-         * Set the route collection instance.
+         * 
          *
-         * @param \Illuminate\Routing\RouteCollection $routes
-         * @return void 
          * @static 
          */
         public static function setRoutes($routes){
-            \Illuminate\Routing\Router::setRoutes($routes);
+            return \Illuminate\Routing\Router::setRoutes($routes);
         }
         
         /**
-         * Get the global "where" patterns.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getPatterns(){
@@ -10801,22 +9362,17 @@ namespace {
         }
         
         /**
-         * Register a custom macro.
+         * 
          *
-         * @param string $name
-         * @param callable $macro
-         * @return void 
          * @static 
          */
         public static function macro($name, $macro){
-            \Illuminate\Routing\Router::macro($name, $macro);
+            return \Illuminate\Routing\Router::macro($name, $macro);
         }
         
         /**
-         * Checks if macro is registered
+         * 
          *
-         * @param string $name
-         * @return bool 
          * @static 
          */
         public static function hasMacro($name){
@@ -10967,9 +9523,8 @@ namespace {
     class Session extends \Illuminate\Support\Facades\Session{
         
         /**
-         * Get the session configuration.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getSessionConfig(){
@@ -10977,9 +9532,8 @@ namespace {
         }
         
         /**
-         * Get the default session driver name.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getDefaultDriver(){
@@ -10987,21 +9541,17 @@ namespace {
         }
         
         /**
-         * Set the default session driver name.
+         * 
          *
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function setDefaultDriver($name){
-            \Illuminate\Session\SessionManager::setDefaultDriver($name);
+            return \Illuminate\Session\SessionManager::setDefaultDriver($name);
         }
         
         /**
-         * Get a driver instance.
+         * 
          *
-         * @param string $driver
-         * @return mixed 
          * @static 
          */
         public static function driver($driver = null){
@@ -11010,11 +9560,8 @@ namespace {
         }
         
         /**
-         * Register a custom driver creator Closure.
+         * 
          *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return $this 
          * @static 
          */
         public static function extend($driver, $callback){
@@ -11023,9 +9570,8 @@ namespace {
         }
         
         /**
-         * Get all of the created "drivers".
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getDrivers(){
@@ -11034,11 +9580,8 @@ namespace {
         }
         
         /**
-         * Starts the session storage.
+         * 
          *
-         * @return bool True if session started.
-         * @throws \RuntimeException If session fails to start.
-         * @api 
          * @static 
          */
         public static function start(){
@@ -11046,10 +9589,8 @@ namespace {
         }
         
         /**
-         * Returns the session ID.
+         * 
          *
-         * @return string The session ID.
-         * @api 
          * @static 
          */
         public static function getId(){
@@ -11057,10 +9598,8 @@ namespace {
         }
         
         /**
-         * Sets the session ID.
+         * 
          *
-         * @param string $id
-         * @api 
          * @static 
          */
         public static function setId($id){
@@ -11068,10 +9607,8 @@ namespace {
         }
         
         /**
-         * Determine if this is a valid session ID.
+         * 
          *
-         * @param string $id
-         * @return bool 
          * @static 
          */
         public static function isValidId($id){
@@ -11079,10 +9616,8 @@ namespace {
         }
         
         /**
-         * Returns the session name.
+         * 
          *
-         * @return mixed The session name.
-         * @api 
          * @static 
          */
         public static function getName(){
@@ -11090,10 +9625,8 @@ namespace {
         }
         
         /**
-         * Sets the session name.
+         * 
          *
-         * @param string $name
-         * @api 
          * @static 
          */
         public static function setName($name){
@@ -11101,17 +9634,8 @@ namespace {
         }
         
         /**
-         * Invalidates the current session.
          * 
-         * Clears all session attributes and flashes and regenerates the
-         * session and deletes the old session from persistence.
          *
-         * @param int $lifetime Sets the cookie lifetime for the session cookie. A null value
-         *                      will leave the system settings unchanged, 0 sets the cookie
-         *                      to expire with browser session. Time is in seconds, and is
-         *                      not a Unix timestamp.
-         * @return bool True if session invalidated, false if error.
-         * @api 
          * @static 
          */
         public static function invalidate($lifetime = null){
@@ -11119,16 +9643,8 @@ namespace {
         }
         
         /**
-         * Migrates the current session to a new session id while maintaining all
-         * session attributes.
+         * 
          *
-         * @param bool $destroy Whether to delete the old session or leave it to garbage collection.
-         * @param int $lifetime Sets the cookie lifetime for the session cookie. A null value
-         *                       will leave the system settings unchanged, 0 sets the cookie
-         *                       to expire with browser session. Time is in seconds, and is
-         *                       not a Unix timestamp.
-         * @return bool True if session migrated, false if error.
-         * @api 
          * @static 
          */
         public static function migrate($destroy = false, $lifetime = null){
@@ -11136,10 +9652,8 @@ namespace {
         }
         
         /**
-         * Generate a new session identifier.
+         * 
          *
-         * @param bool $destroy
-         * @return bool 
          * @static 
          */
         public static function regenerate($destroy = false){
@@ -11147,11 +9661,7 @@ namespace {
         }
         
         /**
-         * Force the session to be saved and closed.
          * 
-         * This method is generally not required for real sessions as
-         * the session will be automatically saved at the end of
-         * code execution.
          *
          * @static 
          */
@@ -11160,21 +9670,17 @@ namespace {
         }
         
         /**
-         * Age the flash data for the session.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function ageFlashData(){
-            \Illuminate\Session\Store::ageFlashData();
+            return \Illuminate\Session\Store::ageFlashData();
         }
         
         /**
-         * Checks if an attribute is defined.
+         * 
          *
-         * @param string $name The attribute name
-         * @return bool true if the attribute is defined, false otherwise
-         * @api 
          * @static 
          */
         public static function has($name){
@@ -11182,12 +9688,8 @@ namespace {
         }
         
         /**
-         * Returns an attribute.
+         * 
          *
-         * @param string $name The attribute name
-         * @param mixed $default The default value if not found.
-         * @return mixed 
-         * @api 
          * @static 
          */
         public static function get($name, $default = null){
@@ -11195,11 +9697,8 @@ namespace {
         }
         
         /**
-         * Get the value of a given key and then forget it.
+         * 
          *
-         * @param string $key
-         * @param string $default
-         * @return mixed 
          * @static 
          */
         public static function pull($key, $default = null){
@@ -11207,10 +9706,8 @@ namespace {
         }
         
         /**
-         * Determine if the session contains old input.
+         * 
          *
-         * @param string $key
-         * @return bool 
          * @static 
          */
         public static function hasOldInput($key = null){
@@ -11218,11 +9715,8 @@ namespace {
         }
         
         /**
-         * Get the requested item from the flashed input array.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function getOldInput($key = null, $default = null){
@@ -11230,11 +9724,8 @@ namespace {
         }
         
         /**
-         * Sets an attribute.
+         * 
          *
-         * @param string $name
-         * @param mixed $value
-         * @api 
          * @static 
          */
         public static function set($name, $value){
@@ -11242,78 +9733,62 @@ namespace {
         }
         
         /**
-         * Put a key / value pair or array of key / value pairs in the session.
+         * 
          *
-         * @param string|array $key
-         * @param mixed|null $value
-         * @return void 
          * @static 
          */
         public static function put($key, $value = null){
-            \Illuminate\Session\Store::put($key, $value);
+            return \Illuminate\Session\Store::put($key, $value);
         }
         
         /**
-         * Push a value onto a session array.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function push($key, $value){
-            \Illuminate\Session\Store::push($key, $value);
+            return \Illuminate\Session\Store::push($key, $value);
         }
         
         /**
-         * Flash a key / value pair to the session.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function flash($key, $value){
-            \Illuminate\Session\Store::flash($key, $value);
+            return \Illuminate\Session\Store::flash($key, $value);
         }
         
         /**
-         * Flash an input array to the session.
+         * 
          *
-         * @param array $value
-         * @return void 
          * @static 
          */
         public static function flashInput($value){
-            \Illuminate\Session\Store::flashInput($value);
+            return \Illuminate\Session\Store::flashInput($value);
         }
         
         /**
-         * Reflash all of the session flash data.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function reflash(){
-            \Illuminate\Session\Store::reflash();
+            return \Illuminate\Session\Store::reflash();
         }
         
         /**
-         * Reflash a subset of the current flash data.
+         * 
          *
-         * @param array|mixed $keys
-         * @return void 
          * @static 
          */
         public static function keep($keys = null){
-            \Illuminate\Session\Store::keep($keys);
+            return \Illuminate\Session\Store::keep($keys);
         }
         
         /**
-         * Returns attributes.
+         * 
          *
-         * @return array Attributes
-         * @api 
          * @static 
          */
         public static function all(){
@@ -11321,9 +9796,8 @@ namespace {
         }
         
         /**
-         * Sets attributes.
+         * 
          *
-         * @param array $attributes Attributes
          * @static 
          */
         public static function replace($attributes){
@@ -11331,11 +9805,8 @@ namespace {
         }
         
         /**
-         * Removes an attribute.
+         * 
          *
-         * @param string $name
-         * @return mixed The removed value or null when it does not exist
-         * @api 
          * @static 
          */
         public static function remove($name){
@@ -11343,20 +9814,17 @@ namespace {
         }
         
         /**
-         * Remove an item from the session.
+         * 
          *
-         * @param string $key
-         * @return void 
          * @static 
          */
         public static function forget($key){
-            \Illuminate\Session\Store::forget($key);
+            return \Illuminate\Session\Store::forget($key);
         }
         
         /**
-         * Clears all attributes.
+         * 
          *
-         * @api 
          * @static 
          */
         public static function clear(){
@@ -11364,19 +9832,17 @@ namespace {
         }
         
         /**
-         * Remove all of the items from the session.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flush(){
-            \Illuminate\Session\Store::flush();
+            return \Illuminate\Session\Store::flush();
         }
         
         /**
-         * Checks if the session was started.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function isStarted(){
@@ -11384,9 +9850,8 @@ namespace {
         }
         
         /**
-         * Registers a SessionBagInterface with the session.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\Session\SessionBagInterface $bag
          * @static 
          */
         public static function registerBag($bag){
@@ -11394,10 +9859,8 @@ namespace {
         }
         
         /**
-         * Gets a bag instance by name.
+         * 
          *
-         * @param string $name
-         * @return \Symfony\Component\HttpFoundation\Session\SessionBagInterface 
          * @static 
          */
         public static function getBag($name){
@@ -11405,9 +9868,8 @@ namespace {
         }
         
         /**
-         * Gets session meta.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\Session\MetadataBag 
          * @static 
          */
         public static function getMetadataBag(){
@@ -11415,10 +9877,8 @@ namespace {
         }
         
         /**
-         * Get the raw bag data array for a given bag.
+         * 
          *
-         * @param string $name
-         * @return array 
          * @static 
          */
         public static function getBagData($name){
@@ -11426,9 +9886,8 @@ namespace {
         }
         
         /**
-         * Get the CSRF token value.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function token(){
@@ -11436,9 +9895,8 @@ namespace {
         }
         
         /**
-         * Get the CSRF token value.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function getToken(){
@@ -11446,19 +9904,17 @@ namespace {
         }
         
         /**
-         * Regenerate the CSRF token value.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function regenerateToken(){
-            \Illuminate\Session\Store::regenerateToken();
+            return \Illuminate\Session\Store::regenerateToken();
         }
         
         /**
-         * Get the previous URL from the session.
+         * 
          *
-         * @return string|null 
          * @static 
          */
         public static function previousUrl(){
@@ -11466,31 +9922,26 @@ namespace {
         }
         
         /**
-         * Set the "previous" URL in the session.
+         * 
          *
-         * @param string $url
-         * @return void 
          * @static 
          */
         public static function setPreviousUrl($url){
-            \Illuminate\Session\Store::setPreviousUrl($url);
+            return \Illuminate\Session\Store::setPreviousUrl($url);
         }
         
         /**
-         * Set the existence of the session on the handler if applicable.
+         * 
          *
-         * @param bool $value
-         * @return void 
          * @static 
          */
         public static function setExists($value){
-            \Illuminate\Session\Store::setExists($value);
+            return \Illuminate\Session\Store::setExists($value);
         }
         
         /**
-         * Get the underlying session handler implementation.
+         * 
          *
-         * @return \SessionHandlerInterface 
          * @static 
          */
         public static function getHandler(){
@@ -11498,9 +9949,8 @@ namespace {
         }
         
         /**
-         * Determine if the session handler needs a request.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function handlerNeedsRequest(){
@@ -11508,14 +9958,12 @@ namespace {
         }
         
         /**
-         * Set the request on the handler instance.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\Request $request
-         * @return void 
          * @static 
          */
         public static function setRequestOnHandler($request){
-            \Illuminate\Session\Store::setRequestOnHandler($request);
+            return \Illuminate\Session\Store::setRequestOnHandler($request);
         }
         
     }
@@ -11606,9 +10054,8 @@ namespace {
     class URL extends \Illuminate\Support\Facades\URL{
         
         /**
-         * Get the full URL for the current request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function full(){
@@ -11616,9 +10063,8 @@ namespace {
         }
         
         /**
-         * Get the current URL for the request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function current(){
@@ -11626,9 +10072,8 @@ namespace {
         }
         
         /**
-         * Get the URL for the previous request.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function previous(){
@@ -11636,12 +10081,8 @@ namespace {
         }
         
         /**
-         * Generate a absolute URL to the given path.
+         * 
          *
-         * @param string $path
-         * @param mixed $extra
-         * @param bool|null $secure
-         * @return string 
          * @static 
          */
         public static function to($path, $extra = array(), $secure = null){
@@ -11649,11 +10090,8 @@ namespace {
         }
         
         /**
-         * Generate a secure, absolute URL to the given path.
+         * 
          *
-         * @param string $path
-         * @param array $parameters
-         * @return string 
          * @static 
          */
         public static function secure($path, $parameters = array()){
@@ -11661,11 +10099,8 @@ namespace {
         }
         
         /**
-         * Generate a URL to an application asset.
+         * 
          *
-         * @param string $path
-         * @param bool|null $secure
-         * @return string 
          * @static 
          */
         public static function asset($path, $secure = null){
@@ -11673,10 +10108,8 @@ namespace {
         }
         
         /**
-         * Generate a URL to a secure asset.
+         * 
          *
-         * @param string $path
-         * @return string 
          * @static 
          */
         public static function secureAsset($path){
@@ -11684,24 +10117,17 @@ namespace {
         }
         
         /**
-         * Force the schema for URLs.
+         * 
          *
-         * @param string $schema
-         * @return void 
          * @static 
          */
         public static function forceSchema($schema){
-            \Illuminate\Routing\UrlGenerator::forceSchema($schema);
+            return \Illuminate\Routing\UrlGenerator::forceSchema($schema);
         }
         
         /**
-         * Get the URL to a named route.
+         * 
          *
-         * @param string $name
-         * @param mixed $parameters
-         * @param bool $absolute
-         * @return string 
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function route($name, $parameters = array(), $absolute = true){
@@ -11709,13 +10135,8 @@ namespace {
         }
         
         /**
-         * Get the URL to a controller action.
+         * 
          *
-         * @param string $action
-         * @param mixed $parameters
-         * @param bool $absolute
-         * @return string 
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function action($action, $parameters = array(), $absolute = true){
@@ -11723,21 +10144,17 @@ namespace {
         }
         
         /**
-         * Set the forced root URL.
+         * 
          *
-         * @param string $root
-         * @return void 
          * @static 
          */
         public static function forceRootUrl($root){
-            \Illuminate\Routing\UrlGenerator::forceRootUrl($root);
+            return \Illuminate\Routing\UrlGenerator::forceRootUrl($root);
         }
         
         /**
-         * Determine if the given path is a valid URL.
+         * 
          *
-         * @param string $path
-         * @return bool 
          * @static 
          */
         public static function isValidUrl($path){
@@ -11745,9 +10162,8 @@ namespace {
         }
         
         /**
-         * Get the request instance.
+         * 
          *
-         * @return \Symfony\Component\HttpFoundation\Request 
          * @static 
          */
         public static function getRequest(){
@@ -11755,21 +10171,17 @@ namespace {
         }
         
         /**
-         * Set the current request instance.
+         * 
          *
-         * @param \Illuminate\Http\Request $request
-         * @return void 
          * @static 
          */
         public static function setRequest($request){
-            \Illuminate\Routing\UrlGenerator::setRequest($request);
+            return \Illuminate\Routing\UrlGenerator::setRequest($request);
         }
         
         /**
-         * Set the route collection.
+         * 
          *
-         * @param \Illuminate\Routing\RouteCollection $routes
-         * @return $this 
          * @static 
          */
         public static function setRoutes($routes){
@@ -11777,10 +10189,8 @@ namespace {
         }
         
         /**
-         * Set the session resolver for the generator.
+         * 
          *
-         * @param callable $sessionResolver
-         * @return $this 
          * @static 
          */
         public static function setSessionResolver($sessionResolver){
@@ -11788,10 +10198,8 @@ namespace {
         }
         
         /**
-         * Set the root controller namespace.
+         * 
          *
-         * @param string $rootNamespace
-         * @return $this 
          * @static 
          */
         public static function setRootControllerNamespace($rootNamespace){
@@ -11903,12 +10311,8 @@ namespace {
     class View extends \Illuminate\Support\Facades\View{
         
         /**
-         * Get the evaluated view contents for the given view.
+         * 
          *
-         * @param string $path
-         * @param array $data
-         * @param array $mergeData
-         * @return \Illuminate\View\View 
          * @static 
          */
         public static function file($path, $data = array(), $mergeData = array()){
@@ -11916,12 +10320,8 @@ namespace {
         }
         
         /**
-         * Get the evaluated view contents for the given view.
+         * 
          *
-         * @param string $view
-         * @param array $data
-         * @param array $mergeData
-         * @return \Illuminate\View\View 
          * @static 
          */
         public static function make($view, $data = array(), $mergeData = array()){
@@ -11929,11 +10329,8 @@ namespace {
         }
         
         /**
-         * Get the evaluated view contents for a named view.
+         * 
          *
-         * @param string $view
-         * @param mixed $data
-         * @return \Illuminate\View\View 
          * @static 
          */
         public static function of($view, $data = array()){
@@ -11941,34 +10338,26 @@ namespace {
         }
         
         /**
-         * Register a named view.
+         * 
          *
-         * @param string $view
-         * @param string $name
-         * @return void 
          * @static 
          */
         public static function name($view, $name){
-            \Illuminate\View\Factory::name($view, $name);
+            return \Illuminate\View\Factory::name($view, $name);
         }
         
         /**
-         * Add an alias for a view.
+         * 
          *
-         * @param string $view
-         * @param string $alias
-         * @return void 
          * @static 
          */
         public static function alias($view, $alias){
-            \Illuminate\View\Factory::alias($view, $alias);
+            return \Illuminate\View\Factory::alias($view, $alias);
         }
         
         /**
-         * Determine if a given view exists.
+         * 
          *
-         * @param string $view
-         * @return bool 
          * @static 
          */
         public static function exists($view){
@@ -11976,13 +10365,8 @@ namespace {
         }
         
         /**
-         * Get the rendered contents of a partial from a loop.
+         * 
          *
-         * @param string $view
-         * @param array $data
-         * @param string $iterator
-         * @param string $empty
-         * @return string 
          * @static 
          */
         public static function renderEach($view, $data, $iterator, $empty = 'raw|'){
@@ -11990,11 +10374,8 @@ namespace {
         }
         
         /**
-         * Get the appropriate view engine for the given path.
+         * 
          *
-         * @param string $path
-         * @return \Illuminate\View\Engines\EngineInterface 
-         * @throws \InvalidArgumentException
          * @static 
          */
         public static function getEngineFromPath($path){
@@ -12002,23 +10383,17 @@ namespace {
         }
         
         /**
-         * Add a piece of shared data to the environment.
+         * 
          *
-         * @param string $key
-         * @param mixed $value
-         * @return void 
          * @static 
          */
         public static function share($key, $value = null){
-            \Illuminate\View\Factory::share($key, $value);
+            return \Illuminate\View\Factory::share($key, $value);
         }
         
         /**
-         * Register a view creator event.
+         * 
          *
-         * @param array|string $views
-         * @param \Closure|string $callback
-         * @return array 
          * @static 
          */
         public static function creator($views, $callback){
@@ -12026,10 +10401,8 @@ namespace {
         }
         
         /**
-         * Register multiple view composers via an array.
+         * 
          *
-         * @param array $composers
-         * @return array 
          * @static 
          */
         public static function composers($composers){
@@ -12037,12 +10410,8 @@ namespace {
         }
         
         /**
-         * Register a view composer event.
+         * 
          *
-         * @param array|string $views
-         * @param \Closure|string $callback
-         * @param int|null $priority
-         * @return array 
          * @static 
          */
         public static function composer($views, $callback, $priority = null){
@@ -12050,55 +10419,44 @@ namespace {
         }
         
         /**
-         * Call the composer for a given view.
+         * 
          *
-         * @param \Illuminate\View\View $view
-         * @return void 
          * @static 
          */
         public static function callComposer($view){
-            \Illuminate\View\Factory::callComposer($view);
+            return \Illuminate\View\Factory::callComposer($view);
         }
         
         /**
-         * Call the creator for a given view.
+         * 
          *
-         * @param \Illuminate\View\View $view
-         * @return void 
          * @static 
          */
         public static function callCreator($view){
-            \Illuminate\View\Factory::callCreator($view);
+            return \Illuminate\View\Factory::callCreator($view);
         }
         
         /**
-         * Start injecting content into a section.
+         * 
          *
-         * @param string $section
-         * @param string $content
-         * @return void 
          * @static 
          */
         public static function startSection($section, $content = ''){
-            \Illuminate\View\Factory::startSection($section, $content);
+            return \Illuminate\View\Factory::startSection($section, $content);
         }
         
         /**
-         * Inject inline content into a section.
+         * 
          *
-         * @param string $section
-         * @param string $content
-         * @return void 
          * @static 
          */
         public static function inject($section, $content){
-            \Illuminate\View\Factory::inject($section, $content);
+            return \Illuminate\View\Factory::inject($section, $content);
         }
         
         /**
-         * Stop injecting content into a section and return its contents.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function yieldSection(){
@@ -12106,10 +10464,8 @@ namespace {
         }
         
         /**
-         * Stop injecting content into a section.
+         * 
          *
-         * @param bool $overwrite
-         * @return string 
          * @static 
          */
         public static function stopSection($overwrite = false){
@@ -12117,9 +10473,8 @@ namespace {
         }
         
         /**
-         * Stop injecting content into a section and append it.
+         * 
          *
-         * @return string 
          * @static 
          */
         public static function appendSection(){
@@ -12127,11 +10482,8 @@ namespace {
         }
         
         /**
-         * Get the string contents of a section.
+         * 
          *
-         * @param string $section
-         * @param string $default
-         * @return string 
          * @static 
          */
         public static function yieldContent($section, $default = ''){
@@ -12139,49 +10491,44 @@ namespace {
         }
         
         /**
-         * Flush all of the section contents.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flushSections(){
-            \Illuminate\View\Factory::flushSections();
+            return \Illuminate\View\Factory::flushSections();
         }
         
         /**
-         * Flush all of the section contents if done rendering.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function flushSectionsIfDoneRendering(){
-            \Illuminate\View\Factory::flushSectionsIfDoneRendering();
+            return \Illuminate\View\Factory::flushSectionsIfDoneRendering();
         }
         
         /**
-         * Increment the rendering counter.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function incrementRender(){
-            \Illuminate\View\Factory::incrementRender();
+            return \Illuminate\View\Factory::incrementRender();
         }
         
         /**
-         * Decrement the rendering counter.
+         * 
          *
-         * @return void 
          * @static 
          */
         public static function decrementRender(){
-            \Illuminate\View\Factory::decrementRender();
+            return \Illuminate\View\Factory::decrementRender();
         }
         
         /**
-         * Check if there are no active render operations.
+         * 
          *
-         * @return bool 
          * @static 
          */
         public static function doneRendering(){
@@ -12189,57 +10536,44 @@ namespace {
         }
         
         /**
-         * Add a location to the array of view locations.
+         * 
          *
-         * @param string $location
-         * @return void 
          * @static 
          */
         public static function addLocation($location){
-            \Illuminate\View\Factory::addLocation($location);
+            return \Illuminate\View\Factory::addLocation($location);
         }
         
         /**
-         * Add a new namespace to the loader.
+         * 
          *
-         * @param string $namespace
-         * @param string|array $hints
-         * @return void 
          * @static 
          */
         public static function addNamespace($namespace, $hints){
-            \Illuminate\View\Factory::addNamespace($namespace, $hints);
+            return \Illuminate\View\Factory::addNamespace($namespace, $hints);
         }
         
         /**
-         * Prepend a new namespace to the loader.
+         * 
          *
-         * @param string $namespace
-         * @param string|array $hints
-         * @return void 
          * @static 
          */
         public static function prependNamespace($namespace, $hints){
-            \Illuminate\View\Factory::prependNamespace($namespace, $hints);
+            return \Illuminate\View\Factory::prependNamespace($namespace, $hints);
         }
         
         /**
-         * Register a valid view extension and its engine.
+         * 
          *
-         * @param string $extension
-         * @param string $engine
-         * @param \Closure $resolver
-         * @return void 
          * @static 
          */
         public static function addExtension($extension, $engine, $resolver = null){
-            \Illuminate\View\Factory::addExtension($extension, $engine, $resolver);
+            return \Illuminate\View\Factory::addExtension($extension, $engine, $resolver);
         }
         
         /**
-         * Get the extension to engine bindings.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getExtensions(){
@@ -12247,9 +10581,8 @@ namespace {
         }
         
         /**
-         * Get the engine resolver instance.
+         * 
          *
-         * @return \Illuminate\View\Engines\EngineResolver 
          * @static 
          */
         public static function getEngineResolver(){
@@ -12257,9 +10590,8 @@ namespace {
         }
         
         /**
-         * Get the view finder instance.
+         * 
          *
-         * @return \Illuminate\View\ViewFinderInterface 
          * @static 
          */
         public static function getFinder(){
@@ -12267,20 +10599,17 @@ namespace {
         }
         
         /**
-         * Set the view finder instance.
+         * 
          *
-         * @param \Illuminate\View\ViewFinderInterface $finder
-         * @return void 
          * @static 
          */
         public static function setFinder($finder){
-            \Illuminate\View\Factory::setFinder($finder);
+            return \Illuminate\View\Factory::setFinder($finder);
         }
         
         /**
-         * Get the event dispatcher instance.
+         * 
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher 
          * @static 
          */
         public static function getDispatcher(){
@@ -12288,20 +10617,17 @@ namespace {
         }
         
         /**
-         * Set the event dispatcher instance.
+         * 
          *
-         * @param \Illuminate\Contracts\Events\Dispatcher
-         * @return void 
          * @static 
          */
         public static function setDispatcher($events){
-            \Illuminate\View\Factory::setDispatcher($events);
+            return \Illuminate\View\Factory::setDispatcher($events);
         }
         
         /**
-         * Get the IoC container instance.
+         * 
          *
-         * @return \Illuminate\Contracts\Container\Container 
          * @static 
          */
         public static function getContainer(){
@@ -12309,22 +10635,17 @@ namespace {
         }
         
         /**
-         * Set the IoC container instance.
+         * 
          *
-         * @param \Illuminate\Contracts\Container\Container $container
-         * @return void 
          * @static 
          */
         public static function setContainer($container){
-            \Illuminate\View\Factory::setContainer($container);
+            return \Illuminate\View\Factory::setContainer($container);
         }
         
         /**
-         * Get an item from the shared data.
+         * 
          *
-         * @param string $key
-         * @param mixed $default
-         * @return mixed 
          * @static 
          */
         public static function shared($key, $default = null){
@@ -12332,9 +10653,8 @@ namespace {
         }
         
         /**
-         * Get all of the shared data for the environment.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getShared(){
@@ -12342,9 +10662,8 @@ namespace {
         }
         
         /**
-         * Get the entire array of sections.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getSections(){
@@ -12352,9 +10671,8 @@ namespace {
         }
         
         /**
-         * Get all of the registered named views in environment.
+         * 
          *
-         * @return array 
          * @static 
          */
         public static function getNames(){

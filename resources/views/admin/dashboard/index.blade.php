@@ -16,7 +16,7 @@
 					</div>
 				</div>
 			</div>
-			<a href="{{ route( 'offices.index' )}}">
+			<a href="{{ admin_route( 'orgs.index' )}}">
 				<div class="panel-footer">
 					<span class="pull-left">{{ trans( 'admin.view_detail' ) }}</span>
 					<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

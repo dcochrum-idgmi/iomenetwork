@@ -215,6 +215,7 @@ class UserController extends Controller {
 	 */
 	public function data()
 	{
+		return $this->dataTable('users');
 		global $currentOffice;
 
 		$cols = [

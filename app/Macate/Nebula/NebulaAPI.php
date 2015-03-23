@@ -3,6 +3,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use Iome\Office;
 use Iome\User;
 
@@ -58,6 +59,8 @@ class NebulaAPI {
 			'base_url' => env('NEBULA_ENDPOINT', 'http://52.0.124.75:8080/NebulaWS/webservices/request.jsp'),
 			'defaults' => $this->options
 		]);
+
+		//$this->client->getEmitter()->attach(new LogSubscriber);
 	}
 
 
@@ -154,6 +157,37 @@ class NebulaAPI {
 	public function getAll($module, $filters = [ ])
 	{
 		global $currentOffice;
+
+		$list = [ ];
+
+		switch ($module)
+		{
+			case 'offices':
+
+				foreach (array( 16, 20, 31 ) as $id)
+				{
+					$office              = $this->getOffice($id);
+					$office->officeSlug  = str_replace(' ', '_', $office->officeName);
+					$office->numAdmins   = 1;
+					$office->numUsers    = 2;
+					$office->numSips     = 3;
+					$office->dateEntered = '2015-03-19 00:00:00';
+
+					$list[] = $office;
+				}
+
+				break;
+
+			case 'users':
+
+				break;
+
+			case 'sipaccounts':
+
+				break;
+		}
+
+		return $list;
 
 		dd($module, $filters, $currentOffice);
 
@@ -254,6 +288,27 @@ class NebulaAPI {
 	public function getOffice($value, $field = 'officeId')
 	{
 		$this->merge_parameters([ 'module' => 'offices', 'action' => 'get', $field => $value ]);
+
+		$response = $this->get();
+
+		return new Office(( $response['success'] ? $response['office'] : [ ] ));
+	}
+
+
+	/**
+	 * Retrieve an office matching the given slug.
+	 *
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	public function getOfficeBySlug($value)
+	{
+		$this->merge_parameters([
+			'module' => 'offices',
+			'action' => 'get-by-slug',
+			'slug'   => $value . '.' . config('app.domain')
+		]);
 
 		$response = $this->get();
 

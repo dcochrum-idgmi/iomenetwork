@@ -1,11 +1,17 @@
 <script type="text/javascript">
     var oTable;
-    $( function() {
-        oTable = $( '#table' ).dataTable( {
-            aoColumnDefs: [ {
+    $(function () {
+        var $table = $('#table'),
+                cols = [];
+        $('thead th[data-name]').each(function (i, e) {
+            cols.push({'data': $(this).data('name')});
+        });
+
+        oTable = $table.dataTable({
+            aoColumnDefs: [{
                 bSortable: false,
-                aTargets: [ 'no-sort' ]
-            } ],
+                aTargets: ['no-sort']
+            }],
 
             bProcessing: true,
             bServerSide: true,
@@ -14,8 +20,9 @@
                     {
                         url: '{{ $source }}',
                         pages: 5
-                    } ),
+                    }),
+            columns: cols,
             fnDrawCallback: IOMEsetModals
-        } );
-    } );
+        });
+    });
 </script>

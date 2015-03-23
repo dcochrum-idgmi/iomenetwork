@@ -3,9 +3,9 @@
 @include( 'layouts.page_header', [ 'page_header' => trans( 'modal.' . ( ( isset( $office ) ) ? 'update' : 'create' ) ) . ' ' . trans( 'offices.office' ) ] )
 
 @if( isset( $office ) )
-{!! Form::model( $office, [ 'method' => 'PATCH', 'route' => Request::is( 'settings' ) ? [ 'settings', $office->slug ] : [ 'offices.update', $office ], 'class' => 'form-horizontal' ] ) !!}
+{!! Form::model( $office, [ 'method' => 'PATCH', 'route' => Request::is( 'settings' ) ? [ 'settings', $office->slug ] : [ 'orgs.update', $office ], 'class' => 'form-horizontal' ] ) !!}
 @else
-{!! Form::open( [ 'route' => 'offices.store', 'class' => 'form-horizontal' ] ) !!}
+{!! Form::open( [ 'route' => 'orgs.store', 'class' => 'form-horizontal' ] ) !!}
 @endif
 	<div class="form-group{!! $errors->has( 'officeName' ) ? ' has-error' : '' !!}">
 		{!! Form::label( 'officeName', trans( 'offices.name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
@@ -60,7 +60,7 @@
 	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
 			{!! Form::submit( trans( 'modal.' . ( ( isset( $office ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}
-			{!! link_to_route( 'offices.index', trans( 'modal.cancel' ), [], [ 'class' => 'btn btn-link close_popup' ] ) !!}
+			{!! link_to_route( 'orgs.index', trans( 'modal.cancel' ), [], [ 'class' => 'btn btn-link close_popup' ] ) !!}
 		</div>
 	</div>
 {!! Form::close() !!}

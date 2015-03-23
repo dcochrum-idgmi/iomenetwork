@@ -8,7 +8,7 @@
 		{!! trans('offices.offices') !!}
 		<div class="pull-right">
 			<div class="pull-right">
-				<a href="{!! route('offices.create') !!}" class="btn btn-sm btn-primary iframe">
+				<a href="{!! route('orgs.create') !!}" class="btn btn-sm btn-primary iframe">
 					<i class="fa fa-plus-circle"></i>
 					{{ trans('modal.new') }}
 				</a>
@@ -20,14 +20,13 @@
 <table id="table" class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th>{!! trans('offices.name') !!}</th>
-			<th>{!! trans('offices.slug') !!}</th>
-			<th>{!! trans('admin.admins') !!}</th>
-			<th>{!! trans('users.active_users') !!}</th>
-			<th>{!! trans('users.users') !!}</th>
-			<th>{!! trans('ext.extensions') !!}</th>
-			<th>{!! trans('admin.created_at') !!}</th>
-			<th class="no-sort">{!! trans('admin.action') !!}</th>
+			<th data-name="officeName">{!! trans('offices.name') !!}</th>
+			<th data-name="officeSlug">{!! trans('offices.slug') !!}</th>
+			<th data-name="numAdmins">{!! trans('admin.admins') !!}</th>
+			<th data-name="numUsers">{!! trans('users.users') !!}</th>
+			<th data-name="numSips">{!! trans('ext.extensions') !!}</th>
+			<th data-name="dateEntered">{!! trans('admin.created_at') !!}</th>
+			<th class="no-sort" data-name="actions">{!! trans('admin.action') !!}</th>
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -35,6 +34,6 @@
 @stop
 {{-- Scripts --}}
 @section('scripts')
-@include('partials.scripts.oTable', ['source' => sub_route('offices.index')])
+@include('partials.scripts.oTable', ['source' => sub_route('orgs.index')])
 @stop
 @stop

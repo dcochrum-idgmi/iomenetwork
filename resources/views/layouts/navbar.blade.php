@@ -21,7 +21,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @if (Auth::user()->isVendorAdmin())
                                     <li>{!! HTML::link(admin_route('dashboard'), trans('admin.dashboard')) !!}</li>
-                                    <li>{!! HTML::link(admin_route('offices.index'), trans('offices.offices')) !!}</li>
+                                    <li>{!! HTML::link(admin_route('orgs.index'), trans('offices.offices')) !!}</li>
                                 @else
                                     <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                                     <li>{!! HTML::link(sub_route('exts.index'), trans('exts.extensions')) !!}</li>

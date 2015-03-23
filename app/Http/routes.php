@@ -3,33 +3,25 @@
 use Iome\Office;
 
 global $currentOffice, $offices;
-$offices = ['admin' => 16, 'client' => 20, 'david' => 31];
+$offices = ['admin' => 16, 'macate' => 16, 'client' => 20, 'david' => 31];
 
-Route::bind('office_subdomain', function ($value)
+Route::bind('org_subdomain', function ($value)
 {
 	global $currentOffice, $offices;
 
 	//$currentOffice = Nebula::getOffice($value);
-	$currentOffice = Nebula::getOffice($offices[ $value ]);
+	$currentOffice = Nebula::getOffice($offices[$value]);
+	//$currentOffice = Nebula::getOfficeBySlug($value);
 	$currentOffice->officeSlug = $value;
-	//$currentOffice = new Office([
-	//	'officeId'   => 1,
-	//	'officeName' => 'Master',
-	//	'officeSlug' => 'admin',
-	//	'numAdmins'  => 1,
-	//	'numUsers'   => 2,
-	//	'numSips'    => 3,
-	//	'exists'     => true
-	//]);
 	View::share('currentOffice', $currentOffice);
 
 	return $currentOffice;
 });
 
-Route::bind('offices', function ($value)
+Route::bind('orgs', function ($value)
 {
 	global $offices;
-	//return Nebula::getOffice($value);
+	//$office = Nebula::getOfficeBySlug($value);
 	$office = Nebula::getOffice($offices[$value]);
 	$office->officeSlug = $value;
 	return $office;
@@ -53,12 +45,12 @@ Route::bind('users', function ($value)
 	return Nebula::getUser($value);
 });
 
-Route::group([ 'domain' => '{office_subdomain}.' . config('app.domain') ], function ()
+Route::group([ 'domain' => '{org_subdomain}.' . config('app.domain') ], function ()
 {
 	Route::group([ 'middleware' => [ 'auth', 'vendoradmin' ] ], function ()
 	{
 		Route::get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
-		route_resource_and_del('offices', 'Admin\OfficeController');
+		route_resource_and_del('orgs', 'Admin\OfficeController');
 	});
 
 	Route::group([ 'middleware' => [ 'auth', 'admin' ] ], function ()
@@ -109,7 +101,7 @@ function route_resource_and_del($name, $controller)
 
 function admin_route($route, $params = [ ], $absolute = true)
 {
-	$params['office_subdomain'] = 'admin';
+	$params['org_subdomain'] = 'admin';
 
 	$url = URL::route($route, $params, $absolute);
 
@@ -127,7 +119,7 @@ function sub_route($route, $params = [ ], $absolute = true)
 
 function admin_url($url = '/', $params = [ ], $secure = false)
 {
-	$params['office_subdomain'] = 'admin';
+	$params['org_subdomain'] = 'admin';
 
 	$url  = URL::to($url, $params, $secure); // admin.domain.tld || admin.domain.tld
 	//$slug = get_current_office_slug();
@@ -152,9 +144,9 @@ function sub_url($url = '/', $params = [ ], $secure = false)
 
 	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
 	//  so let's replace the components to make the intended URL
-	//$url = str_replace('/' . $params['office_subdomain'], '', $url);
+	//$url = str_replace('/' . $params['org_subdomain'], '', $url);
 	//$url = str_replace([ ':/.' . config('app.domain'), '://' . $slug . '.' . config('app.domain') ],
-	//	'://' . $params['office_subdomain'] . '.' . config('app.domain'), $url);
+	//	'://' . $params['org_subdomain'] . '.' . config('app.domain'), $url);
 //	//  Add back the {office_slug} but only in the subdomain position
 //	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
 
@@ -167,9 +159,9 @@ function sub_url($url = '/', $params = [ ], $secure = false)
 function merge_office_slug(&$params)
 {
 	$params = (array) $params;
-	if ( ! isset( $params['office_subdomain'] ) )
+	if ( ! isset( $params['org_subdomain'] ) )
 	{
-		$params['office_subdomain'] = get_current_office_slug();
+		$params['org_subdomain'] = get_current_office_slug();
 	}
 }
 
@@ -187,5 +179,5 @@ function get_current_office()
 		return false;
 	}
 
-	return Route::current()->parameter('office_subdomain') ?: false;
+	return Route::current()->parameter('org_subdomain') ?: false;
 }
