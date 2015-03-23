@@ -33,6 +33,20 @@ class Office extends Model
 	 */
 	public static $snakeAttributes = false;
 
+	/**
+	 * The name of the "created at" column.
+	 *
+	 * @var string
+	 */
+	const CREATED_AT = 'dateEntered';
+
+	/**
+	 * The name of the "updated at" column.
+	 *
+	 * @var string
+	 */
+	const UPDATED_AT = 'dateModified';
+
 //	public static function vendor()
 //	{
 //		static::$vendor || static::$vendor = static::find( 1 );
