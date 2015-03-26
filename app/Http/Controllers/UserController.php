@@ -2,7 +2,7 @@
 
 use Iome\Http\Requests;
 use Iome\Http\Controllers\Controller;
-use Iome\Office;
+use Iome\Organization;
 use Iome\User;
 use Iome\Http\Requests\Admin\UserCreateRequest;
 use Iome\Http\Requests\Admin\UserEditRequest;
@@ -85,12 +85,12 @@ class UserController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param Office $office
+	 * @param Organization $office
 	 * @param User   $user
 	 *
 	 * @return Response
 	 */
-	public function show(Office $office, User $user)
+	public function show(Organization $office, User $user)
 	{
 		Request::is('profile') && $user = Auth::user();
 
@@ -106,12 +106,12 @@ class UserController extends Controller {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param Office $office
+	 * @param Organization $office
 	 * @param User   $user
 	 *
 	 * @return Response
 	 */
-	public function edit(Office $office, User $user)
+	public function edit(Organization $office, User $user)
 	{
 		Request::is('profile') && $user = Auth::user();
 
@@ -228,7 +228,7 @@ class UserController extends Controller {
 			'users.admin',
 			'users.created_at'
 		];
-		if ( ! $currentOffice->isVendor() )
+		if ( ! $currentOffice->isMaster() )
 		{
 			$cols  = array_values(array_diff($cols, [ 'offices.name as offices.name' ]));
 			$users = User::where('officeId', '=', $currentOffice->id);

@@ -7,8 +7,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 
 // use Iome\AssignedRoles;
 
-class Admin implements Middleware
-{
+class Admin implements Middleware {
 
 	/**
 	 * The Guard implementation.
@@ -24,20 +23,20 @@ class Admin implements Middleware
 	 */
 	protected $response;
 
+
 	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Guard           $auth
 	 * @param  ResponseFactory $response
 	 *
-	 * @return void
 	 */
-	public function __construct( Guard $auth,
-	                             ResponseFactory $response )
+	public function __construct(Guard $auth, ResponseFactory $response)
 	{
-		$this->auth = $auth;
+		$this->auth     = $auth;
 		$this->response = $response;
 	}
+
 
 	/**
 	 * Handle an incoming request.
@@ -47,10 +46,12 @@ class Admin implements Middleware
 	 *
 	 * @return mixed
 	 */
-	public function handle( $request, Closure $next )
+	public function handle($request, Closure $next)
 	{
-		if( $this->auth->check() && $this->auth->user()->isAdmin() )
-			return $next( $request );
+		if ( $this->auth->check() && $this->auth->user()->isAdmin() )
+		{
+			return $next($request);
+		}
 
 	}
 

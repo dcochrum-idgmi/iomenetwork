@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Iome\Office;
+use Iome\Organization;
 
 class Extension extends Model implements AuthenticatableContract, CanResetPasswordContract
 {

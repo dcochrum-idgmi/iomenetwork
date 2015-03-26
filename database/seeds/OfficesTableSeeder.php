@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Iome\Office;
+use Iome\Organization;
 
 class OfficesTableSeeder extends Seeder
 {
@@ -10,8 +10,8 @@ class OfficesTableSeeder extends Seeder
 	{
 		DB::table( 'offices' )->delete();
 
-		Office::create( [ 'officeName' => 'Admin', 'officeSlug' => 'admin' ] );
-		Office::create( [ 'officeName' => 'Client', 'officeSlug' => 'client' ] );
+		Organization::create( [ 'officeName' => 'Admin', 'officeSlug' => 'admin' ] );
+		Organization::create( [ 'officeName' => 'Client', 'officeSlug' => 'client' ] );
 	}
 
 }

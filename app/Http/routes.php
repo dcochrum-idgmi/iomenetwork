@@ -1,43 +1,26 @@
 <?php
 
-use Iome\Office;
+use Iome\Organization;
 
-global $currentOffice, $offices;
-$offices = ['admin' => 16, 'macate' => 16, 'client' => 20, 'david' => 31];
+global $currentOrg;
 
 Route::bind('org_subdomain', function ($value)
 {
-	global $currentOffice, $offices;
+	global $currentOrg;
 
-	//$currentOffice = Nebula::getOffice($value);
-	$currentOffice = Nebula::getOffice($offices[$value]);
-	//$currentOffice = Nebula::getOfficeBySlug($value);
-	$currentOffice->officeSlug = $value;
-	View::share('currentOffice', $currentOffice);
+	$value == 'admin' && $value = 'macate';
+	$currentOrg = Nebula::getOrganization($value, 'slug');
+	View::share('currentOrg', $currentOrg);
 
-	return $currentOffice;
+	return $currentOrg;
 });
 
 Route::bind('orgs', function ($value)
 {
-	global $offices;
-	//$office = Nebula::getOfficeBySlug($value);
-	$office = Nebula::getOffice($offices[$value]);
-	$office->officeSlug = $value;
-	return $office;
-	//return new Office([
-	//	'officeId'   => 1,
-	//	'officeName' => 'Master',
-	//	'officeSlug' => 'admin',
-	//	'address'    => '3401 SW 160th Street Suite 430',
-	//	'city'       => 'Miramar',
-	//	'state'      => 'FL',
-	//	'zipcode'    => '33027',
-	//	'numAdmins'  => 1,
-	//	'numUsers'   => 2,
-	//	'numSips'    => 3,
-	//	'exists'     => true
-	//]);
+	$value == 'admin' && $value = 'macate';
+	$org = Nebula::getOrganization($value, 'slug');
+
+	return $org;
 });
 
 Route::bind('users', function ($value)
@@ -47,41 +30,49 @@ Route::bind('users', function ($value)
 
 Route::group([ 'domain' => '{org_subdomain}.' . config('app.domain') ], function ()
 {
-	Route::group([ 'middleware' => [ 'auth', 'vendoradmin' ] ], function ()
+	Route::group([ 'middleware' => 'auth', 'notmaster' ], function ()
 	{
-		Route::get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
-		route_resource_and_del('orgs', 'Admin\OfficeController');
+		//get('{_exts?}', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
 	});
+	Route::group([ 'middleware' => [ 'auth', 'masteradmin', 'master' ] ], function ()
+	{
+		//get('/{_dashboard?}', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
+		//get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
+		route_resource_and_del('orgs', 'Admin\OrganizationController');
+	});
+
+	Route::group([ 'middleware' => [ 'auth', 'admin', 'notmaster' ] ], function ()
+	{
+		//get('/{exts.index?}', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
+	} );
 
 	Route::group([ 'middleware' => [ 'auth', 'admin' ] ], function ()
 	{
 		route_resource_and_del('exts', 'ExtensionController');
 		route_resource_and_del('users', 'UserController');
-
-		Route::get('/', [ 'uses' => 'Admin\OfficeController@index', 'as' => 'office.index' ]);
-		Route::get('settings', [ 'uses' => 'Admin\OfficeController@edit', 'as' => 'settings' ]);
-		Route::patch('settings', [ 'uses' => 'Admin\OfficeController@update', 'as' => 'settings' ]);
+		get('settings', [ 'uses' => 'Admin\OrganizationController@edit', 'as' => 'settings' ]);
+		patch('settings', [ 'uses' => 'Admin\OrganizationController@update', 'as' => 'settings' ]);
 	});
 
 	Route::group([ 'middleware' => 'auth' ], function ()
 	{
-		Route::get('/', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.show' ]);
-		// Route::get('settings', ['uses' => 'ExtensionController@edit', 'as' => 'exts.edit']);
-		// Route::put('settings', ['uses' => 'ExtensionController@update', 'as' => 'exts.update']);
+		get('/', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
+		// get('settings', ['uses' => 'ExtensionController@edit', 'as' => 'exts.edit']);
+		// put('settings', ['uses' => 'ExtensionController@update', 'as' => 'exts.update']);
 
 		Route::group([ 'prefix' => 'profile' ], function ()
 		{
-			Route::get('/', [ 'uses' => 'UserController@edit', 'as' => 'profile.edit' ]);
-			Route::put('/', [ 'uses' => 'UserController@update', 'as' => 'profile.update' ]);
-			Route::patch('/', 'UserController@update');
-			Route::get('delete', [ 'uses' => 'UserController@delete', 'as' => 'profile.delete' ]);
-			Route::delete('/', [ 'uses' => 'UserController@destroy', 'as' => 'profile.destroy' ]);
+			get('/', [ 'uses' => 'UserController@edit', 'as' => 'profile.edit' ]);
+			put('/', [ 'uses' => 'UserController@update', 'as' => 'profile.update' ]);
+			patch('/', 'UserController@update');
+			get('delete', [ 'uses' => 'UserController@delete', 'as' => 'profile.delete' ]);
+			delete('/', [ 'uses' => 'UserController@destroy', 'as' => 'profile.destroy' ]);
 		});
 	});
 
-	Route::get('css/office-custom.css', function (Office $office)
+	get('css/org-custom.css', function (Organization $org)
 	{
-		$response = Response::make(View::make('office.css', [ 'css' => $office->css ]));
+		$response = Response::make(View::make('org.css', [ 'css' => $org->css ]));
 		$response->header('Content-Type', 'text/css');
 
 		return $response;
@@ -95,24 +86,24 @@ Route::controller('/', 'Auth\AuthController',
 
 function route_resource_and_del($name, $controller)
 {
-	Route::get($name . '/{' . $name . '}/delete', [ 'as' => $name . '.delete', 'uses' => $controller . '@delete' ]);
-	Route::resource($name, $controller);
+	get($name . '/{' . $name . '}/delete', [ 'as' => $name . '.delete', 'uses' => $controller . '@delete' ]);
+	resource($name, $controller);
 }
 
 function admin_route($route, $params = [ ], $absolute = true)
 {
 	$params['org_subdomain'] = 'admin';
 
-	$url = URL::route($route, $params, $absolute);
+	$url = route($route, $params, $absolute);
 
 	return $url;
 }
 
 function sub_route($route, $params = [ ], $absolute = true)
 {
-	merge_office_slug($params);
+	merge_org_slug($params);
 
-	$url = URL::route($route, $params, $absolute);
+	$url = route($route, $params, $absolute);
 
 	return $url;
 }
@@ -121,58 +112,37 @@ function admin_url($url = '/', $params = [ ], $secure = false)
 {
 	$params['org_subdomain'] = 'admin';
 
-	$url  = URL::to($url, $params, $secure); // admin.domain.tld || admin.domain.tld
-	//$slug = get_current_office_slug();
-
-	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
-	//  so let's replace the components to make the intended URL
-	//$url = str_replace('/' . $params['subdomain'], '', $url);
-	//$url = str_replace([ ':/.' . config('app.domain'), '://' . get_current_office_slug() . '.' . config('app.domain') ],
-	//	'://' . $params['subdomain'] . '.' . config('app.domain'), $url);
-//	//  Add back the {office_slug} but only in the subdomain position
-//	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
-
-	return $url;
+	return url($url, $params, $secure);
 }
 
 function sub_url($url = '/', $params = [ ], $secure = false)
 {
-	merge_office_slug($params);
+	merge_org_slug($params);
 
-	$url  = URL::to($url, $params, $secure); // admin.domain.tld || admin.domain.tld
-	//$slug = get_current_office_slug();
-
-	//  For some reason, we seem to create the url with {current_slug}.domain.tld/{office_slug}/abc,
-	//  so let's replace the components to make the intended URL
-	//$url = str_replace('/' . $params['org_subdomain'], '', $url);
-	//$url = str_replace([ ':/.' . config('app.domain'), '://' . $slug . '.' . config('app.domain') ],
-	//	'://' . $params['org_subdomain'] . '.' . config('app.domain'), $url);
-//	//  Add back the {office_slug} but only in the subdomain position
-//	$full_url = str_replace( '/' . config( 'app.domain' ), '//' . $params[ 'office_slug' ] . '.' . config( 'app.domain' ), $full_url );
-
-	return $url;
+	return url($url, $params, $secure);
 }
 
 /**
  * @param $params
  */
-function merge_office_slug(&$params)
+function merge_org_slug(&$params)
 {
 	$params = (array) $params;
 	if ( ! isset( $params['org_subdomain'] ) )
 	{
-		$params['org_subdomain'] = get_current_office_slug();
+		$params['org_subdomain'] = get_current_org_slug();
+		$params['org_subdomain'] == 'macate' && $params['org_subdomain'] = 'admin';
 	}
 }
 
-function get_current_office_slug()
+function get_current_org_slug()
 {
-	$office = get_current_office();
+	$org = get_current_org();
 
-	return $office instanceof Office ? $office->officeSlug : 'admin';
+	return $org instanceof Organization ? $org->slug : 'admin';
 }
 
-function get_current_office()
+function get_current_org()
 {
 	if ( App::runningInConsole() )
 	{

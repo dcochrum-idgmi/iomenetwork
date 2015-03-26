@@ -22,8 +22,8 @@
 		<tr>
 			<th data-name="fname">{{ trans( 'users.first_name' ) }}</th>
 			<th data-name="lname">{{ trans( 'users.last_name' ) }}</th>
-            @if( $currentOffice->isVendor() )
-			<th data-name="officeId">{{ trans( 'offices.office' ) }}</th>
+            @if( $currentOffice->isMaster() )
+			<th data-name="organizationId">{{ trans( 'orgs.org' ) }}</th>
             @endif
 			<th data-name="email">{{ trans( 'users.email' ) }}</th>
 			<th data-name="role">{{ trans( 'users.role' ) }}</th>

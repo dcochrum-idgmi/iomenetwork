@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Iome\Office;
+use Iome\Organization;
 use Iome\User;
 
 class UsersTableSeeder extends Seeder {
@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder {
 		for( $i = 1; $i < 20; $i++ )
 			$usernames[ ] = 'user' . $i;
 
-		foreach( Office::all() as $office ) {
+		foreach( Organization::all() as $office ) {
 			foreach( $usernames as $username ) {
 				$username = $office->isVendor() ? $username : $username . '-' . $office->officeId;
 

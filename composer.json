@@ -4,7 +4,6 @@
     "require": {
         "laravel/framework": "5.0.*",
         "illuminate/html": "~5.0",
-        "yajra/laravel-datatables-oracle": ">=v4.0.1",
         "aws/aws-sdk-php": "~2.7",
         "doctrine/cache": "~1.4",
         "laracasts/flash": "~1.3",

@@ -80,55 +80,40 @@ abstract class Controller extends BaseController {
 
 	public function dataTable($module, $cols = '*')
 	{
-		$data   = [ ];
-		$cols   = array_pluck(Input::get('columns'), 'data');
-		$output = [
+		$data         = [ ];
+		$cols         = array_pluck(Input::get('columns'), 'data');
+		$output       = [
 			'draw'            => ( int ) Input::get('draw'),
 			'recordsTotal'    => 0,
 			'recordsFiltered' => 0,
 			'data'            => [ ]
 		];
-
-		switch ($module)
-		{
-			case 'offices':
-
-				$offices = Nebula::getAll($module);
-				foreach ($offices as $office)
-				{
-					$office_data            = $office->toArray();
-					$office_data['actions'] = '<a href="' . admin_route('orgs.edit',
-							[ 'orgs' => $office ]) . '" class="btn btn-primary btn-sm iframe" title="' . trans('modal.edit') . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">' . trans('modal.edit') . '</span></a>';
-					( $office->officeId != 16 ) && $office_data['actions'] .= '<a href="' . admin_route('orgs.delete',
-							[ 'orgs' => $office ]) . '" class="btn btn-sm btn-danger iframe" title="' . trans('modal.delete') . '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">' . trans('modal.delete') . '</span></a>';
-					$office_data = array_only($office_data, $cols);
-
-					$data[] = $office_data;
-				}
-
-				break;
-
-			case 'users':
-
-				break;
-
-			case 'sipaccounts':
-
-				break;
-		}
-
-//		$response = Nebula::getAll( $module, Input::all() );
-
-		$response = [
-			'success' => true,
-			$module   => $data
+		$resources    = [
+			'organizations' => 'orgs',
+			'users'         => 'users',
+			'sips'          => 'sips'
 		];
-		if ( ! $response['success'] )
+		$route_method = ( ( $module == 'organizations' ) ? 'admin' : 'sub' ) . '_route';
+
+		$response = Nebula::getAll($module,
+			[ 'start' => Input::get('start'), 'end' => ( Input::get('length') + Input::get('start') ) ]);
+
+		foreach ($response['models'] as $model)
 		{
-			return Response::json($output);
+
+			//if(isset($model['slug']) && strpos($model['slug'], config('app.domain')) !== false)
+			//	Nebula::organizationUpdate(['organizationId' => $model['organizationId'], 'slug' => ($model['organizationId'] == 1 ? 'admin' : str_replace('.'.config('app.domain'), '', $model['slug']))]);
+			$model_data            = $model->toArray();
+			$model_data['actions'] = '<a href="' . $route_method($resources[$module] . '.edit',
+					[ $resources[$module] => $model ]) . '" class="btn btn-primary btn-sm iframe" title="' . trans('modal.edit') . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">' . trans('modal.edit') . '</span></a>';
+			( $model->organizationId != 16 ) && $model_data['actions'] .= '<a href="' . $route_method($resources[$module] . '.delete',
+					[ $resources[$module] => $model ]) . '" class="btn btn-sm btn-danger iframe" title="' . trans('modal.delete') . '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">' . trans('modal.delete') . '</span></a>';
+			//$model_data = array_only($model_data, $cols);
+
+			$data[] = $model_data;
 		}
 
-		$output['recordsTotal']    = count($data);
+		$output['recordsTotal']    = $response['total' . ucfirst($module)];
 		$output['recordsFiltered'] = count($data);
 		$output['data']            = $data;
 

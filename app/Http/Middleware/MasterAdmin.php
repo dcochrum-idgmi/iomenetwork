@@ -9,7 +9,7 @@ use RedirectResponse;
 
 // use Iome\AssignedRoles;
 
-class VendorAdmin implements Middleware
+class MasterAdmin implements Middleware
 {
 
 	/**
@@ -49,7 +49,7 @@ class VendorAdmin implements Middleware
 	public function handle( $request, Closure $next )
 	{
 		if( $this->auth->check() ) {
-			if( $this->auth->user()->isVendorAdmin() )
+			if( $this->auth->user()->isMasterAdmin() )
 				return $next( $request );
 
 //			return redirect( sub_url( '/', [ 'office_slug' => $this->auth->user()->officeSlug ] ) );

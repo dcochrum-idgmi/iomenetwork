@@ -1,24 +1,24 @@
 @extends( 'layouts.' . ( ( Input::get( 'iframe' ) !== null ) ? 'modal' : 'default' ) )
 @section( 'content' )
-@include( 'layouts.page_header', [ 'page_header' => trans( 'modal.' . ( ( isset( $office ) ) ? 'update' : 'create' ) ) . ' ' . trans( 'offices.office' ) ] )
+@include( 'layouts.page_header', [ 'page_header' => trans( 'modal.' . ( ( isset( $org ) ) ? 'update' : 'create' ) ) . ' ' . trans( 'orgs.org' ) ] )
 
-@if( isset( $office ) )
-{!! Form::model( $office, [ 'method' => 'PATCH', 'route' => Request::is( 'settings' ) ? [ 'settings', $office->slug ] : [ 'orgs.update', $office ], 'class' => 'form-horizontal' ] ) !!}
+@if( isset( $org ) )
+{!! Form::model( $org, [ 'method' => 'PATCH', 'url' => Request::is( 'settings' ) ? sub_route( 'settings' ) : admin_route( 'orgs.update', ['orgs' => $org] ), 'class' => 'form-horizontal' ] ) !!}
 @else
-{!! Form::open( [ 'route' => 'orgs.store', 'class' => 'form-horizontal' ] ) !!}
+{!! Form::open( [ 'url' => admin_route( 'orgs.store' ), 'class' => 'form-horizontal' ] ) !!}
 @endif
-	<div class="form-group{!! $errors->has( 'officeName' ) ? ' has-error' : '' !!}">
-		{!! Form::label( 'officeName', trans( 'offices.name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+	<div class="form-group{!! $errors->has( 'organizationName' ) ? ' has-error' : '' !!}">
+		{!! Form::label( 'organizationName', trans( 'orgs.name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
-			{!! Form::text( 'officeName', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.name-ph' ) ] ) !!}
-			{!! $errors->first( 'officeName', Form::label( 'officeName', ':message', [ 'class' => 'error' ] ) ) !!}
+			{!! Form::text( 'organizationName', null, [ 'class' => 'form-control', 'placeholder' => trans( 'orgs.name-ph' ) ] ) !!}
+			{!! $errors->first( 'organizationName', Form::label( 'organizationName', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
-	<div class="form-group{!! $errors->has( 'officeSlug' ) ? ' has-error' : '' !!}">
-		{!! Form::label( 'officeSlug', trans( 'offices.slug' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+	<div class="form-group{!! $errors->has( 'slug' ) ? ' has-error' : '' !!}">
+		{!! Form::label( 'slug', trans( 'orgs.slug' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
-			{!! Form::text( 'officeSlug', null, [ 'class' => 'form-control', 'placeholder' => trans( 'offices.slug-ph' ) ] ) !!}
-			{!! $errors->first( 'officeSlug', Form::label( 'officeSlug', ':message', [ 'class' => 'error' ] ) ) !!}
+			{!! Form::text( 'slug', null, [ 'class' => 'form-control', 'placeholder' => trans( 'orgs.slug-ph' ) ] ) !!}
+			{!! $errors->first( 'slug', Form::label( 'slug', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
     <div class="form-group{!! $errors->has( 'address' ) ? ' has-error' : '' !!}">
@@ -59,8 +59,8 @@
     </div>
 	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
-			{!! Form::submit( trans( 'modal.' . ( ( isset( $office ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}
-			{!! link_to_route( 'orgs.index', trans( 'modal.cancel' ), [], [ 'class' => 'btn btn-link close_popup' ] ) !!}
+			{!! Form::submit( trans( 'modal.' . ( ( isset( $org ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}
+			{!! link_to( admin_route( 'orgs.index' ), trans( 'modal.cancel' ), [ 'class' => 'btn btn-link close_popup' ] ) !!}
 		</div>
 	</div>
 {!! Form::close() !!}

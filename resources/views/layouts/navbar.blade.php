@@ -19,9 +19,9 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                @if (Auth::user()->isVendorAdmin())
+                                @if (Auth::user()->isMasterAdmin())
                                     <li>{!! HTML::link(admin_route('dashboard'), trans('admin.dashboard')) !!}</li>
-                                    <li>{!! HTML::link(admin_route('orgs.index'), trans('offices.offices')) !!}</li>
+                                    <li>{!! HTML::link(admin_route('orgs.index'), trans('orgs.orgs')) !!}</li>
                                 @else
                                     <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                                     <li>{!! HTML::link(sub_route('exts.index'), trans('exts.extensions')) !!}</li>
@@ -30,11 +30,11 @@
                                 <li>{!! HTML::link(sub_route('exts.index'), trans('ext.extensions')) !!}</li>
                             </ul>
                         </li>
-                        @if (isset($currentOffice) && Auth::user()->isVendorAdmin())
+                        @if (isset($currentOffice) && Auth::user()->isMasterAdmin())
                             <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                         @endif
                     @endif
-                    <li>{!! HTML::link((Auth::user()->isVendorAdmin() ? sub_route('users.edit', Auth::user()->getRouteKey() ) :
+                    <li>{!! HTML::link((Auth::user()->isMasterAdmin() ? sub_route('users.edit', Auth::user()->getRouteKey() ) :
                         sub_route('profile.edit')), trans('site.login_as') . ' ' . Auth::user()->fname ) !!}
                     </li>
                     <li><a href="{{{ route('logout') }}}">{{{ trans('site.logout') }}}</a></li>

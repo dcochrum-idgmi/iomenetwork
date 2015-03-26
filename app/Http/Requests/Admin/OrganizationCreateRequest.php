@@ -3,7 +3,7 @@
 use Iome\Http\Requests\Request;
 use Auth;
 
-class OfficeEditRequest extends Request
+class OrganizationCreateRequest extends Request
 {
 
 	/**
@@ -13,7 +13,7 @@ class OfficeEditRequest extends Request
 	 */
 	public function authorize()
 	{
-		return Auth::check() && Auth::user()->isAdmin();
+		return Auth::user()->isAdmin();
 	}
 
 	/**
@@ -23,11 +23,10 @@ class OfficeEditRequest extends Request
 	 */
 	public function rules()
 	{
-		$office = $this->route( 'offices' ) ?: $this->route( 'office_slug' );
-
 		return [
 			'officeName' => 'required|min:3',
-			'officeSlug' => 'required|alpha_num|min:3',
+//			'slug' => 'required|alpha_num|unique:offices|min:3|not_in:admin',
+			'slug' => 'required|alpha_num|min:3',
 		];
 	}
 

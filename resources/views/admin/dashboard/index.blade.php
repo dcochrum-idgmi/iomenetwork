@@ -11,8 +11,8 @@
 						<i class="fa fa-sitemap fa-5x"></i>
 					</div>
 					<div class="col-xs-9 text-right">
-						<div class="huge">{{ $offices }}</div>
-						<div>{{ trans( 'offices.offices' ) }}!</div>
+						<div class="huge">{{ $orgs }}</div>
+						<div>{{ trans( 'orgs.orgs' ) }}!</div>
 					</div>
 				</div>
 			</div>

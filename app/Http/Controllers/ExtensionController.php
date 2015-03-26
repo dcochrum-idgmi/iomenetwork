@@ -3,7 +3,7 @@
 use Iome\Extension;
 use Iome\Http\Requests;
 use Iome\Http\Controllers\Controller;
-use Iome\Office;
+use Iome\Organization;
 use Request;
 use yajra\Datatables\Datatables;
 
@@ -52,7 +52,7 @@ class ExtensionController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function show( Office $office, Extension $ext )
+	public function show( Organization $office, Extension $ext )
 	{
 		$title = 'Extensions';
 		dd( $ext );
@@ -107,7 +107,7 @@ class ExtensionController extends Controller
 		global $currentOffice;
 
 		$cols = [ 'extensions.id', 'offices.name as offices.name', 'extensions.mac', 'extensions.created_at' ];
-		if( ! $currentOffice->isVendor() ) {
+		if( ! $currentOffice->isMaster() ) {
 			$cols = array_values( array_diff( $cols, [ 'offices.name as offices.name' ] ) );
 			$exts = Extension::where( 'officeId', '=', $currentOffice->id );
 		} else

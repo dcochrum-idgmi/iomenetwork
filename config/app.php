@@ -13,8 +13,7 @@ return [
 	|
 	*/
 
-	'debug'           => env( 'APP_DEBUG' ),
-
+	'debug'           => env('APP_DEBUG'),
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL
@@ -27,12 +26,10 @@ return [
 	*/
 
 	'url'             => 'http://localhost',
-
 	/**
 	 * Root domain name (to make it easier if/when we decide to move it)
 	 */
 	'domain'          => 'iomenetwork.com',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone
@@ -45,7 +42,6 @@ return [
 	*/
 
 	'timezone'        => 'UTC',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Application Locale Configuration
@@ -58,7 +54,6 @@ return [
 	*/
 
 	'locale'          => 'en',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Application Fallback Locale
@@ -71,7 +66,6 @@ return [
 	*/
 
 	'fallback_locale' => 'en',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Encryption Key
@@ -83,10 +77,8 @@ return [
 	|
 	*/
 
-	'key'             => env( 'APP_KEY', 'SomeRandomString' ),
-
+	'key'             => env('APP_KEY', 'SomeRandomString'),
 	'cipher'          => MCRYPT_RIJNDAEL_128,
-
 	/*
 	|--------------------------------------------------------------------------
 	| Logging Configuration
@@ -101,7 +93,6 @@ return [
 	*/
 
 	'log'             => 'daily',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers
@@ -151,14 +142,11 @@ return [
 		'Iome\Providers\RouteServiceProvider',
 		'Iome\Macate\Nebula\NebulaServiceProvider',
 		'Iome\Macate\Nebula\Auth\AuthServiceProvider',
-
 		'Laracasts\Generators\GeneratorsServiceProvider',
 		'Laracasts\Flash\FlashServiceProvider',
-		'yajra\Datatables\DatatablesServiceProvider',
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
 	],
-
 	/*
 	|--------------------------------------------------------------------------
 	| Class Aliases
@@ -181,10 +169,10 @@ return [
 		'Config'       => 'Illuminate\Support\Facades\Config',
 		'Cookie'       => 'Illuminate\Support\Facades\Cookie',
 		'Crypt'        => 'Illuminate\Support\Facades\Crypt',
-		'Datatables'   => 'yajra\Datatables\Datatables',
 		'DB'           => 'Illuminate\Support\Facades\DB',
 		'Eloquent'     => 'Illuminate\Database\Eloquent\Model',
 		'Event'        => 'Illuminate\Support\Facades\Event',
+		'Extension'    => 'Iome\Extension',
 		'File'         => 'Illuminate\Support\Facades\File',
 		'Flash'        => 'Laracasts\Flash\Flash',
 		'Form'         => 'Illuminate\Html\FormFacade',
@@ -196,6 +184,7 @@ return [
 		'Log'          => 'Illuminate\Support\Facades\Log',
 		'Mail'         => 'Illuminate\Support\Facades\Mail',
 		'Nebula'       => 'Iome\Macate\Nebula\Nebula',
+		'Organization' => 'Iome\Organization',
 		'Password'     => 'Illuminate\Support\Facades\Password',
 		'Queue'        => 'Illuminate\Support\Facades\Queue',
 		'Redirect'     => 'Illuminate\Support\Facades\Redirect',
@@ -207,6 +196,7 @@ return [
 		'Session'      => 'Illuminate\Support\Facades\Session',
 		'Storage'      => 'Illuminate\Support\Facades\Storage',
 		'URL'          => 'Illuminate\Support\Facades\URL',
+		'User'         => 'Iome\User',
 		'Validator'    => 'Illuminate\Support\Facades\Validator',
 		'View'         => 'Illuminate\Support\Facades\View',
 

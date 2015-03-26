@@ -2,8 +2,7 @@
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-class Kernel extends HttpKernel
-{
+class Kernel extends HttpKernel {
 
 	/**
 	 * The application's global HTTP middleware stack.
@@ -29,7 +28,9 @@ class Kernel extends HttpKernel
 		'auth.basic'  => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest'       => 'Iome\Http\Middleware\RedirectIfAuthenticated',
 		'admin'       => 'Iome\Http\Middleware\Admin',
-		'vendoradmin' => 'Iome\Http\Middleware\VendorAdmin',
+		'masteradmin' => 'Iome\Http\Middleware\MasterAdmin',
+		'master'      => 'Iome\Http\Middleware\Master',
+		'notmaster'   => 'Iome\Http\Middleware\NotMaster',
 	];
 
 }

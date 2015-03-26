@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Iome\Office;
+use Iome\Organization;
 use Iome\Extension;
 
 class ExtensionsTableSeeder extends Seeder {
@@ -9,7 +9,7 @@ class ExtensionsTableSeeder extends Seeder {
 	public function run() {
 		DB::table( 'extensions' )->truncate();
 
-		foreach( Office::all() as $office ) {
+		foreach( Organization::all() as $office ) {
 			for( $i = 1; $i <= 200; $i++ ) {
 				$extension = Extension::create( [
 					'id'       => sprintf( '%04d', $i ),

@@ -4,10 +4,20 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
-use Iome\Office;
+use Iome\Organization;
 use Iome\User;
 
 class NebulaAPI {
+
+	/**
+	 * @var Whether to output debugging messages
+	 */
+	private $debug = true;
+
+	/**
+	 * @var Map of Nebula modules => app models
+	 */
+	protected $models = [ 'organizations' => 'Organization', 'users' => 'User', 'sipaccounts' => 'Extension' ];
 
 	/**
 	 * @var Client
@@ -47,7 +57,7 @@ class NebulaAPI {
 	public function __construct(array $parameters = [ ], array $options = [ ])
 	{
 		$this->default_parameters = [
-			'requestId' => get_current_office_slug(),
+			'requestId' => get_current_org_slug(),
 			'sessionId' => session('nebulaSessionId', null)
 		];
 		$this->default_options    = [ /*'debug' => true,*/
@@ -60,7 +70,10 @@ class NebulaAPI {
 			'defaults' => $this->options
 		]);
 
-		//$this->client->getEmitter()->attach(new LogSubscriber);
+		if ( $this->debug )
+		{
+			$this->client->getEmitter()->attach(new LogSubscriber);
+		}
 	}
 
 
@@ -150,58 +163,41 @@ class NebulaAPI {
 	 * Retrieve an array of models matching the given criteria.
 	 *
 	 * @param string $module
-	 * @param array  $filters
+	 * @param array  $parameters
 	 *
 	 * @return array
 	 */
-	public function getAll($module, $filters = [ ])
+	public function getAll($module, $parameters = [ ])
 	{
-		global $currentOffice;
+		global $currentOrg;
 
-		$list = [ ];
+		$return = [
+			'total' . ucfirst($module) => 0,
+			'models'                   => [ ]
+		];
 
-		switch ($module)
-		{
-			case 'offices':
-
-				foreach (array( 16, 20, 31 ) as $id)
-				{
-					$office              = $this->getOffice($id);
-					$office->officeSlug  = str_replace(' ', '_', $office->officeName);
-					$office->numAdmins   = 1;
-					$office->numUsers    = 2;
-					$office->numSips     = 3;
-					$office->dateEntered = '2015-03-19 00:00:00';
-
-					$list[] = $office;
-				}
-
-				break;
-
-			case 'users':
-
-				break;
-
-			case 'sipaccounts':
-
-				break;
-		}
-
-		return $list;
-
-		dd($module, $filters, $currentOffice);
-
-		//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'officeId' => $currentOffice->id ] );
-		$this->merge_parameters([
-			'module'    => $module,
-			'action'    => 'get',
-			'fieldName' => $field,
-			'field'     => $value,
-			'officeId'  => 1
-		]);
+		$this->merge_parameters(array_merge([
+			'module' => $module,
+			'action' => 'paginated-list',
+			'start'  => 0,
+			'end'    => 10,
+			//'organizationId' => 1
+		], $parameters));
 		$response = $this->get();
 
-		return new User(( $response['success'] ? $response['user'] : [ ] ));
+		if ( ! $response['success'] )
+		{
+			return $return;
+		}
+
+		$return['total' . ucfirst($module)] = $response['total' . ucfirst($module)];
+
+		foreach ($response[$module] as $i => $data)
+		{
+			$return['models'][$i] = $this->new_model($module, $data);
+		}
+
+		return $return;
 	}
 
 
@@ -215,15 +211,15 @@ class NebulaAPI {
 	 */
 	public function getUser($value, $field = 'email')
 	{
-		global $currentOffice;
+		global $currentOrg;
 
-//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'officeId' => $currentOffice->id ] );
+//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'organizationId' => $currentOrg->id ] );
 		$this->merge_parameters([
-			'module'    => 'users',
-			'action'    => 'get-by-field',
-			'fieldName' => $field,
-			'field'     => $value,
-			'officeId'  => 1
+			'module'         => 'users',
+			'action'         => 'get-by-field',
+			'fieldName'      => $field,
+			'field'          => $value,
+			'organizationId' => 1
 		]);
 		$response = $this->get();
 
@@ -232,18 +228,18 @@ class NebulaAPI {
 
 
 	/**
-	 * Attempt to create a new office
+	 * Attempt to create a new organization
 	 *
-	 * @param array $parameters
+	 * @param array $data
 	 *
 	 * @return array
 	 */
-	public function officeCreate(array $parameters)
+	public function organizationCreate(array $data)
 	{
 		$this->merge_parameters(array_merge([
-			'module' => 'offices',
+			'module' => 'organizations',
 			'action' => 'create'
-		], $parameters));
+		], $data));
 
 		$response = $this->post();
 		if ( ! $response['success'] )
@@ -251,26 +247,26 @@ class NebulaAPI {
 			return $response;
 		}
 
-		return $this->getOffice($response['officeId']);
+		return $this->getOrganization($response['organizationId']);
 	}
 
 
 	/**
-	 * Attempt to update an office
+	 * Attempt to update an organization
 	 *
-	 * @param array $parameters
+	 * @param array $data
 	 *
 	 * @return array
 	 */
-	public function officeUpdate(array $parameters)
+	public function organizationUpdate(array $data)
 	{
-		$officeId = $parameters['officeId'];
-		unset( $parameters['officeId'] );
+		$organizationId = $data['organizationId'];
+		unset( $data['organizationId'] );
 		$this->merge_parameters([
-			'module'   => 'offices',
-			'action'   => 'edit',
-			'office'   => $parameters,
-			'officeId' => $officeId
+			'module'         => 'organizations',
+			'action'         => 'edit',
+			'organization'   => $data,
+			'organizationId' => $organizationId
 		]);
 
 		return $this->post();
@@ -278,41 +274,45 @@ class NebulaAPI {
 
 
 	/**
-	 * Retrieve an office matching the given value on the given field.
+	 * Retrieve an organization matching the given value on the given field.
 	 *
 	 * @param string $value
 	 * @param string $field
 	 *
 	 * @return array
 	 */
-	public function getOffice($value, $field = 'officeId')
+	public function getOrganization($value, $field = 'organizationId')
 	{
-		$this->merge_parameters([ 'module' => 'offices', 'action' => 'get', $field => $value ]);
+		$this->merge_parameters([
+			'module' => 'organizations',
+			'action' => 'get' . ( $field == 'slug' ? '-by-slug' : '' ),
+			$field   => $value . ( strpos($value, '.') !== false ? '' : '.' . config('app.domain') )
+		]);
 
 		$response = $this->get();
 
-		return new Office(( $response['success'] ? $response['office'] : [ ] ));
+		return new Organization(( $response['success'] ? $response['organization'] : [ ] ));
 	}
 
 
 	/**
-	 * Retrieve an office matching the given slug.
+	 * Retrieve an organization matching the given slug.
 	 *
 	 * @param string $value
 	 *
 	 * @return array
 	 */
-	public function getOfficeBySlug($value)
+	public function getOrganizationBySlug($value)
 	{
 		$this->merge_parameters([
-			'module' => 'offices',
+			'module' => 'organizations',
 			'action' => 'get-by-slug',
 			'slug'   => $value . '.' . config('app.domain')
 		]);
 
 		$response = $this->get();
 
-		return new Office(( $response['success'] ? $response['office'] : [ ] ));
+		return new Organization(( $response['success'] ? $response['organization'] : [ ] ));
 	}
 
 
@@ -343,6 +343,20 @@ class NebulaAPI {
 		$response = $this->get();
 
 		return ( $response['success'] ? $this->convert_name_val_pairs($response['states']) : [ ] );
+	}
+
+
+	/**
+	 * @param $module
+	 * @param $data
+	 *
+	 * @return Model
+	 */
+	protected function new_model($module, $data)
+	{
+		$model = $this->models[$module];
+
+		return new $model($data);
 	}
 
 
@@ -532,7 +546,7 @@ class NebulaAPI {
 
 		if ( $json['success'] )
 		{
-			$objects = [ 'user' => 'email', 'office' => 'officeId', 'sip' => 'sipAccount' ];
+			$objects = [ 'user' => 'email', 'organization' => 'organizationId', 'sip' => 'sipAccount' ];
 			foreach ($objects as $obj => $id)
 			{
 				isset( $json[$obj] ) && $json[$obj][$id] && $json[$obj]['exists'] = true;

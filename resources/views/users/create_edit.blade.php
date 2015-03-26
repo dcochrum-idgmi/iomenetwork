@@ -47,22 +47,22 @@
 			{!! $errors->first( 'password_confirmation', Form::label( 'password_confirmation', ':message' ) ) !!}
 		</div>
 	</div>
-	@if( $currentOffice->isVendor() )
-	<div class="form-group{!! $errors->has( 'officeId' ) ? ' has-error' : '' !!}">
-		{!! Form::label( 'officeId', trans( 'offices.office' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
+	@if( $currentOffice->isMaster() )
+	<div class="form-group{!! $errors->has( 'organizationId' ) ? ' has-error' : '' !!}">
+		{!! Form::label( 'organizationId', trans( 'orgs.org' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
-			<select name="officeId" id="officeId" class="form-control" data-placeholder="{{ trans( 'offices.select' ) }}">
+			<select name="organizationId" id="organizationId" class="form-control" data-placeholder="{{ trans( 'orgs.select' ) }}">
 				<option></option>
 				@foreach( $offices as $val => $text )
-				<option value="{{ $val }}"{!! Input::old( 'officeId', ( isset( $user ) ? $user->officeId : null ) ) == $val ? ' selected' : '' !!}>{{ $text }}</option>
+				<option value="{{ $val }}"{!! Input::old( 'organizationId', ( isset( $user ) ? $user->organizationId : null ) ) == $val ? ' selected' : '' !!}>{{ $text }}</option>
 				@endforeach
 			</select>
-{{--			{!! Form::select( 'officeId', array_merge( [ '' => '' ], $offices ), $office_id, [ 'class' => 'form-control', 'data-placeholder' => trans( 'offices.select' ) ] ) !!} --}}
-			{!! $errors->first( 'officeId', Form::label( 'officeId', ':message' ) ) !!}
+{{--			{!! Form::select( 'organizationId', array_merge( [ '' => '' ], $offices ), $office_id, [ 'class' => 'form-control', 'data-placeholder' => trans( 'orgs.select' ) ] ) !!} --}}
+			{!! $errors->first( 'organizationId', Form::label( 'organizationId', ':message' ) ) !!}
 		</div>
 	</div>
     @else
-    {!! Form::hidden( 'officeId', Input::old( 'officeId', ( isset( $user ) ? $user->officeId : $currentOffice->officeId ) ) ) !!}
+    {!! Form::hidden( 'organizationId', Input::old( 'organizationId', ( isset( $user ) ? $user->organizationId : $currentOffice->organizationId ) ) ) !!}
 	@endif
 {{--	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">

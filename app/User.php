@@ -6,10 +6,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Iome\Office;
+use Iome\Organization;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
-{
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	use Authenticatable, CanResetPassword;
 
@@ -25,14 +24,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'email', 'password', 'fname', 'lname', 'authority', 'enabled', 'username', 'sec_email', 'address', 'city', 'state', 'zipcode', 'language', 'officeId', 'officeSlug', 'officeName' ];
+	protected $fillable = [
+		'email',
+		'password',
+		'fname',
+		'lname',
+		'authority',
+		'enabled',
+		'username',
+		'sec_email',
+		'address',
+		'city',
+		'state',
+		'zipcode',
+		'language',
+		'officeId',
+		'officeSlug',
+		'officeName'
+	];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
-	protected $hidden = [ 'password',  'remember_token' ];
+	protected $hidden = [ 'password', 'remember_token' ];
 
 	/**
 	 * The accessors to append to the model's array form.
@@ -48,42 +64,50 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public static $snakeAttributes = false;
 
+
 	/**
 	 * Create a new Eloquent model instance.
 	 *
-	 * @param  array  $attributes
-	 * @return void
+	 * @param  array $attributes
 	 */
-	public function __construct( array $attributes = [] )
+	public function __construct(array $attributes = [ ])
 	{
-		parent::__construct( $attributes );
+		parent::__construct($attributes);
 
-		isset( $attributes[ 'exists' ] ) && $this->exists = filter_var( $attributes[ 'exists' ], FILTER_VALIDATE_BOOLEAN );
+		isset( $attributes['exists'] ) && $this->exists = filter_var($attributes['exists'], FILTER_VALIDATE_BOOLEAN);
 	}
+
 
 	/**
 	 * [isAdmin description]
-	 * @return boolean [description]
+	 *
+	 * @param int $organizationId
+	 *
+	 * @return bool [description]
 	 */
-	public function isAdmin()
+	public function isAdmin($organizationId = null)
 	{
-		return $this->isVendorAdmin() || $this->authority == 'ROLE_ADMIN';
+		$organizationId ?: $this->organizationId;
+
+		return ( $this->isMasterAdmin() || ( $this->authority == 'ROLE_ADMIN' && $this->organizationId == $organizationId ) );
 	}
 
+
 	/**
-	 * [isVendorAdmin description]
+	 * [isMasterAdmin description]
 	 * @return boolean [description]
 	 */
-	public function isVendorAdmin()
+	public function isMasterAdmin()
 	{
 		return $this->authority == 'ROLE_MASTER';
 	}
 
+
 	public static function listRoles()
 	{
 		return [
-			'ROLE_USER' => 'User',
-			'ROLE_ADMIN' => 'Admin',
+			'ROLE_USER'   => 'User',
+			'ROLE_ADMIN'  => 'Admin',
 			'ROLE_MASTER' => 'Master Admin'
 		];
 	}
@@ -98,8 +122,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public function getNameAttribute()
 	{
-		return $this->attributes[ 'fname' ] . ' ' . $this->attributes[ 'lname' ];
+		return $this->attributes['fname'] . ' ' . $this->attributes['lname'];
 	}
+
 
 	/**
 	 * Get the value of the model's route key.
@@ -108,8 +133,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public function getRouteKey()
 	{
-		return urlencode( parent::getRouteKey() );
+		return urlencode(parent::getRouteKey());
 	}
+
 
 	/**
 	 * [__toString description]

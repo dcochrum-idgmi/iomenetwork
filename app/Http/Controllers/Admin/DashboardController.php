@@ -2,20 +2,19 @@
 
 use Iome\Http\Controllers\Controller;
 use Iome\Extension;
-use Iome\Office;
+use Iome\Organization;
 use Iome\User;
 
-class DashboardController extends Controller
-{
+class DashboardController extends Controller {
 
 	public function index()
 	{
-		$title = "Dashboard";
+		$title = 'Dashboard';
 
-		$exts = Extension::count();
-		$offices = Office::count();
-		$users = User::count();
+		$exts  = 105;
+		$orgs  = 5;
+		$users = 3;
 
-		return view( 'admin.dashboard.index', compact( 'exts', 'offices', 'title', 'users' ) );
+		return view('admin.dashboard.index', compact('exts', 'orgs', 'title', 'users'));
 	}
 }
