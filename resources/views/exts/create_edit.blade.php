@@ -1,6 +1,6 @@
 @extends('layouts.'.((Input::get('iframe') !== null) ? 'modal' : 'default'))
 @section('content')
-@include('layouts.page_header', ['page_header' => trans('ext.'.(isset($ext) ? 'edit' : 'create')).' '.trans('ext.user')])
+@include('layouts.page_header', ['page_header' => trans('site.'.(isset($ext) ? 'edit' : 'create')).' '.trans('ext.extension')])
 @if (isset($ext))
 {!! Form::model($ext, ['method' => 'PATCH', 'route' => ['exts.update', $currentOrg, $ext], 'class' => 'form-horizontal']) !!}
 @else

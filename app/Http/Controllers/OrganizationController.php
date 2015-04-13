@@ -177,7 +177,7 @@ class OrganizationController extends Controller {
 	{
 		$org              = $org ?: $currentOrg;
 		$success_redirect = sub_route(( Auth::user()->organizationId == $org->organizationId ? 'logout' : 'orgs.index' ));
-		$error_redirect   = sub_route('orgs.edit', [ 'orgs' => $org ]);
+		$error_redirect   = sub_route('orgs.delete', [ 'orgs' => $org ]);
 
 		return $this->do_destroy($request, $org, $success_redirect, $error_redirect);
 	}

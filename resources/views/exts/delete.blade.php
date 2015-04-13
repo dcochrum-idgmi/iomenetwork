@@ -1,7 +1,7 @@
 @extends('layouts.'.((Input::get('iframe') !== null) ? 'modal' : 'default'))
 @section('content')
-@include('layouts.page_header', ['page_header' => trans('ext.delete')])
-{!! Form::model($ext, ['method' => 'DELETE', 'route' => ['ext.destroy', $ext], 'class' => 'form-horizontal']) !!}
+@include('layouts.page_header', ['page_header' => trans('site.delete')])
+{!! Form::model($ext, ['method' => 'DELETE', 'route' => ['exts.destroy', $currentOrg, $ext], 'class' => 'form-horizontal']) !!}
 	<div class="form-group">
 		<div class="controls">
 			{{ trans('ext.delete_message') }}<br>

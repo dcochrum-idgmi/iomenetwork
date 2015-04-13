@@ -155,7 +155,7 @@ class UserController extends Controller {
 	public function destroy(UserRequest $request, Organization $currentOrg, User $user)
 	{
 		$success_redirect = sub_route('users.index');
-		$error_redirect   = sub_route('users.edit', [ 'users' => $user ]);
+		$error_redirect   = sub_route('users.delete', [ 'users' => $user ]);
 
 		return $this->do_destroy($request, $user, $success_redirect, $error_redirect);
 	}

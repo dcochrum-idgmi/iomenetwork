@@ -69,18 +69,16 @@ class ExtensionController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param Organization $office
+	 * @param Organization $currentOrg
 	 * @param Extension    $ext
 	 *
 	 * @return Response
 	 */
-	public function show(Organization $office, Extension $ext)
+	public function show(Organization $currentOrg, Extension $ext)
 	{
-		$title = 'Extensions';
-		dd($ext);
-		$extensions = $office->extensions->toArray();
+		$title = 'Extension';
 
-		return view('extensions.index', compact($title))->with('ext', $ext);
+		return view('exts.index', compact('title', 'ext'));
 	}
 
 
@@ -132,23 +130,23 @@ class ExtensionController extends Controller {
 
 	public function delete(Organization $currentOrg, Extension $ext)
 	{
-		return view('users.delete', compact('ext'));
+		return view('exts.delete', compact('ext'));
 	}
 
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param UserRequest  $request
-	 * @param Organization $currentOrg
-	 * @param Extension    $ext
+	 * @param ExtensionRequest $request
+	 * @param Organization     $currentOrg
+	 * @param Extension        $ext
 	 *
 	 * @return Response
 	 */
-	public function destroy(UserRequest $request, Organization $currentOrg, Extension $ext)
+	public function destroy(ExtensionRequest $request, Organization $currentOrg, Extension $ext)
 	{
 		$success_redirect = sub_route('exts.index');
-		$error_redirect   = sub_route('exts.edit', [ 'exts' => $ext ]);
+		$error_redirect   = sub_route('exts.delete', [ 'exts' => $ext ]);
 
 		return $this->do_destroy($request, $ext, $success_redirect, $error_redirect);
 	}
@@ -160,23 +158,23 @@ class ExtensionController extends Controller {
 	 *
 	 * @return array
 	 */
-	public function filterModelData(Extension $ext, $data)
-	{
-		global $currentOrg;
-
-		$isCurrentOrg    = $ext->organizationId == $currentOrg->organizationId;
-		$view_text       = trans('site.visit') . ' ' . $ext->name . ' ' . strtolower(trans('site.subsite'));
-		$data['actions'] = [
-				'view' => '<a href="' . ( $isCurrentOrg ? '#' : sub_route('home',
-						[ 'org_subdomain' => $ext ]) ) . '" class="btn btn-info btn-sm iframe' . ( $isCurrentOrg ? ' disabled' : '' ) . '" title="' . $view_text . '"><span class="fa fa-eye" aria-hidden="true"></span><span class="sr-only">' . $view_text . '</span></a>'
-			] + $data['actions'];
-
-		if ( $ext->organizationId == 1 )
-		{
-			unset( $data['actions']['delete'] );
-		}
-
-		return $data;
-	}
+	//public function filterModelData(Extension $ext, $data)
+	//{
+	//	global $currentOrg;
+	//
+	//	$isCurrentOrg    = $ext->organizationId == $currentOrg->organizationId;
+	//	$view_text       = trans('site.visit') . ' ' . $ext->name . ' ' . strtolower(trans('site.subsite'));
+	//	$data['actions'] = [
+	//			'view' => '<a href="' . ( $isCurrentOrg ? '#' : sub_route('home',
+	//					[ 'org_subdomain' => $ext ]) ) . '" class="btn btn-info btn-sm iframe' . ( $isCurrentOrg ? ' disabled' : '' ) . '" title="' . $view_text . '"><span class="fa fa-eye" aria-hidden="true"></span><span class="sr-only">' . $view_text . '</span></a>'
+	//		] + $data['actions'];
+	//
+	//	if ( $ext->organizationId == 1 )
+	//	{
+	//		unset( $data['actions']['delete'] );
+	//	}
+	//
+	//	return $data;
+	//}
 
 }
