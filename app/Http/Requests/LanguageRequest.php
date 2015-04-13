@@ -1,8 +1,8 @@
-<?php namespace Iome\Http\Requests\Admin;
+<?php namespace Iome\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleRequest extends FormRequest
+class LanguageRequest extends FormRequest
 {
 
 	/**
@@ -13,7 +13,8 @@ class RoleRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'name' => 'required|min:3',
+			'name'      => 'required|min:3',
+			'lang_code' => 'required|min:1',
 		];
 	}
 

@@ -12,7 +12,7 @@ class LoginRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-			'email'    => 'required',
+			'username' => 'required|email',
 			'password' => 'required',
 		];
 	}

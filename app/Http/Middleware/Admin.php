@@ -48,11 +48,18 @@ class Admin implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ( $this->auth->check() && $this->auth->user()->isAdmin() )
+		$user = $this->auth->user();
+		if ( ! $user->isAdmin() )
 		{
-			return $next($request);
+			if ( $request->ajax() )
+			{
+				return response('Unauthorized.', 401);
+			}
+
+			return redirect(sub_url('/', [ 'org_subdomain' => $user->organizationSlug ]));
 		}
 
+		return $next($request);
 	}
 
 }

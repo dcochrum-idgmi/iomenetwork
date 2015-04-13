@@ -4,42 +4,64 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
+use Iome\Macate\Nebula\Model;
 use Illuminate\Support\Facades\Hash;
 use Iome\Organization;
 
-class Extension extends Model implements AuthenticatableContract, CanResetPasswordContract
-{
+class Extension extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	use Authenticatable, CanResetPassword;
 
 	/**
-	 * Indicates if the IDs are auto-incrementing.
-	 *
-	 * @var bool
-	 */
-	public $incrementing = false;
-
-	/**
-	 * The database table used by the model.
+	 * The Nebula API module for the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'extensions';
+	protected $table = 'sipusers';
+
+	/**
+	 * The primary key for the model.
+	 *
+	 * @var string
+	 */
+	//protected $primaryKey = 'extension';
+	protected $primaryKey = 'name';
+
+	/**
+	 * The model's attributes.
+	 *
+	 * @var array
+	 */
+	//protected $attributes = [
+	//	'organizationId'   => 1,
+	//	'organizationName' => 'Master',
+	//	'organizationSlug' => 'admin',
+	//];
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = [ 'id', 'officeId', 'mac', 'name', 'email', 'password' ];
+	protected $fillable = [
+		'name',
+		'extension',
+		'fullname',
+		'callerid',
+		'secret',
+		'organizationId',
+		'organizationName',
+		//'organizationSlug',
+		'dateEntered',
+		'dateModified'
+	];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
-	protected $hidden = [ 'password', 'remember_token' ];
+	protected $hidden = [ 'secret', 'remember_token' ];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -47,41 +69,19 @@ class Extension extends Model implements AuthenticatableContract, CanResetPasswo
 	 * @var array
 	 */
 	protected $casts = [
-		'id'        => 'string',
-		'confirmed' => 'boolean',
-		'admin'     => 'boolean',
+		'extension' => 'string',
+		'name'      => 'string',
 	];
-
-	/**
-	 * [office description]
-	 * @return [type] [description]
-	 */
-	public function office()
-	{
-		return $this->belongsTo( 'Office' );
-	}
 
 	/**
 	 * [setPasswordAttribute description]
 	 *
 	 * @param [type] $password [description]
 	 */
-	public function setPasswordAttribute( $password )
-	{
-		$this->attributes[ 'password' ] = Hash::make( $password );
-	}
-
-	/**
-	 * [isMemberOf description]
-	 *
-	 * @param  [type]  $office [description]
-	 *
-	 * @return boolean      [description]
-	 */
-	public function isMemberOf( $office )
-	{
-		return $this->office->id === $office->id;
-	}
+	//public function setPasswordAttribute( $password )
+	//{
+	//	$this->attributes[ 'password' ] = Hash::make( $password );
+	//}
 
 	/**
 	 * [__toString description]
@@ -89,22 +89,20 @@ class Extension extends Model implements AuthenticatableContract, CanResetPasswo
 	 */
 	public function __toString()
 	{
-		return $this->id;
+		return $this->extension;
 	}
 
+
 	/**
-	 * Save the model to the database.
+	 * Get the value of the model's route key.
 	 *
-	 * @param  array $options
-	 *
-	 * @return bool
+	 * @return mixed
 	 */
-	public function save( array $options = [ ] )
+	public function getRouteKey()
 	{
-		empty( $this->password ) && $this->setPasswordAttribute( $this->id );
-		// error_log('password: '.$this->password);
-		// empty($this->password) && $this->password = $this->id;
-		parent::save( $options );
+		global $currentOrg;
+
+		return $currentOrg->isMaster() ? $this->name : $this->extension;
 	}
 
 }

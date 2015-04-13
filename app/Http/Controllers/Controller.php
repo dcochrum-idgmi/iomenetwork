@@ -1,13 +1,16 @@
 <?php namespace Iome\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Flash;
 use Input;
-use Iome\Macate\Nebula\Nebula;
-use Request;
+use Iome\Macate\Nebula\Model;
+use Nebula;
+use Organization;
 use Response;
 
 abstract class Controller extends BaseController {
@@ -15,6 +18,26 @@ abstract class Controller extends BaseController {
 	use DispatchesCommands, ValidatesRequests;
 
 
+	/**
+	 * @return array
+	 */
+	public function get_org_parameter()
+	{
+		global $currentOrg;
+
+		$parameters = [ ];
+		if ( $currentOrg->isMaster() && Auth::user()->isMasterAdmin() )
+		{
+			$parameters['organizationId'] = '';
+		}
+
+		return $parameters;
+	}
+
+
+	/**
+	 * @param $arr
+	 */
 	protected function col_as_alias(&$arr)
 	{
 		$arr = array_map(function ($v)
@@ -27,6 +50,11 @@ abstract class Controller extends BaseController {
 	}
 
 
+	/**
+	 * @param $arr
+	 *
+	 * @return array
+	 */
 	protected function remove_count_cols(&$arr)
 	{
 		$removed = [ ];
@@ -57,6 +85,17 @@ abstract class Controller extends BaseController {
 
 
 	/**
+	 * Send flash message to views upon successful resource creation.
+	 *
+	 * @param  string $message Message to display.
+	 */
+	protected function flash_error($message = 'An error has occurred!')
+	{
+		Flash::error($message);
+	}
+
+
+	/**
 	 * Send flash message to views upon successful resource update.
 	 *
 	 * @param  string $message Message to display.
@@ -78,8 +117,64 @@ abstract class Controller extends BaseController {
 	}
 
 
-	public function dataTable($module, $cols = '*')
+	/**
+	 * @return array
+	 */
+	protected function list_orgs()
 	{
+		if ( ! Auth::user()->isMasterAdmin() )
+		{
+			return [ ];
+		}
+
+		$orgs  = Organization::all([ 'fields' => 'organizationName', 'orders' => 'ASC' ])->toArray();
+		$names = array_pluck($orgs, 'organizationName');
+		$slugs = array_pluck($orgs, 'slug');
+		$ids   = array_pluck($orgs, 'organizationId');
+
+		$display = [ ];
+		foreach ($names as $i => $name)
+		{
+			$display[$i] = $name . ' (' . $slugs[$i] . ')';
+		}
+
+		return array_combine($ids, $display);
+	}
+
+
+	/**
+	 * @param string $countryId
+	 *
+	 * @return array
+	 */
+	public function list_states($countryId = 'US')
+	{
+		return Nebula::getStates($countryId);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function list_countries()
+	{
+		return Nebula::getCountries();
+	}
+
+
+	/**
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function dataTable()
+	{
+		global $currentOrg;
+
+		$controller   = new \ReflectionClass(get_class($this));
+		$controller   = $controller->getShortName();
+		$model        = str_replace('Controller', '', $controller);
+		$stamp_fields = [ $model::CREATED_AT, $model::UPDATED_AT ];
+		$now          = new Carbon;
+		$resource     = $this->route_resource;
 		$data         = [ ];
 		$cols         = array_pluck(Input::get('columns'), 'data');
 		$output       = [
@@ -88,35 +183,203 @@ abstract class Controller extends BaseController {
 			'recordsFiltered' => 0,
 			'data'            => [ ]
 		];
-		$resources    = [
-			'organizations' => 'orgs',
-			'users'         => 'users',
-			'sips'          => 'sips'
-		];
-		$route_method = ( ( $module == 'organizations' ) ? 'admin' : 'sub' ) . '_route';
 
-		$response = Nebula::getAll($module,
-			[ 'start' => Input::get('start'), 'end' => ( Input::get('length') + Input::get('start') ) ]);
-
-		foreach ($response['models'] as $model)
+		$fields = $orders = '';
+		if ( Input::has('order.0.column') && Input::has('order.0.dir') )
 		{
+			$orderby  = array_pluck(Input::get('order'), 'column');
+			$orderdir = array_pluck(Input::get('order'), 'dir');
+			if ( count($orderby) == count($orderdir) )
+			{
+				$fields = [ ];
+				foreach ($orderby as $index)
+				{
+					$field    = $cols[$index];
+					$fields[] = $field;
 
-			//if(isset($model['slug']) && strpos($model['slug'], config('app.domain')) !== false)
-			//	Nebula::organizationUpdate(['organizationId' => $model['organizationId'], 'slug' => ($model['organizationId'] == 1 ? 'admin' : str_replace('.'.config('app.domain'), '', $model['slug']))]);
-			$model_data            = $model->toArray();
-			$model_data['actions'] = '<a href="' . $route_method($resources[$module] . '.edit',
-					[ $resources[$module] => $model ]) . '" class="btn btn-primary btn-sm iframe" title="' . trans('modal.edit') . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">' . trans('modal.edit') . '</span></a>';
-			( $model->organizationId != 16 ) && $model_data['actions'] .= '<a href="' . $route_method($resources[$module] . '.delete',
-					[ $resources[$module] => $model ]) . '" class="btn btn-sm btn-danger iframe" title="' . trans('modal.delete') . '"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">' . trans('modal.delete') . '</span></a>';
-			//$model_data = array_only($model_data, $cols);
-
-			$data[] = $model_data;
+					//  Reverse the direction of the created & updated columns since we're displaying them as time diffs
+					if ( in_array($field, $stamp_fields) )
+					{
+						$i            = key($fields);
+						$orderdir[$i] = strtoupper($orderdir[$i]) == 'DESC' ? 'ASC' : 'DESC';
+					}
+				}
+				$fields = implode(':', $fields);
+				$orders = strtoupper(implode(':', $orderdir));
+			}
 		}
 
-		$output['recordsTotal']    = $response['total' . ucfirst($module)];
+		$parameters = array_merge([
+			'start'  => Input::get('start', 0),
+			'end'    => ( Input::get('length', 10) + Input::get('start', 0) ),
+			'fields' => $fields,
+			'orders' => $orders,
+		], $this->get_org_parameter());
+		//$model == 'User' && $currentOrg->isMaster() && $parameters['action'] = 'paginated-list-all';
+		$collection = $model::all($parameters);
+
+		if ( $collection->hasError() )
+		{
+			$output['error'] = $collection->error();
+
+			return $output;
+		}
+
+		foreach ($collection as $model)
+		{
+			$model_data                      = $model->toArray();
+			$model_data['actions']['edit']   = '<a href="' . sub_route($resource . '.edit',
+					[ $resource => $model ]) . '" class="btn btn-primary btn-sm iframe" title="' . trans('modal.edit') . ' ' . $model->name . '"><span class="fa fa-pencil" aria-hidden="true"></span><span class="sr-only">' . trans('modal.edit') . '</span></a>';
+			$model_data['actions']['delete'] = '<a href="' . sub_route($resource . '.delete',
+					[ $resource => $model ]) . '" class="btn btn-sm btn-danger iframe" title="' . trans('modal.delete') . ' ' . $model->name . '"><span class="fa fa-trash" aria-hidden="true"></span><span class="sr-only">' . trans('modal.delete') . '</span></a>';
+
+			foreach ($stamp_fields as $field)
+			{
+				if ( isset( $model_data[$field] ) )
+				{
+					$date = Carbon::parse($model->{$field});
+					// Creating/editing in the future is still too new a concept for your average user to grasp.
+					// Let's try not to freak them out too much and just pretend the server times are the same.
+					if ( $date->gt($now) )
+					{
+						$date = $now;
+					}
+					$model_data[$field] = '<abbr class="time-diff" title="' . $date->toRfc2822String() . '">' . $date->diffForHumans() . '</abbr>';
+				}
+			}
+
+			if ( method_exists($this, 'filterModelData') )
+			{
+				$model_data = $this->filterModelData($model, $model_data);
+			}
+
+			$model_data['actions'] = implode('', $model_data['actions']);
+
+			$data[] = array_only($model_data, $cols);
+		}
+
+		$output['recordsTotal']    = $collection->total();
 		$output['recordsFiltered'] = count($data);
 		$output['data']            = $data;
 
-		return Response::json($output);
+		return $output;
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param FormRequest $request
+	 * @param Model       $model
+	 * @param string      $success_redirect
+	 * @param string      $error_redirect
+	 * @param array       $data
+	 *
+	 * @return Response
+	 */
+	protected function do_create(
+		FormRequest $request,
+		Model $model,
+		$success_redirect,
+		$error_redirect,
+		$data = [ ]
+	) {
+		$data     = $data ?: $request->all();
+		$response = $model->fill($data)->save();
+
+		return $this->process_crud_response('create', $response, $request, $model, $success_redirect, $error_redirect);
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param FormRequest $request
+	 * @param Model       $model
+	 * @param string      $success_redirect
+	 * @param string      $error_redirect
+	 * @param array       $data
+	 *
+	 * @return Response
+	 */
+	protected function do_update(
+		FormRequest $request,
+		Model $model,
+		$success_redirect,
+		$error_redirect,
+		$data = [ ]
+	) {
+		$data     = $data ?: $request->all();
+		$response = $model->update($data);
+
+		return $this->process_crud_response('update', $response, $request, $model, $success_redirect, $error_redirect);
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param FormRequest $request
+	 * @param Model       $model
+	 * @param string      $success_redirect
+	 * @param string      $error_redirect
+	 *
+	 * @return Response
+	 */
+	protected function do_destroy(
+		FormRequest $request,
+		Model $model,
+		$success_redirect,
+		$error_redirect
+	) {
+		$response = $model->delete();
+
+		return $this->process_crud_response('delete', $response, $request, $model, $success_redirect, $error_redirect);
+	}
+
+
+	/**
+	 * @param string      $action
+	 * @param array       $response
+	 * @param FormRequest $request
+	 * @param Model       $model
+	 * @param string      $success_redirect
+	 * @param string      $error_redirect
+	 *
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+	 */
+	protected function process_crud_response(
+		$action,
+		$response,
+		FormRequest $request,
+		Model $model,
+		$success_redirect,
+		$error_redirect
+	) {
+		if ( $response['success'] )
+		{
+			if ( $request->wantsJson() )
+			{
+				if ( $action == 'delete' )
+				{
+					return response(null, 204);
+				}
+
+				return response($model, 200);
+			}
+
+			$this->{'flash_' . $action . 'd'}();
+
+			return redirect($success_redirect);
+		}
+
+		if ( $request->wantsJson() )
+		{
+			return response([ 'status' => 'error', 'general' => $response['errorMsg'] ], $response['error']);
+		}
+
+		$this->flash_error($response['errorMsg']);
+
+		return redirect($error_redirect)->withInput($request->except($model->getHidden()));
 	}
 }

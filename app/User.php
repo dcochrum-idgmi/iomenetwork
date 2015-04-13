@@ -4,20 +4,37 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
-use Iome\Organization;
+use Iome\Macate\Nebula\Model;
+use Nebula;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
 	use Authenticatable, CanResetPassword;
 
 	/**
+	 * The Nebula API module for the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'users';
+
+	/**
+	 * Available user roles mapped to their friendly display names.
+	 *
+	 * @var array
+	 */
+	protected static $roles = [
+		'ROLE_MASTER' => 'Master Admin',
+		'ROLE_ADMIN'  => 'Admin',
+		'ROLE_USER'   => 'User',
+	];
+
+	/**
 	 * The primary key for the model.
 	 *
 	 * @var string
 	 */
-	protected $primaryKey = 'email';
+	protected $primaryKey = 'username';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -25,22 +42,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $fillable = [
+		'username',
 		'email',
 		'password',
 		'fname',
 		'lname',
 		'authority',
 		'enabled',
-		'username',
-		'sec_email',
 		'address',
 		'city',
 		'state',
 		'zipcode',
 		'language',
-		'officeId',
-		'officeSlug',
-		'officeName'
+		'organizationId',
+		'organizationSlug',
+		'organizationName',
+		'dateEntered',
+		'dateModified'
 	];
 
 	/**
@@ -55,27 +73,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $appends = [ 'name' ];
+	protected $appends = [ 'name', 'role' ];
 
 	/**
-	 * Indicates whether attributes are snake cased on arrays.
+	 * The attributes that should be casted to native types.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	public static $snakeAttributes = false;
-
-
-	/**
-	 * Create a new Eloquent model instance.
-	 *
-	 * @param  array $attributes
-	 */
-	public function __construct(array $attributes = [ ])
-	{
-		parent::__construct($attributes);
-
-		isset( $attributes['exists'] ) && $this->exists = filter_var($attributes['exists'], FILTER_VALIDATE_BOOLEAN);
-	}
+	protected $casts = [ 'bool' => 'enabled' ];
 
 
 	/**
@@ -87,7 +92,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public function isAdmin($organizationId = null)
 	{
-		$organizationId ?: $this->organizationId;
+		$organizationId = $organizationId ?: $this->organizationId;
 
 		return ( $this->isMasterAdmin() || ( $this->authority == 'ROLE_ADMIN' && $this->organizationId == $organizationId ) );
 	}
@@ -103,26 +108,125 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 
-	public static function listRoles()
+	/**
+	 * @return array
+	 */
+	public static function getRoles()
 	{
-		return [
-			'ROLE_USER'   => 'User',
-			'ROLE_ADMIN'  => 'Admin',
-			'ROLE_MASTER' => 'Master Admin'
-		];
+		return static::$roles;
 	}
 
-//	public function setPasswordAttribute( $password )
-//	{
-//		$this->attributes[ 'password' ] = Hash::make( $password );
-//	}
+
+	/**
+	 * @return mixed
+	 */
+	public static function baseRole()
+	{
+		$roles = static::getRoles();
+		end($roles);
+
+		return [ key($roles) => current($roles) ];
+	}
+
+
+	/**
+	 * @param User $other_user
+	 *
+	 * @return bool
+	 */
+	public function roleGt(User $other_user)
+	{
+		$roles = array_flip(array_keys(static::getRoles()));
+
+		// Since we've ordered roles from greatest to least,
+		// we need to do a reverse comparison.
+		return $roles[$this->authority] < $roles[$other_user->authority];
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function rolesLte()
+	{
+		$roles   = static::getRoles();
+		$keys    = array_keys($roles);
+		$indexes = array_flip($keys);
+
+		$highest = $indexes[$this->authority];
+		$keys = array_slice($indexes, $highest);
+
+		return array_intersect_key($roles, $keys);
+	}
+
+
+	/**
+	 * Fill the model with an array of attributes.
+	 *
+	 * @param  array $attributes
+	 *
+	 * @return $this
+	 *
+	 * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+	 */
+	public function fill(array $attributes)
+	{
+		if ( ! isset( $this->attributes['email'] ) && ! isset( $attributes['email'] ) && ( isset( $this->attributes['username'] ) || isset( $attributes['username'] ) ) )
+		{
+			$attributes['email'] = isset( $attributes['username'] ) ? $attributes['username'] : $this->attributes['username'];
+		}
+
+		return parent::fill($attributes);
+	}
+
+
+	/**
+	 * @param $password
+	 */
+	//public function setPasswordAttribute( $password )
+	//{
+	//	$username = isset( $this->attributes['username'] ) ? $this->attributes['username'] : '';
+	//	$this->attributes[ 'password' ] = Nebula::hash( $username, $password );
+	//}
+
+	/**
+	 * @return string
+	 */
+	//public function setEmailAttribute($value)
+	//{
+	//	dd($value);
+	//	return isset( $this->attributes['email'] ) ? $this->attributes['email'] : $this->attributes['username'];
+	//}
 
 	/**
 	 * @return string
 	 */
 	public function getNameAttribute()
 	{
-		return $this->attributes['fname'] . ' ' . $this->attributes['lname'];
+		$names = [ ];
+
+		if ( isset( $this->attributes['fname'] ) )
+		{
+			$names[] = $this->attributes['fname'];
+		}
+
+		if ( isset( $this->attributes['lname'] ) )
+		{
+			$names[] = $this->attributes['lname'];
+		}
+
+		return implode(' ', $names);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getRoleAttribute()
+	{
+		$roles = static::getRoles();
+
+		return isset( $this->authority ) ? $roles[$this->authority] : null;
 	}
 
 
@@ -143,7 +247,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public function __toString()
 	{
-		return $this->name;
+		return $this->username;
 	}
 
 }

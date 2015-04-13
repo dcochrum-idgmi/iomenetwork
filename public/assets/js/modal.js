@@ -5,6 +5,7 @@ $(function () {
         event.preventDefault();
         var $form = $(this),
             $btn = $('input:submit, button.submit', $form);
+        $btn.button('loading');
         $('.form-group.has-error', $form).removeClass('has-error');
         $('label.error', $form).remove();
         $.ajax({
@@ -14,7 +15,7 @@ $(function () {
             dataType: 'json'
         }).always(function (data, status) {
             if (status == 'success' || status == 'nocontent') {
-                parent.oTable.api().ajax.reload();
+                parent.oTable.api().clearPipeline().draw();
                 parent.$.colorbox.close();
             } else {
                 var resp = JSON.parse(data.responseText);

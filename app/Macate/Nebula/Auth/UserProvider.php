@@ -1,12 +1,11 @@
 <?php namespace Iome\Macate\Nebula\Auth;
 
-use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Auth\UserProvider as BaseUserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Nebula;
 
-class NebulaUserProvider implements UserProvider
-{
+class UserProvider implements BaseUserProvider {
 
 	/**
 	 * The hasher implementation.
@@ -22,17 +21,19 @@ class NebulaUserProvider implements UserProvider
 	 */
 	protected $model;
 
+
 	/**
 	 * Create a new database user provider.
 	 *
 	 * @param  \Illuminate\Contracts\Hashing\Hasher $hasher
 	 * @param  string                               $model
 	 */
-	public function __construct( HasherContract $hasher, $model )
+	public function __construct(HasherContract $hasher, $model)
 	{
-		$this->model = $model;
+		$this->model  = $model;
 		$this->hasher = $hasher;
 	}
+
 
 	/**
 	 * Retrieve a user by their unique identifier.
@@ -41,10 +42,16 @@ class NebulaUserProvider implements UserProvider
 	 *
 	 * @return \Illuminate\Contracts\Auth\Authenticatable|null
 	 */
-	public function retrieveById( $identifier )
+	public function retrieveById($identifier)
 	{
-		return Nebula::getUser( $identifier );
+		if ( ! Nebula::checkSession() )
+		{
+			return null;
+		}
+
+		return Nebula::find('users', $identifier);
 	}
+
 
 	/**
 	 * Retrieve a user by their unique identifier and "remember me" token.
@@ -54,10 +61,11 @@ class NebulaUserProvider implements UserProvider
 	 *
 	 * @return \Illuminate\Contracts\Auth\Authenticatable|null
 	 */
-	public function retrieveByToken( $identifier, $token )
+	public function retrieveByToken($identifier, $token)
 	{
-		return $this->retrieveById( $identifier );
+		return $this->retrieveById($identifier);
 	}
+
 
 	/**
 	 * Update the "remember me" token for the given user in storage.
@@ -67,12 +75,11 @@ class NebulaUserProvider implements UserProvider
 	 *
 	 * @return void
 	 */
-	public function updateRememberToken( UserContract $user, $token )
+	public function updateRememberToken(UserContract $user, $token)
 	{
-		$user->setRememberToken( $token );
-
-//		$user->save();
+		$user->setRememberToken($token);
 	}
+
 
 	/**
 	 * Retrieve a user by the given credentials.
@@ -81,10 +88,11 @@ class NebulaUserProvider implements UserProvider
 	 *
 	 * @return \Illuminate\Contracts\Auth\Authenticatable|null
 	 */
-	public function retrieveByCredentials( array $credentials )
+	public function retrieveByCredentials(array $credentials)
 	{
-		return Nebula::getUser( current( $credentials ), key( $credentials ) );
+		return Nebula::find('users', current($credentials), key($credentials));
 	}
+
 
 	/**
 	 * Validate a user against the given credentials.
@@ -94,13 +102,13 @@ class NebulaUserProvider implements UserProvider
 	 *
 	 * @return bool
 	 */
-	public function validateCredentials( UserContract $user, array $credentials )
+	public function validateCredentials(UserContract $user, array $credentials)
 	{
-		$response = Nebula::login( $credentials );
+		$response = Nebula::login($credentials);
 
-		$response[ 'success' ] && session( [ 'nebulaSessionId' => $response[ 'sessionId' ] ] );
+		$response['success'] && session([ 'nebulaSessionId' => $response['sessionId'] ]);
 
-		return $response[ 'success' ];
+		return $response['success'];
 	}
 
 }

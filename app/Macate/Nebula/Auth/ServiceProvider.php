@@ -4,10 +4,10 @@ use Illuminate\Auth\Guard;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Hashing\BcryptHasher;
-use Illuminate\Support\ServiceProvider;
-use Iome\Macate\Nebula\Auth\NebulaUserProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Iome\Macate\Nebula\Auth\UserProvider;
 
-class AuthServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
 
 		$this->app[ 'auth' ]->extend( 'nebula', function ( $app ) {
 			$model = config( 'auth.model' );
-			$provider = new NebulaUserProvider( new BcryptHasher, $model );
+			$provider = new UserProvider( new BcryptHasher, $model );
 
 			return new Guard( $provider, $app[ 'session.store' ] );
 		} );

@@ -2,63 +2,25 @@
 
 use Iome\Organization;
 
-global $currentOrg;
-
-Route::bind('org_subdomain', function ($value)
-{
-	global $currentOrg;
-
-	$value == 'admin' && $value = 'macate';
-	$currentOrg = Nebula::getOrganization($value, 'slug');
-	View::share('currentOrg', $currentOrg);
-
-	return $currentOrg;
-});
-
-Route::bind('orgs', function ($value)
-{
-	$value == 'admin' && $value = 'macate';
-	$org = Nebula::getOrganization($value, 'slug');
-
-	return $org;
-});
-
-Route::bind('users', function ($value)
-{
-	return Nebula::getUser($value);
-});
-
 Route::group([ 'domain' => '{org_subdomain}.' . config('app.domain') ], function ()
 {
-	Route::group([ 'middleware' => 'auth', 'notmaster' ], function ()
+	Route::group([ 'middleware' => [ 'auth', 'master' ] ], function ()
 	{
-		//get('{_exts?}', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
+		get('dashboard', [ 'as' => 'dashboard', 'uses' => 'DashboardController@index' ]);
+		route_resource_and_del('orgs', 'OrganizationController');
 	});
-	Route::group([ 'middleware' => [ 'auth', 'masteradmin', 'master' ] ], function ()
-	{
-		//get('/{_dashboard?}', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
-		//get('/', [ 'as' => 'dashboard', 'uses' => 'Admin\DashboardController@index' ]);
-		route_resource_and_del('orgs', 'Admin\OrganizationController');
-	});
-
-	Route::group([ 'middleware' => [ 'auth', 'admin', 'notmaster' ] ], function ()
-	{
-		//get('/{exts.index?}', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
-	} );
 
 	Route::group([ 'middleware' => [ 'auth', 'admin' ] ], function ()
 	{
 		route_resource_and_del('exts', 'ExtensionController');
 		route_resource_and_del('users', 'UserController');
-		get('settings', [ 'uses' => 'Admin\OrganizationController@edit', 'as' => 'settings' ]);
-		patch('settings', [ 'uses' => 'Admin\OrganizationController@update', 'as' => 'settings' ]);
+		get('settings', [ 'uses' => 'OrganizationController@edit', 'as' => 'settings' ]);
+		patch('settings', [ 'uses' => 'OrganizationController@update', 'as' => 'settings' ]);
 	});
 
 	Route::group([ 'middleware' => 'auth' ], function ()
 	{
-		get('/', [ 'uses' => 'ExtensionController@index', 'as' => 'exts.index' ]);
-		// get('settings', ['uses' => 'ExtensionController@edit', 'as' => 'exts.edit']);
-		// put('settings', ['uses' => 'ExtensionController@update', 'as' => 'exts.update']);
+		Route::any('/', [ 'as' => 'home', 'uses' => 'IndexController@index' ]);
 
 		Route::group([ 'prefix' => 'profile' ], function ()
 		{
@@ -77,7 +39,6 @@ Route::group([ 'domain' => '{org_subdomain}.' . config('app.domain') ], function
 
 		return $response;
 	});
-
 });
 
 Route::controller('password', 'Auth\PasswordController', [ 'getEmail' => 'resetpw' ]);
@@ -92,7 +53,7 @@ function route_resource_and_del($name, $controller)
 
 function admin_route($route, $params = [ ], $absolute = true)
 {
-	$params['org_subdomain'] = 'admin';
+	$params['org_subdomain'] = Organization::master()->slug;
 
 	$url = route($route, $params, $absolute);
 
@@ -110,7 +71,7 @@ function sub_route($route, $params = [ ], $absolute = true)
 
 function admin_url($url = '/', $params = [ ], $secure = false)
 {
-	$params['org_subdomain'] = 'admin';
+	$params['org_subdomain'] = Organization::master()->slug;
 
 	return url($url, $params, $secure);
 }
@@ -122,6 +83,13 @@ function sub_url($url = '/', $params = [ ], $secure = false)
 	return url($url, $params, $secure);
 }
 
+function sub_action($action, $params = [ ])
+{
+	merge_org_slug($params);
+
+	return action($action, $params);
+}
+
 /**
  * @param $params
  */
@@ -131,7 +99,6 @@ function merge_org_slug(&$params)
 	if ( ! isset( $params['org_subdomain'] ) )
 	{
 		$params['org_subdomain'] = get_current_org_slug();
-		$params['org_subdomain'] == 'macate' && $params['org_subdomain'] = 'admin';
 	}
 }
 
@@ -139,7 +106,7 @@ function get_current_org_slug()
 {
 	$org = get_current_org();
 
-	return $org instanceof Organization ? $org->slug : 'admin';
+	return $org instanceof Organization ? $org->slug : Organization::master()->slug;
 }
 
 function get_current_org()
@@ -150,4 +117,11 @@ function get_current_org()
 	}
 
 	return Route::current()->parameter('org_subdomain') ?: false;
+}
+
+function current_org_is_master()
+{
+	$org = get_current_org();
+
+	return ! $org instanceof Organization ?: $org->isMaster();
 }

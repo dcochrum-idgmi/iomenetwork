@@ -5,31 +5,20 @@
     @include('layouts.page_header', ['page_header' => trans('user.login_to_account')])
 {!! Form::open(['route' => ['login.post'], 'class' => 'form-horizontal']) !!}
 	<fieldset>
-		<div class="form-group {{$errors->has('email')?'has-error':''}}">
-			<label class="col-md-2 control-label" for="email">
-                {{	trans('user.e_mail') }} </label>
-			<div class="col-md-10">
-				<input class="form-control" tabindex="1"
-					placeholder="{{ trans('user.e_mail') }}" type="text"
-					name="email" id="email" value="{{ Input::old('email') }}"> <span
-					class="help-block">{!!$errors->first('email', '<span
-					class="help-block">:message </span>')!!}
-				</span>
-			</div>
-		</div>
-		<div class="form-group {{$errors->has('email')?'has-error':''}}">
-			<label class="col-md-2 control-label" for="password"> {{
-				trans('user.password') }} </label>
-			<div class="col-md-10">
-				<input class="form-control" tabindex="2"
-					placeholder="{{ trans('user.password') }}" type="password"
-					name="password" id="password"> <span class="help-block">{!!$errors->first('password',
-					'<span class="help-block">:message </span>')!!}
-				</span>
-			</div>
-		</div>
+        <div class="form-group{!! $errors->has( 'username' ) ? ' has-error' : '' !!}">
+            {!! Form::label( 'username', trans( 'users.email' ), [ 'class' => 'col-sm-2 control-label' ] ) !!}
+            <div class="col-sm-10">
+                {!! Form::email( 'username', null, [ 'class' => 'form-control', 'placeholder' => trans( 'users.email-ph' ) ] ) !!}
+            </div>
+        </div>
+        <div class="form-group{!! $errors->has( 'username' ) ? ' has-error' : '' !!}">
+            {!! Form::label( 'password', trans( 'users.password' ), [ 'class' => 'col-sm-2 control-label' ] ) !!}
+            <div class="col-sm-10">
+                {!! Form::password( 'password', [ 'class' => 'form-control' ] ) !!}
+            </div>
+        </div>
 		<div class="form-group">
-			<div class="col-md-10 col-md-offset-2">
+			<div class="col-sm-10 col-sm-offset-2">
 				<div class="checkbox">
 					<label>
 						{!! Form::checkbox('remember') !!}
@@ -38,9 +27,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				{!! Form::submit(trans('user.login'), ['class' => 'btn btn-primary']) !!}
+        <div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+                {!! $errors->first( 'username', '<p class="help-block">:message</p>' ) !!}
+                {!! Form::submit(trans('user.login'), ['class' => 'btn btn-primary']) !!}
 				{!! HTML::linkRoute('resetpw', trans( 'users.forgot' ), [], ['class' => 'btn btn-link']) !!}
 			</div>
 		</div>

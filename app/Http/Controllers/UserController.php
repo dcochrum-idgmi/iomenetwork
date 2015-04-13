@@ -1,21 +1,22 @@
 <?php namespace Iome\Http\Controllers;
 
 use Iome\Http\Requests;
-use Iome\Http\Controllers\Controller;
 use Iome\Organization;
 use Iome\User;
-use Iome\Http\Requests\Admin\UserCreateRequest;
-use Iome\Http\Requests\Admin\UserEditRequest;
-use Iome\Http\Requests\Admin\UserDeleteRequest;
+use Iome\Http\Requests\UserRequest;
+use Iome\Http\Requests\UserEditRequest;
+use Iome\Http\Requests\UserDeleteRequest;
 use Auth;
 use Datatables;
-use DB;
 use Nebula;
 use Request;
 use Response;
-use Session;
+use Route;
 
 class UserController extends Controller {
+
+	protected $route_resource = 'users';
+
 
 	/*
 	* Display a listing of the resource.
@@ -24,12 +25,12 @@ class UserController extends Controller {
 	*/
 	public function index()
 	{
-		$users = User::all();
-
 		if ( Request::wantsJson() )
 		{
-			return $this->data();
+			return $this->dataTable();
 		}
+
+		$users = User::all($this->get_org_parameter());
 
 		return view('users.index', compact('users'));
 	}
@@ -42,62 +43,45 @@ class UserController extends Controller {
 	 */
 	public function create()
 	{
-		$office_id = null;
-//		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
-		$offices = [ '-1' => 'Test' ];
-		$roles   = User::listRoles();
+		$orgs      = $this->list_orgs();
+		$roles     = Auth::user()->rolesLte();
+		$base_role = key(User::baseRole());
+		$states    = $this->list_states();
+		$countries = $this->list_countries();
 
-		return view('users.create_edit', compact('office_id', 'offices', 'roles'));
+		return view('users.create_edit', compact('orgs', 'roles', 'base_role', 'states', 'countries'));
 	}
 
 
 	/**
 	 * Create the specified resource in storage.
 	 *
-	 * @param UserCreateRequest $request
-	 * @param User              $user
+	 * @param UserRequest  $request
+	 * @param Organization $currentOrg
 	 *
 	 * @return Response
 	 */
-	public function store(UserCreateRequest $request, User $user)
+	public function store(UserRequest $request, Organization $currentOrg)
 	{
-		$data = $request->all();
+		$user             = new User;
+		$success_redirect = sub_route('users.index');
+		$error_redirect   = sub_route('users.create');
 
-		// Maybe generate a random password if empty?
-		// if (empty($data['password']))
-		// 	unset($data['password'], $data['password_confirmation']);
-
-		$response = Nebula::userCreate($data);
-		if ( $response['success'] )
-		{
-			if ( $request->wantsJson() )
-			{
-				return response($user->fill($data), 200);
-			}
-
-			return redirect(sub_route('users.index'));
-		}
-
-		return response([ 'status' => 'error', 'message' => 'Unable to save.', $response ], 422);
+		return $this->do_create($request, $user, $success_redirect, $error_redirect);
 	}
 
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param Organization $office
-	 * @param User   $user
+	 * @param Organization $currentOrg
+	 * @param User         $user
 	 *
 	 * @return Response
 	 */
-	public function show(Organization $office, User $user)
+	public function show(Organization $currentOrg, User $user)
 	{
 		Request::is('profile') && $user = Auth::user();
-
-		if ( ! $user->exists )
-		{
-			abort(404);
-		}
 
 		return view('users.show')->with('user', $user);
 	}
@@ -106,86 +90,54 @@ class UserController extends Controller {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param Organization $office
-	 * @param User   $user
+	 * @param Organization $currentOrg
+	 * @param User         $user
 	 *
 	 * @return Response
 	 */
-	public function edit(Organization $office, User $user)
+	public function edit(Organization $currentOrg, User $user)
 	{
 		Request::is('profile') && $user = Auth::user();
 
-		if ( ! $user->exists )
-		{
-			abort(404);
-		}
+		$orgs      = $this->list_orgs();
+		$roles     = Auth::user()->rolesLte();
+		$base_role = key(User::baseRole());
+		$states    = $this->list_states();
+		$countries = $this->list_countries();
 
-		$office_id = $user->officeId;
-//		$offices = Office::orderBy( 'name' )->lists( 'name', 'id' );
-		$offices = [ '-1' => 'Test' ];
-		$roles   = User::listRoles();
-
-		return view('users.create_edit', compact('user', 'office_id', 'offices', 'roles'));
+		return view('users.create_edit', compact('user', 'orgs', 'roles', 'base_role', 'states', 'countries'));
 	}
 
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param UserEditRequest $request
-	 * @param User            $user
+	 * @param UserRequest  $request
+	 * @param Organization $currentOrg
+	 * @param User         $user
 	 *
 	 * @return Response
 	 */
-	public function update(UserEditRequest $request, User $user)
+	public function update(UserRequest $request, Organization $currentOrg, User $user = null)
 	{
-		$data = $request->all();
+		$user             = $user ?: Auth::user();
+		$success_redirect = sub_route(( Route::is('profile') ? 'profile' : 'users.index' ));
+		$error_redirect   = Route::is('profile') ? sub_route('profile') : sub_route('users.edit', [ 'users' => $user ]);
 
-		if ( empty( $data['password'] ) )
-		{
-			unset( $data['password'], $data['password_confirmation'] );
-		}
-		else
-		{
-			if ( $data['password'] !== $data['password_confirmation'] )
-			{
-				return response([
-					'password'              => [ 'Password mismatch.' ],
-					'password_confirmation' => [ 'Password mismatch.' ]
-				], 422);
-			}
-		}
-
-		if ( isset( $data['admin'] ) && $data['admin'] != $user->admin )
-		{
-			if ( Auth::user()->id == $user->id )
-			{
-				return response([ 'admin' => [ 'You cannot ' . ( $data['admin'] ? 'pro' : 'de' ) . 'mote yourself ' . ( $data['admin'] ? 'to' : 'from' ) . ' admin.' ] ],
-					422);
-			}
-
-			// if (! Auth::user()->isAdmin())
-			// 	return response(['admin' => ['Insufficient priveleges.']], 403);
-		}
-
-		if ( $user->update($data) )
-		{
-			return response($user->fill($data), 200);
-		}
-
-		return response([ 'status' => 'error', 'message' => 'Unable to save.' ], 422);
+		return $this->do_update($request, $user, $success_redirect, $error_redirect);
 	}
 
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param $user
+	 * @param Organization $currentOrg
+	 * @param User         $user
 	 *
 	 * @return Response
 	 */
 
-	public function delete(User $user)
+	public function delete(Organization $currentOrg, User $user)
 	{
 		return view('users.delete', compact('user'));
 	}
@@ -194,68 +146,40 @@ class UserController extends Controller {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param UserDeleteRequest $request
-	 * @param User              $user
+	 * @param UserRequest  $request
+	 * @param Organization $currentOrg
+	 * @param User         $user
 	 *
 	 * @return Response
-	 * @throws \Exception
 	 */
-	public function destroy(UserDeleteRequest $request, User $user)
+	public function destroy(UserRequest $request, Organization $currentOrg, User $user)
 	{
-		$user->delete();
+		$success_redirect = sub_route('users.index');
+		$error_redirect   = sub_route('users.edit', [ 'users' => $user ]);
 
-		return response(null, 204);
+		return $this->do_destroy($request, $user, $success_redirect, $error_redirect);
 	}
 
 
 	/**
-	 * Show a list of all the languages posts formatted for Datatables.
+	 * @param User  $user
+	 * @param array $data
 	 *
-	 * @return Datatables JSON
+	 * @return array
 	 */
-	public function data()
+	public function filterModelData(User $user, $data)
 	{
-		return $this->dataTable('users');
-		global $currentOffice;
-
-		$cols = [
-			'users.id',
-			'users.first_name',
-			'users.last_name',
-			'offices.name as offices.name',
-			'users.email',
-			'users.confirmed',
-			'users.admin',
-			'users.created_at'
-		];
-		if ( ! $currentOffice->isMaster() )
+		if ( $user->roleGt(Auth::user()) )
 		{
-			$cols  = array_values(array_diff($cols, [ 'offices.name as offices.name' ]));
-			$users = User::where('officeId', '=', $currentOffice->id);
-		}
-		else
-		{
-			$users = User::join('offices', 'users.officeId', '=', 'offices.id');
+			$data['actions'] = [ ];
 		}
 
-		$users->select($cols);
-
-		$sort_cols = array_values(array_diff($cols, [ 'users.id' ]));
-		$this->col_as_alias($sort_cols);
-		$order = Request::input('order', [ [ 'column' => 0, 'dir' => 'asc' ] ]);
-		foreach ($order as $index => $group)
+		if ( $user->username == Auth::user()->username )
 		{
-			$users->orderBy($sort_cols[$group['column']], $group['dir']);
+			unset( $data['actions']['delete'] );
 		}
 
-		$data = Datatables::of($users)->edit_column('confirmed',
-			'<span class="glyphicon glyphicon-{{ ($confirmed) ? \'ok\' : \'remove\' }}"></span>')->edit_column('admin',
-			'<span class="glyphicon glyphicon-{{ ($admin) ? \'ok\' : \'remove\' }}"></span>')->add_column('actions',
-			'<a href="{!! route("users.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{{ trans("modal.edit") }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.edit") }}</span></a>@if ($id != Auth::user()->id) <a href="{!! route("users.delete", $id) !!}" class="btn btn-sm btn-danger iframe" title="{{ trans("modal.delete") }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.delete") }}</span></a> @endif')->remove_column('id');
-		$this->col_as_alias($data->columns);
-		$data->columns = array_values(array_diff($sort_cols, [ 'actions' ]));
-
-		return $data->make();
+		return $data;
 	}
 
 }

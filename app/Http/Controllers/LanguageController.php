@@ -1,11 +1,11 @@
-<?php namespace Iome\Http\Controllers\Admin;
+<?php namespace Iome\Http\Controllers;
 
 use Iome\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Input;
 use Iome\Language;
-use Iome\Http\Requests\Admin\LanguageRequest;
-use Iome\Http\Requests\Admin\DeleteRequest;
-use Iome\Http\Requests\Admin\ReorderRequest;
+use Iome\Http\Requests\LanguageRequest;
+use Iome\Http\Requests\DeleteRequest;
+use Iome\Http\Requests\ReorderRequest;
 use Illuminate\Support\Facades\Auth;
 use Datatables;
 

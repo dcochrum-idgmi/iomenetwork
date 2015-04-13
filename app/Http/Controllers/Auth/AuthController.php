@@ -1,6 +1,7 @@
 <?php namespace Iome\Http\Controllers\Auth;
 
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Iome\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Authenticator;
@@ -14,8 +15,7 @@ use Nebula;
 
 //use Request;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
 
 	/*
 	 * |--------------------------------------------------------------------------
@@ -44,12 +44,37 @@ class AuthController extends Controller
 	 * @param  \Illuminate\Contracts\Auth\Registrar $registrar
 	 *
 	 */
-	public function __construct( Guard $auth, Registrar $registrar )
+	public function __construct(Guard $auth, Registrar $registrar)
 	{
-		$this->auth = $auth;
+		$this->auth      = $auth;
 		$this->registrar = $registrar;
-		$this->middleware( 'guest', [ 'except' => 'getLogout' ] );
+		$this->middleware('guest', [ 'except' => 'getLogout' ]);
 	}
+
+
+	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param Request|LoginRequest $request
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postLogin(LoginRequest $request)
+	{
+		// Create a fake user to perform any mutations that
+		// might need to happen, ie: password hashing.
+		$user  = new User($request->only('username', 'password'));
+		$creds = [ 'username' => $user->username, 'password' => $user->password ];
+
+		if ( $this->auth->attempt($creds, $request->has('remember')) )
+		{
+			return redirect()->intended($this->redirectPath());
+		}
+
+		return redirect($this->loginPath())->withInput($request->only('username',
+			'remember'))->withErrors([ 'username' => $this->getFailedLoginMessage(), ]);
+	}
+
 
 	/**
 	 * Log the user out of the application.
@@ -62,7 +87,7 @@ class AuthController extends Controller
 
 		$this->auth->logout();
 
-		return redirect( '/' );
+		return redirect('/');
 	}
 
 }

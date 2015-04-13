@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.0.20 on 2015-03-25.
+ * Generated for Laravel 5.0.27 on 2015-04-07.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -127,6 +127,17 @@ namespace {
          */
         public static function databasePath(){
             return \Illuminate\Foundation\Application::databasePath();
+        }
+        
+        /**
+         * Set the database directory.
+         *
+         * @param string $path
+         * @return $this 
+         * @static 
+         */
+        public static function useDatabasePath($path){
+            return \Illuminate\Foundation\Application::useDatabasePath($path);
         }
         
         /**
@@ -2114,7 +2125,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -2200,6 +2211,11 @@ namespace {
         public static function getPrefix(){
             return \Illuminate\Cache\FileStore::getPrefix();
         }
+        
+    }
+
+
+    class Carbon extends \Carbon\Carbon{
         
     }
 
@@ -2428,7 +2444,7 @@ namespace {
         }
         
         /**
-         * Get the cookies which have been queued for the next request
+         * Get the cookies which have been queued for the next request.
          *
          * @return array 
          * @static 
@@ -3033,7 +3049,7 @@ namespace {
         /**
          * Get the schema grammar used by the connection.
          *
-         * @return \Illuminate\Database\Query\Grammars\Grammar 
+         * @return \Illuminate\Database\Schema\Grammars\Grammar 
          * @static 
          */
         public static function getSchemaGrammar(){
@@ -5046,7 +5062,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -5540,7 +5556,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -5836,7 +5852,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -7704,7 +7720,7 @@ namespace {
          * Register an error_log handler.
          *
          * @param string $level
-         * @param integer $messageType
+         * @param int $messageType
          * @return void 
          * @static 
          */
@@ -7713,8 +7729,7 @@ namespace {
         }
         
         /**
-         * Register a new callback handler for when
-         * a log event is triggered.
+         * Register a new callback handler for when a log event is triggered.
          *
          * @param \Closure $callback
          * @return void 
@@ -7748,7 +7763,7 @@ namespace {
         /**
          * Set the event dispatcher instance.
          *
-         * @param \Illuminate\Contracts\Events\Dispatcher
+         * @param \Illuminate\Contracts\Events\Dispatcher $dispatcher
          * @return void 
          * @static 
          */
@@ -7979,7 +7994,17 @@ namespace {
     }
 
 
-    class Nebula extends \Iome\Macate\Nebula\Nebula{
+    class Nebula extends \Iome\Macate\Nebula\Facade{
+        
+        /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getDateFormat(){
+            return \Iome\Macate\Nebula\API::getDateFormat();
+        }
         
         /**
          * Attempt to auth
@@ -7989,7 +8014,7 @@ namespace {
          * @static 
          */
         public static function login($parameters){
-            return \Iome\Macate\Nebula\NebulaAPI::login($parameters);
+            return \Iome\Macate\Nebula\API::login($parameters);
         }
         
         /**
@@ -7999,7 +8024,7 @@ namespace {
          * @static 
          */
         public static function checkSession(){
-            return \Iome\Macate\Nebula\NebulaAPI::checkSession();
+            return \Iome\Macate\Nebula\API::checkSession();
         }
         
         /**
@@ -8009,87 +8034,69 @@ namespace {
          * @static 
          */
         public static function logout(){
-            return \Iome\Macate\Nebula\NebulaAPI::logout();
+            return \Iome\Macate\Nebula\API::logout();
         }
         
         /**
-         * Attempt to create a new user
-         *
-         * @param array $parameters
-         * @return array 
-         * @static 
-         */
-        public static function userCreate($parameters){
-            return \Iome\Macate\Nebula\NebulaAPI::userCreate($parameters);
-        }
-        
-        /**
-         * Retrieve an array of models matching the given criteria.
+         * 
          *
          * @param string $module
          * @param array $parameters
-         * @return array 
+         * @return \Iome\Macate\Nebula\Collection 
          * @static 
          */
-        public static function getAll($module, $parameters = array()){
-            return \Iome\Macate\Nebula\NebulaAPI::getAll($module, $parameters);
+        public static function all($module, $parameters = array()){
+            return \Iome\Macate\Nebula\API::all($module, $parameters);
         }
         
         /**
          * Retrieve a user matching the given value on the given field.
          *
-         * @param string $value
-         * @param string $field
+         * @param string $module
+         * @param mixed $id
+         * @param string|null $by
          * @return array 
          * @static 
          */
-        public static function getUser($value, $field = 'email'){
-            return \Iome\Macate\Nebula\NebulaAPI::getUser($value, $field);
+        public static function find($module, $id, $by = null){
+            return \Iome\Macate\Nebula\API::find($module, $id, $by);
         }
         
         /**
-         * Attempt to create a new organization
+         * 
          *
+         * @param $module
+         * @param $data
+         * @return \Guzzle\Http\Message\Response 
+         * @static 
+         */
+        public static function insert($module, $data = array()){
+            return \Iome\Macate\Nebula\API::insert($module, $data);
+        }
+        
+        /**
+         * Attempt to update a model.
+         *
+         * @param string $module
+         * @param mixed $id
          * @param array $data
          * @return array 
          * @static 
          */
-        public static function organizationCreate($data){
-            return \Iome\Macate\Nebula\NebulaAPI::organizationCreate($data);
+        public static function update($module, $id, $data = array()){
+            return \Iome\Macate\Nebula\API::update($module, $id, $data);
         }
         
         /**
-         * Attempt to update an organization
+         * Attempt to delete a model.
          *
-         * @param array $data
+         * @param string $module
+         * @param mixed $id
          * @return array 
          * @static 
          */
-        public static function organizationUpdate($data){
-            return \Iome\Macate\Nebula\NebulaAPI::organizationUpdate($data);
-        }
-        
-        /**
-         * Retrieve an organization matching the given value on the given field.
-         *
-         * @param string $value
-         * @param string $field
-         * @return array 
-         * @static 
-         */
-        public static function getOrganization($value, $field = 'organizationId'){
-            return \Iome\Macate\Nebula\NebulaAPI::getOrganization($value, $field);
-        }
-        
-        /**
-         * Retrieve an organization matching the given slug.
-         *
-         * @param string $value
-         * @return array 
-         * @static 
-         */
-        public static function getOrganizationBySlug($value){
-            return \Iome\Macate\Nebula\NebulaAPI::getOrganizationBySlug($value);
+        public static function delete($module, $id){
+            return \Iome\Macate\Nebula\API::delete($module, $id);
         }
         
         /**
@@ -8099,7 +8106,7 @@ namespace {
          * @static 
          */
         public static function getCountries(){
-            return \Iome\Macate\Nebula\NebulaAPI::getCountries();
+            return \Iome\Macate\Nebula\API::getCountries();
         }
         
         /**
@@ -8110,7 +8117,59 @@ namespace {
          * @static 
          */
         public static function getStates($countryId = 'US'){
-            return \Iome\Macate\Nebula\NebulaAPI::getStates($countryId);
+            return \Iome\Macate\Nebula\API::getStates($countryId);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getModelName($module){
+            return \Iome\Macate\Nebula\API::getModelName($module);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getModelKeyName($module){
+            return \Iome\Macate\Nebula\API::getModelKeyName($module);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $module
+         * @param array $data
+         * @param bool $sync_original
+         * @return \Iome\Macate\Nebula\EloquentModel 
+         * @static 
+         */
+        public static function newModel($module, $data = array(), $sync_original = false){
+            return \Iome\Macate\Nebula\API::newModel($module, $data, $sync_original);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getCurrentOrg(){
+            return \Iome\Macate\Nebula\API::getCurrentOrg();
+        }
+        
+        /**
+         * 
+         *
+         * @param string $username
+         * @param string $password
+         * @return \Iome\Macate\Nebula\Hash 
+         * @static 
+         */
+        public static function hash($username, $password){
+            return \Iome\Macate\Nebula\API::hash($username, $password);
         }
         
     }
@@ -10257,7 +10316,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -10626,7 +10685,7 @@ namespace {
         }
         
         /**
-         * Set a global where pattern on all routes
+         * Set a global where pattern on all routes.
          *
          * @param string $key
          * @param string $pattern
@@ -10638,7 +10697,7 @@ namespace {
         }
         
         /**
-         * Set a group of global where patterns on all routes
+         * Set a group of global where patterns on all routes.
          *
          * @param array $patterns
          * @return void 
@@ -10880,7 +10939,7 @@ namespace {
         }
         
         /**
-         * Checks if macro is registered
+         * Checks if macro is registered.
          *
          * @param string $name
          * @return bool 
@@ -11666,6 +11725,11 @@ namespace {
         public static function extend($driver, $callback){
             return \Illuminate\Filesystem\FilesystemManager::extend($driver, $callback);
         }
+        
+    }
+
+
+    class Str extends \Illuminate\Support\Str{
         
     }
 

@@ -1,9 +1,8 @@
 <?php namespace Iome\Macate\Nebula;
 
-use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade as BaseFacade;
 
-class Nebula extends Facade
-{
+class Facade extends BaseFacade {
 
 	/**
 	 * Get the registered name of the component.

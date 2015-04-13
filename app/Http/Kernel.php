@@ -24,13 +24,11 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
-		'auth'        => 'Iome\Http\Middleware\Authenticate',
-		'auth.basic'  => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-		'guest'       => 'Iome\Http\Middleware\RedirectIfAuthenticated',
-		'admin'       => 'Iome\Http\Middleware\Admin',
-		'masteradmin' => 'Iome\Http\Middleware\MasterAdmin',
-		'master'      => 'Iome\Http\Middleware\Master',
-		'notmaster'   => 'Iome\Http\Middleware\NotMaster',
+		'auth'       => 'Iome\Http\Middleware\Authenticate',
+		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
+		'guest'      => 'Iome\Http\Middleware\RedirectIfAuthenticated',
+		'admin'      => 'Iome\Http\Middleware\Admin',
+		'master'     => 'Iome\Http\Middleware\Master',
 	];
 
 }

@@ -20,12 +20,13 @@
 <table id="table" class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th data-name="organizationName">{!! trans('orgs.name') !!}</th>
-			<th data-name="slug">{!! trans('orgs.slug') !!}</th>
-			<th data-name="numAdmins">{!! trans('admin.admins') !!}</th>
-			<th data-name="numUsers">{!! trans('users.users') !!}</th>
-			<th data-name="numSips">{!! trans('ext.extensions') !!}</th>
-			<th data-name="dateEntered">{!! trans('admin.created_at') !!}</th>
+			<th class="search" data-name="organizationName">{!! trans('orgs.name') !!}</th>
+			<th class="search" data-name="slug">{!! trans('orgs.slug') !!}</th>
+			{{--<th class="no-sort" data-name="numAdmins">{!! trans('admin.admins') !!}</th>
+			<th class="no-sort" data-name="numUsers">{!! trans('users.users') !!}</th>
+			<th class="no-sort" data-name="numSips">{!! trans('ext.extensions') !!}</th>--}}
+			<th data-name="dateEntered">{!! trans('site.created') !!}</th>
+			<th data-name="dateModified">{!! trans('site.modified') !!}</th>
 			<th class="no-sort" data-name="actions">{!! trans('admin.action') !!}</th>
 		</tr>
 	</thead>

@@ -24,13 +24,12 @@
                                     <li>{!! HTML::link(admin_route('orgs.index'), trans('orgs.orgs')) !!}</li>
                                 @else
                                     <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
-                                    <li>{!! HTML::link(sub_route('exts.index'), trans('exts.extensions')) !!}</li>
                                 @endif
                                 <li>{!! HTML::link(sub_route('users.index'), trans('users.users')) !!}</li>
                                 <li>{!! HTML::link(sub_route('exts.index'), trans('ext.extensions')) !!}</li>
                             </ul>
                         </li>
-                        @if (isset($currentOffice) && Auth::user()->isMasterAdmin())
+                        @if (isset($currentOrg) && Auth::user()->isMasterAdmin())
                             <li>{!! HTML::link(sub_route('settings'), trans('site.settings')) !!}</li>
                         @endif
                     @endif

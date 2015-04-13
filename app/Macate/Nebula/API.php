@@ -1,23 +1,31 @@
 <?php namespace Iome\Macate\Nebula;
 
+use Aws\CloudFront\Exception\Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
-use Iome\Organization;
-use Iome\User;
+use Hash;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Request;
 
-class NebulaAPI {
+class API {
 
 	/**
 	 * @var Whether to output debugging messages
 	 */
-	private $debug = true;
+	private $debug;
 
 	/**
 	 * @var Map of Nebula modules => app models
 	 */
-	protected $models = [ 'organizations' => 'Organization', 'users' => 'User', 'sipaccounts' => 'Extension' ];
+	protected $models;
+
+	/**
+	 * @var string Nebula response timestamps date format.
+	 */
+	protected $date_format;
 
 	/**
 	 * @var Client
@@ -28,6 +36,11 @@ class NebulaAPI {
 	 * @var string Session ID.
 	 */
 	protected $sessionId;
+
+	/**
+	 * @var boolean Whether to halt when API request returns success as false.
+	 */
+	protected $abort_on_error;
 
 	/**
 	 * @var array Array of all parameters for the request.
@@ -56,24 +69,45 @@ class NebulaAPI {
 	 */
 	public function __construct(array $parameters = [ ], array $options = [ ])
 	{
+		$this->debug       = config('nebula.debug');
+		$this->date_format = config('nebula.date_format');
+		$this->models      = config('nebula.models');
+
 		$this->default_parameters = [
-			'requestId' => get_current_org_slug(),
+			'requestId' => Request::url(),
 			'sessionId' => session('nebulaSessionId', null)
 		];
-		$this->default_options    = [ /*'debug' => true,*/
-			'timeout' => 10
+		$this->default_options    = [
+			/*'debug'        => $this->debug,*/
+			'timeout' => config('nebula.timeout'),
 		];
+
+		$this->abort_on_error = array_pull($options, 'abort_on_error', false);
+
 		$this->merge_parameters($parameters);
 		$this->merge_options($options);
 		$this->client = new Client([
-			'base_url' => env('NEBULA_ENDPOINT', 'http://52.0.124.75:8080/NebulaWS/webservices/request.jsp'),
+			'base_url' => config('nebula.endpoint'),
 			'defaults' => $this->options
 		]);
 
+		$log = new Logger('nebula');
+		$log->pushHandler(new StreamHandler(storage_path() . '/logs/nebula.log'));
+		$this->client->getEmitter()->attach(new LogSubscriber($log, config('nebula.log_format')));
+
 		if ( $this->debug )
 		{
-			$this->client->getEmitter()->attach(new LogSubscriber);
+			$this->client->getEmitter()->attach(new LogSubscriber(null, config('nebula.debug_format')));
 		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDateFormat()
+	{
+		return $this->date_format;
 	}
 
 
@@ -86,13 +120,10 @@ class NebulaAPI {
 	 */
 	public function login(array $parameters)
 	{
-		$parameters['username'] = $parameters['email'];
-		unset( $parameters['email'] );
-
 		$this->merge_parameters(array_merge([
 			'module'    => 'authentication',
 			'action'    => 'login',
-			'encrypted' => 'false'
+			'encrypted' => 'false',
 		], $parameters));
 
 		$result = $this->post();
@@ -144,175 +175,141 @@ class NebulaAPI {
 
 
 	/**
-	 * Attempt to create a new user
-	 *
-	 * @param array $parameters
-	 *
-	 * @return array
-	 */
-	public function userCreate(array $parameters)
-	{
-		$this->merge_parameters(array_merge([ 'module' => 'users', 'action' => 'create', 'encrypted' => 'false' ],
-			$parameters));
-
-		return $this->post();
-	}
-
-
-	/**
-	 * Retrieve an array of models matching the given criteria.
-	 *
 	 * @param string $module
 	 * @param array  $parameters
 	 *
-	 * @return array
+	 * @return Collection
 	 */
-	public function getAll($module, $parameters = [ ])
+	public function all($module, array $parameters = [ ])
 	{
-		global $currentOrg;
+		$currentOrg = $this->getCurrentOrg();
 
-		$return = [
-			'total' . ucfirst($module) => 0,
-			'models'                   => [ ]
-		];
+		$return = [ ];
+		$total  = 0;
 
-		$this->merge_parameters(array_merge([
+		$parameters = array_merge([
 			'module' => $module,
 			'action' => 'paginated-list',
 			'start'  => 0,
-			'end'    => 10,
-			//'organizationId' => 1
-		], $parameters));
+			'end'    => 999,
+		], $parameters);
+
+		$this->merge_parameters($parameters);
 		$response = $this->get();
 
-		if ( ! $response['success'] )
+		if ( $response['success'] )
 		{
-			return $return;
+			$total = $response['total'];
+			foreach ($response[$module] as $i => $data)
+			{
+				$return[$i] = $this->populateModel($module, $data, true);
+			}
 		}
 
-		$return['total' . ucfirst($module)] = $response['total' . ucfirst($module)];
-
-		foreach ($response[$module] as $i => $data)
-		{
-			$return['models'][$i] = $this->new_model($module, $data);
-		}
-
-		return $return;
+		return new Collection($return, $total, array_get($response, 'errorMsg', null));
 	}
 
 
 	/**
 	 * Retrieve a user matching the given value on the given field.
 	 *
-	 * @param string $value
-	 * @param string $field
+	 * @param string      $module
+	 * @param mixed       $id
+	 * @param string|null $by
 	 *
 	 * @return array
 	 */
-	public function getUser($value, $field = 'email')
+	public function find($module, $id, $by = null)
 	{
-		global $currentOrg;
+		$by = $by ?: $this->getModelKeyName($module);
 
-//		$this->merge_parameters( [ 'module' => 'users', 'action' => 'get-by-field', 'fieldName' => $field, 'field' => $value, 'organizationId' => $currentOrg->id ] );
 		$this->merge_parameters([
-			'module'         => 'users',
-			'action'         => 'get-by-field',
-			'fieldName'      => $field,
-			'field'          => $value,
-			'organizationId' => 1
+			'module'    => $module,
+			'action'    => 'get-by-field',
+			'fieldName' => $by,
+			'field'     => $id,
 		]);
+
 		$response = $this->get();
 
-		return new User(( $response['success'] ? $response['user'] : [ ] ));
+		return ( $response['success'] ? $this->populateModel($module, $response[str_singular($module)], true) : null );
 	}
 
 
 	/**
-	 * Attempt to create a new organization
+	 * @param $module
+	 * @param $data
 	 *
-	 * @param array $data
+	 * @return \Guzzle\Http\Message\Response
+	 */
+	public function insert($module, $data = [ ])
+	{
+		return $this->operation('create', $module, null, $data);
+	}
+
+
+	/**
+	 * Attempt to update a model.
+	 *
+	 * @param string $module
+	 * @param mixed  $id
+	 * @param array  $data
 	 *
 	 * @return array
 	 */
-	public function organizationCreate(array $data)
+	public function update($module, $id, $data = [ ])
 	{
-		$this->merge_parameters(array_merge([
-			'module' => 'organizations',
-			'action' => 'create'
-		], $data));
+		return $this->operation('edit', $module, $id, $data);
+	}
 
-		$response = $this->post();
-		if ( ! $response['success'] )
+
+	/**
+	 * Attempt to delete a model.
+	 *
+	 * @param string $module
+	 * @param mixed  $id
+	 *
+	 * @return array
+	 */
+	public function delete($module, $id)
+	{
+		return $this->operation('delete', $module, $id);
+	}
+
+
+	/**
+	 * Attempt to add/edit/delete a model.
+	 *
+	 * @param string $action
+	 * @param string $module
+	 * @param null   $id
+	 * @param array  $data
+	 *
+	 * @return array
+	 */
+	protected function operation($action, $module, $id = null, $data = [ ])
+	{
+		$parameters = [
+			'module' => $module,
+			'action' => $action,
+		];
+
+		if ( $action != 'create' )
 		{
-			return $response;
+			$parameters[$this->getModelKeyName($module)] = $id;
+		}
+		if ( $action != 'delete' )
+		{
+			if ( isset( $data['password'] ) )
+			{
+				$data['encrypted'] = 'false';
+			}
+			$parameters[str_singular($module)] = $data;
 		}
 
-		return $this->getOrganization($response['organizationId']);
-	}
-
-
-	/**
-	 * Attempt to update an organization
-	 *
-	 * @param array $data
-	 *
-	 * @return array
-	 */
-	public function organizationUpdate(array $data)
-	{
-		$organizationId = $data['organizationId'];
-		unset( $data['organizationId'] );
-		$this->merge_parameters([
-			'module'         => 'organizations',
-			'action'         => 'edit',
-			'organization'   => $data,
-			'organizationId' => $organizationId
-		]);
+		$this->merge_parameters($parameters);
 
 		return $this->post();
-	}
-
-
-	/**
-	 * Retrieve an organization matching the given value on the given field.
-	 *
-	 * @param string $value
-	 * @param string $field
-	 *
-	 * @return array
-	 */
-	public function getOrganization($value, $field = 'organizationId')
-	{
-		$this->merge_parameters([
-			'module' => 'organizations',
-			'action' => 'get' . ( $field == 'slug' ? '-by-slug' : '' ),
-			$field   => $value . ( strpos($value, '.') !== false ? '' : '.' . config('app.domain') )
-		]);
-
-		$response = $this->get();
-
-		return new Organization(( $response['success'] ? $response['organization'] : [ ] ));
-	}
-
-
-	/**
-	 * Retrieve an organization matching the given slug.
-	 *
-	 * @param string $value
-	 *
-	 * @return array
-	 */
-	public function getOrganizationBySlug($value)
-	{
-		$this->merge_parameters([
-			'module' => 'organizations',
-			'action' => 'get-by-slug',
-			'slug'   => $value . '.' . config('app.domain')
-		]);
-
-		$response = $this->get();
-
-		return new Organization(( $response['success'] ? $response['organization'] : [ ] ));
 	}
 
 
@@ -343,20 +340,6 @@ class NebulaAPI {
 		$response = $this->get();
 
 		return ( $response['success'] ? $this->convert_name_val_pairs($response['states']) : [ ] );
-	}
-
-
-	/**
-	 * @param $module
-	 * @param $data
-	 *
-	 * @return Model
-	 */
-	protected function new_model($module, $data)
-	{
-		$model = $this->models[$module];
-
-		return new $model($data);
 	}
 
 
@@ -468,7 +451,11 @@ class NebulaAPI {
 			$this->reset_options_params();
 
 //			if( $e->hasResponse() )
-			abort('500', json_encode([ $this->build_request(), 'sessionId' => session('nebulaSessionId') ], true));
+			abort('500', json_encode([
+				$this->build_request(),
+				'sessionId' => session('nebulaSessionId'),
+				'message'   => $e->getMessage()
+			], true));
 //			else
 			abort(503);
 		}
@@ -510,8 +497,9 @@ class NebulaAPI {
 	 */
 	protected function reset_options_params()
 	{
-		$this->parameters = $this->default_parameters;
-		$this->options    = $this->default_options;
+		$this->abort_on_error = false;
+		$this->parameters     = $this->default_parameters;
+		$this->options        = $this->default_options;
 	}
 
 
@@ -546,15 +534,99 @@ class NebulaAPI {
 
 		if ( $json['success'] )
 		{
-			$objects = [ 'user' => 'email', 'organization' => 'organizationId', 'sip' => 'sipAccount' ];
-			foreach ($objects as $obj => $id)
-			{
-				isset( $json[$obj] ) && $json[$obj][$id] && $json[$obj]['exists'] = true;
-			}
+			//$objects = [ 'user' => 'email', 'organization' => 'organizationId', 'sip' => 'sipAccount' ];
+			//foreach ($objects as $obj => $id)
+			//{
+			//	isset( $json[$obj] ) && $json[$obj][$id] && $json[$obj]['exists'] = true;
+			//}
 
 			return $json;
 		}
+		else
+		{
+			if ( $this->abort_on_error )
+			{
+				abort($json['error'], trim($json['errorMsg']) . "\n\n" . json_encode($this->parameters));
+			}
+		}
 
 		return $json;
+	}
+
+
+	public function getModelName($module)
+	{
+		return $this->models[$module];
+	}
+
+
+	public function getModelKeyName($module)
+	{
+		$model = $this->newModel($module);
+
+		return $model->getKeyName();
+	}
+
+
+	/**
+	 * @param string $module
+	 * @param array  $data
+	 * @param bool   $sync_original
+	 *
+	 * @return EloquentModel
+	 */
+	public function newModel($module, array $data = [ ], $sync_original = false)
+	{
+		$class = $this->getModelName($module);
+
+		$model = new $class($data);
+
+		if ( isset( $model->{$class::CREATED_AT} ) )
+		{
+			$model->exists = true;
+		}
+
+		if ( $sync_original )
+		{
+			$model->syncOriginal();
+		}
+
+		return $model;
+	}
+
+
+	/**
+	 * @param string $module
+	 * @param array  $data
+	 * @param bool   $sync_original
+	 *
+	 * @return EloquentModel
+	 */
+	public function populateModel($module, array $data = [ ], $sync_original = false)
+	{
+		$model = $this->newModel($module, $data, $sync_original);
+
+		return $model->exists ? $model : null;
+	}
+
+
+	public function getCurrentOrg()
+	{
+		global $currentOrg;
+
+		return $currentOrg ?: $this->newModel('organizations',
+			[ 'slug' => str_replace('.' . config('app.domain'), '', Request::server('SERVER_NAME')) ]);
+	}
+
+
+	/**
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @return Hash
+	 */
+	public function hash($username, $password)
+	{
+		return hash('sha256', $username . $password);
 	}
 }

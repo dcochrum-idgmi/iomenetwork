@@ -2,10 +2,9 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Iome\Macate\Nebula\Nebula;
+use Iome\Macate\Nebula\Facade;
 
-class Authenticate
-{
+class Authenticate {
 
 	/**
 	 * The Guard implementation.
@@ -14,15 +13,17 @@ class Authenticate
 	 */
 	protected $auth;
 
+
 	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Guard $auth
 	 */
-	public function __construct( Guard $auth )
+	public function __construct(Guard $auth)
 	{
 		$this->auth = $auth;
 	}
+
 
 	/**
 	 * Handle an incoming request.
@@ -32,19 +33,24 @@ class Authenticate
 	 *
 	 * @return mixed
 	 */
-	public function handle( $request, Closure $next )
+	public function handle($request, Closure $next)
 	{
-		if( $this->auth->check() && ! Nebula::checkSession() )
-			$this->auth->logout();
+		//if( $this->auth->check() && ! Nebula::checkSession() )
+		//	$this->auth->logout();
 
-		if( $this->auth->guest() ) {
-			if( $request->ajax() )
-				return response( 'Unauthorized.', 401 );
+		if ( $this->auth->guest() )
+		{
+			if ( $request->ajax() )
+			{
+				return response('Unauthorized.', 401);
+			}
 			else
-				return redirect()->guest( 'login' );
+			{
+				return redirect()->guest('login');
+			}
 		}
 
-		return $next( $request );
+		return $next($request);
 	}
 
 }

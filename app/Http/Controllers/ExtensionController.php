@@ -2,13 +2,18 @@
 
 use Iome\Extension;
 use Iome\Http\Requests;
-use Iome\Http\Controllers\Controller;
+use Iome\Http\Requests\ExtensionRequest;
 use Iome\Organization;
+use Nebula;
 use Request;
-use yajra\Datatables\Datatables;
 
-class ExtensionController extends Controller
-{
+class ExtensionController extends Controller {
+
+	/**
+	 * @var string
+	 */
+	protected $route_resource = 'exts';
+
 
 	/**
 	 * Display a listing of the resource.
@@ -19,11 +24,14 @@ class ExtensionController extends Controller
 	{
 		$exts = Extension::all();
 
-		if( Request::wantsJson() )
-			return $this->data();
+		if ( Request::wantsJson() )
+		{
+			return $this->dataTable();
+		}
 
-		return view( 'exts.index', compact( 'exts' ) );
+		return view('exts.index', compact('exts'));
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -32,101 +40,143 @@ class ExtensionController extends Controller
 	 */
 	public function create()
 	{
-		//
+		$orgs      = $this->list_orgs();
+		$states    = $this->list_states();
+		$countries = $this->list_countries();
+
+		return view('exts.create_edit', compact('orgs', 'states', 'countries'));
 	}
+
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
+	 * @param ExtensionRequest $request
+	 * @param Organization     $currentOrg
+	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(ExtensionRequest $request, Organization $currentOrg)
 	{
-		//
+		$ext              = new Extension;
+		$success_redirect = sub_route('exts.index');
+		$error_redirect   = sub_route('exts.create');
+
+		return $this->do_create($request, $ext, $success_redirect, $error_redirect);
 	}
+
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int $id
+	 * @param Organization $office
+	 * @param Extension    $ext
 	 *
 	 * @return Response
 	 */
-	public function show( Organization $office, Extension $ext )
+	public function show(Organization $office, Extension $ext)
 	{
 		$title = 'Extensions';
-		dd( $ext );
+		dd($ext);
 		$extensions = $office->extensions->toArray();
 
-		return view( 'extensions.index', compact( $title ) )->with( 'ext', $ext );
+		return view('extensions.index', compact($title))->with('ext', $ext);
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int $id
+	 * @param Organization $currentOrg
+	 * @param Extension    $ext
 	 *
 	 * @return Response
 	 */
-	public function edit( $id )
+	public function edit(Organization $currentOrg, Extension $ext)
 	{
-		//
+		$orgs      = $this->list_orgs();
+		$states    = $this->list_states();
+		$countries = $this->list_countries();
+
+		return view('exts.create_edit', compact('ext', 'orgs', 'states', 'countries'));
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int $id
+	 * @param ExtensionRequest $request
+	 * @param Organization     $currentOrg
+	 * @param Extension        $ext
 	 *
 	 * @return Response
 	 */
-	public function update( $id )
+	public function update(ExtensionRequest $request, Organization $currentOrg, Extension $ext)
 	{
-		//
+		//$ext             = $ext ?: Auth::user();
+		$success_redirect = sub_route('exts.index');
+		$error_redirect   = sub_route('exts.edit', [ 'exts' => $ext ]);
+
+		return $this->do_update($request, $ext, $success_redirect, $error_redirect);
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int $id
+	 * @param Organization $currentOrg
+	 * @param Extension    $ext
 	 *
 	 * @return Response
 	 */
-	public function destroy( $id )
+
+	public function delete(Organization $currentOrg, Extension $ext)
 	{
-		//
+		return view('users.delete', compact('ext'));
 	}
 
+
 	/**
-	 * Show a list of all the languages posts formatted for Datatables.
+	 * Remove the specified resource from storage.
 	 *
-	 * @return Datatables JSON
+	 * @param UserRequest  $request
+	 * @param Organization $currentOrg
+	 * @param Extension    $ext
+	 *
+	 * @return Response
 	 */
-	public function data()
+	public function destroy(UserRequest $request, Organization $currentOrg, Extension $ext)
 	{
-		global $currentOffice;
+		$success_redirect = sub_route('exts.index');
+		$error_redirect   = sub_route('exts.edit', [ 'exts' => $ext ]);
 
-		$cols = [ 'extensions.id', 'offices.name as offices.name', 'extensions.mac', 'extensions.created_at' ];
-		if( ! $currentOffice->isMaster() ) {
-			$cols = array_values( array_diff( $cols, [ 'offices.name as offices.name' ] ) );
-			$exts = Extension::where( 'officeId', '=', $currentOffice->id );
-		} else
-			$exts = Extension::join( 'offices', 'users.officeId', '=', 'offices.id' );
+		return $this->do_destroy($request, $ext, $success_redirect, $error_redirect);
+	}
 
-		$exts->select( $cols );
 
-		$sort_cols = $cols;
-		$this->col_as_alias( $sort_cols );
-		$order = Request::input( 'order', [ [ 'column' => 0, 'dir' => 'asc' ] ] );
-		foreach( $order as $index => $group )
-			$exts->orderBy( $sort_cols[ $group[ 'column' ] ], $group[ 'dir' ] );
+	/**
+	 * @param Extension $ext
+	 * @param array     $data
+	 *
+	 * @return array
+	 */
+	public function filterModelData(Extension $ext, $data)
+	{
+		global $currentOrg;
 
-		$data = Datatables::of( $exts )
-			->add_column( 'actions', '<a href="{!! route("exts.edit", $id) !!}" class="btn btn-primary btn-sm iframe" title="{{ trans("modal.edit") }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.edit") }}</span></a><a href="{!! route("exts.delete", $id) !!}" class="btn btn-sm btn-danger iframe" title="{{ trans("modal.delete") }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span><span class="sr-only">{{ trans("modal.delete") }}</span></a>' );
-		$this->col_as_alias( $data->columns );
-		$data->columns = array_values( array_diff( $sort_cols, [ 'actions' ] ) );
+		$isCurrentOrg    = $ext->organizationId == $currentOrg->organizationId;
+		$view_text       = trans('site.visit') . ' ' . $ext->name . ' ' . strtolower(trans('site.subsite'));
+		$data['actions'] = [
+				'view' => '<a href="' . ( $isCurrentOrg ? '#' : sub_route('home',
+						[ 'org_subdomain' => $ext ]) ) . '" class="btn btn-info btn-sm iframe' . ( $isCurrentOrg ? ' disabled' : '' ) . '" title="' . $view_text . '"><span class="fa fa-eye" aria-hidden="true"></span><span class="sr-only">' . $view_text . '</span></a>'
+			] + $data['actions'];
 
-		return $data->make();
+		if ( $ext->organizationId == 1 )
+		{
+			unset( $data['actions']['delete'] );
+		}
+
+		return $data;
 	}
 
 }

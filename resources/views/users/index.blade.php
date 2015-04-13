@@ -22,12 +22,13 @@
 		<tr>
 			<th data-name="fname">{{ trans( 'users.first_name' ) }}</th>
 			<th data-name="lname">{{ trans( 'users.last_name' ) }}</th>
-            @if( $currentOffice->isMaster() )
-			<th data-name="organizationId">{{ trans( 'orgs.org' ) }}</th>
+            @if( $currentOrg->isMaster() )
+			<th data-name="organizationName">{{ trans( 'orgs.org' ) }}</th>
             @endif
-			<th data-name="email">{{ trans( 'users.email' ) }}</th>
+			<th data-name="username">{{ trans( 'users.email' ) }}</th>
 			<th data-name="role">{{ trans( 'users.role' ) }}</th>
-			<th data-name="dateEntered">{{ trans( 'admin.created_at' ) }}</th>
+			<th data-name="dateEntered">{{ trans( 'site.created' ) }}</th>
+			<th data-name="dateModified">{{ trans( 'site.modified' ) }}</th>
 			<th class="no-sort" data-name="actions">{{ trans( 'admin.action' ) }}</th>
 		</tr>
 	</thead>

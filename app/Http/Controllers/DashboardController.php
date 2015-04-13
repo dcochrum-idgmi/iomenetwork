@@ -1,4 +1,4 @@
-<?php namespace Iome\Http\Controllers\Admin;
+<?php namespace Iome\Http\Controllers;
 
 use Iome\Http\Controllers\Controller;
 use Iome\Extension;

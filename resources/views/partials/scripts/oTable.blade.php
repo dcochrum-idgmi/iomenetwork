@@ -8,13 +8,16 @@
         });
 
         oTable = $table.dataTable({
-            aoColumnDefs: [{
-                bSortable: false,
-                aTargets: ['no-sort']
+            columnDefs: [{
+                sortable: false,
+                targets: 'no-sort'
+            }, {
+                searchable: false,
+                targets: unsearchable($table)
             }],
 
-            bProcessing: true,
-            bServerSide: true,
+            processing: true,
+            serverSide: true,
             stateSave: true,
             ajax: $.fn.dataTable.pipeline(
                     {
@@ -22,7 +25,17 @@
                         pages: 5
                     }),
             columns: cols,
-            fnDrawCallback: IOMEsetModals
+            fnDrawCallback: drewDataTable
         });
     });
+
+    var unsearchable = function ($table) {
+        var cols = [];
+        $table.find('th').each(function (i, e) {
+            if( ! $(this).is('.search') )
+                cols.push(i);
+        });
+
+        return cols;
+    }
 </script>

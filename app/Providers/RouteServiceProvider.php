@@ -2,6 +2,9 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Iome\Extension;
+use Organization;
+use View;
 
 class RouteServiceProvider extends ServiceProvider {
 
@@ -14,6 +17,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	protected $namespace = 'Iome\Http\Controllers';
 
+
 	/**
 	 * Define your route model bindings, pattern filters, etc.
 	 *
@@ -21,9 +25,35 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function boot( Router $router ) {
-		parent::boot( $router );
+	public function boot(Router $router)
+	{
+		parent::boot($router);
+
+		$router->bind('org_subdomain', function ($value)
+		{
+			global $currentOrg;
+
+			$currentOrg = Organization::findOrNew($value, 'slug');
+			View::share('currentOrg', $currentOrg);
+
+			return $currentOrg;
+		});
+
+		$router->bind('orgs', function ($value)
+		{
+			return Organization::findOrFail($value, 'slug');
+		});
+
+		$router->bind('users', 'Iome\User');
+
+		$router->bind('exts', function ($value)
+		{
+			global $currentOrg;
+
+			return Extension::findOrFail($value, ( $currentOrg->isMaster() ? 'name' : 'extension' ));
+		});
 	}
+
 
 	/**
 	 * Define the routes for the application.
@@ -32,10 +62,12 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function map( Router $router ) {
-		$router->group( [ 'namespace' => $this->namespace ], function ( $router ) {
-			require app_path( 'Http/routes.php' );
-		} );
+	public function map(Router $router)
+	{
+		$router->group([ 'namespace' => $this->namespace ], function ($router)
+		{
+			require app_path('Http/routes.php');
+		});
 	}
 
 }

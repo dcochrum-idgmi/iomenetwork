@@ -11,13 +11,15 @@
 		{!! Form::label( 'organizationName', trans( 'orgs.name' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
 			{!! Form::text( 'organizationName', null, [ 'class' => 'form-control', 'placeholder' => trans( 'orgs.name-ph' ) ] ) !!}
-			{!! $errors->first( 'organizationName', Form::label( 'organizationName', ':message', [ 'class' => 'error' ] ) ) !!}
+            {!! Form::hidden( 'organizationName_original', ( isset( $org ) ? $org->organizationName : null ) ) !!}
+            {!! $errors->first( 'organizationName', Form::label( 'organizationName', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
 	<div class="form-group{!! $errors->has( 'slug' ) ? ' has-error' : '' !!}">
 		{!! Form::label( 'slug', trans( 'orgs.slug' ), [ 'class' => 'col-md-2 control-label' ] ) !!}
 		<div class="col-md-10">
 			{!! Form::text( 'slug', null, [ 'class' => 'form-control', 'placeholder' => trans( 'orgs.slug-ph' ) ] ) !!}
+            {!! Form::hidden( 'slug_original', ( isset( $org ) ? $org->slug : null ) ) !!}
 			{!! $errors->first( 'slug', Form::label( 'slug', ':message', [ 'class' => 'error' ] ) ) !!}
 		</div>
 	</div>
@@ -60,7 +62,7 @@
 	<div class="form-group">
 		<div class="col-md-10 col-md-offset-2">
 			{!! Form::submit( trans( 'modal.' . ( ( isset( $org ) ) ? 'save' : 'create' ) ), [ 'class' => 'btn btn-primary', 'data-loading-text' => 'Saving...', 'autocomplete' => 'off' ] ) !!}
-			{!! link_to( admin_route( 'orgs.index' ), trans( 'modal.cancel' ), [ 'class' => 'btn btn-link close_popup' ] ) !!}
+			{!! link_to( Request::is( 'settings' ) ? sub_route( 'home' ) : admin_route( 'orgs.index' ), trans( 'modal.cancel' ), [ 'class' => 'btn btn-link close_popup' ] ) !!}
 		</div>
 	</div>
 {!! Form::close() !!}
