@@ -61,6 +61,18 @@ class Organization extends Model {
 		'dateModified'
 	];
 
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'organizationId' => 'int',
+		'numAdmins'      => 'int',
+		'numUsers'       => 'int',
+		'numSips'        => 'int',
+	];
+
 
 	/**
 	 * Create a new Eloquent model instance.

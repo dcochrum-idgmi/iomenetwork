@@ -344,6 +344,19 @@ class API {
 
 
 	/**
+	 * Retrieve an array of object totals.
+	 *
+	 * @return array
+	 */
+	public function getTotals()
+	{
+		$this->merge_parameters([ 'module' => 'utils', 'action' => 'get-totals' ]);
+
+		return $this->get();
+	}
+
+
+	/**
 	 * Convert numerically indexed array of names and values to value => key for use in select elements.
 	 *
 	 * @param array $arr

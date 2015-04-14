@@ -167,10 +167,7 @@ abstract class Controller extends BaseController {
 	 */
 	public function dataTable()
 	{
-		global $currentOrg;
-
-		$controller   = new \ReflectionClass(get_class($this));
-		$controller   = $controller->getShortName();
+		$controller   = class_basename(get_class($this));
 		$model        = str_replace('Controller', '', $controller);
 		$stamp_fields = [ $model::CREATED_AT, $model::UPDATED_AT ];
 		$now          = new Carbon;
@@ -184,14 +181,13 @@ abstract class Controller extends BaseController {
 			'data'            => [ ]
 		];
 
-		$fields = $orders = '';
+		$fields = $orders = [ ];
 		if ( Input::has('order.0.column') && Input::has('order.0.dir') )
 		{
-			$orderby  = array_pluck(Input::get('order'), 'column');
-			$orderdir = array_pluck(Input::get('order'), 'dir');
-			if ( count($orderby) == count($orderdir) )
+			$orderby = array_pluck(Input::get('order'), 'column');
+			$orders  = array_pluck(Input::get('order'), 'dir');
+			if ( count($orderby) == count($orders) )
 			{
-				$fields = [ ];
 				foreach ($orderby as $index)
 				{
 					$field    = $cols[$index];
@@ -200,22 +196,26 @@ abstract class Controller extends BaseController {
 					//  Reverse the direction of the created & updated columns since we're displaying them as time diffs
 					if ( in_array($field, $stamp_fields) )
 					{
-						$i            = key($fields);
-						$orderdir[$i] = strtoupper($orderdir[$i]) == 'DESC' ? 'ASC' : 'DESC';
+						$i          = key($fields);
+						$orders[$i] = strtoupper($orders[$i]) == 'DESC' ? 'ASC' : 'DESC';
 					}
 				}
-				$fields = implode(':', $fields);
-				$orders = strtoupper(implode(':', $orderdir));
 			}
 		}
 
+		$search_cols = array_where($cols, function ($key, $value)
+		{
+			return filter_var(Input::get('columns.' . $key . '.searchable', false), FILTER_VALIDATE_BOOLEAN);
+		});
+
 		$parameters = array_merge([
-			'start'  => Input::get('start', 0),
-			'end'    => ( Input::get('length', 10) + Input::get('start', 0) ),
-			'fields' => $fields,
-			'orders' => $orders,
+			'start'       => Input::get('start', 0),
+			'end'         => ( Input::get('length', 10) + Input::get('start', 0) ),
+			'fields'      => implode(':', $fields),
+			'orders'      => strtoupper(implode(':', $orders)),
+			'search'      => Input::get('search.value', ''),
+			'search_cols' => implode(':', $search_cols),
 		], $this->get_org_parameter());
-		//$model == 'User' && $currentOrg->isMaster() && $parameters['action'] = 'paginated-list-all';
 		$collection = $model::all($parameters);
 
 		if ( $collection->hasError() )
